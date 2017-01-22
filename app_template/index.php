@@ -22,14 +22,16 @@ try {
         // $match from 'app/core/router.php'
         // $match['target'] => UserController#index
 
-        // merge all params $match $get $post $put
-        $params = Request::params($match['params']);
-
         list($controller_name, $action_name) = explode('#', $match['target']);
-        $controller = new $controller_name($params);
-        $body_response = $controller->$action_name();
 
-        echo $body_response;
+        $params = Request::params($match['params']);
+        $params['controller'] = $controller_name;
+        $params['action'] = $action_name;
+
+        $controller = new $controller_name($params);
+        $body = $controller->$action_name();
+
+        echo $body;
     }
 } catch (Throwable $t) {
     if ($t->getCode() != 0) {
