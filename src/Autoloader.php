@@ -19,8 +19,3 @@ class Autoloader
         include ($file);
     }
 }
-
-foreach (Config::get('autoloader_paths') as $path) {
-    $loader = new Autoloader($path);
-    spl_autoload_register([$loader, 'autoload']);
-}
