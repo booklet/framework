@@ -11,13 +11,14 @@
           "url": "git@github.com/boooklet/framework.git",
           "type": "git",
           "reference": "master"
-        },
-        "autoload": {
-            "classmap": [
-                "src"
-            ]
         }
+
       }
     }
-  ]
+  ],
+  "autoload": {
+      "classmap": [
+          "src"
+      ]
+  }
 }
