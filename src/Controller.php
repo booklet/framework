@@ -54,6 +54,11 @@ abstract class Controller
         return Response::bulid($status, $response_data);
     }
 
+    public function render(Array $params = [], Array $options = [])
+    {
+        return (new View($this->params, $params, $options))->render();
+    }
+
     // WARMING
     // use with caution
     private function getControllerAndAction() {
