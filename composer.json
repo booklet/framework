@@ -13,7 +13,9 @@
           "reference": "master"
         },
         "autoload": {
-          "psr-4": { "": "src/" }
+            "classmap": [
+                "src"
+            ]
         }
       }
     }
