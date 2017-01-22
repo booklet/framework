@@ -1,9 +1,11 @@
-# framework
-
-Wymaga:
-zdefinowianej tablicy Config::get('pluralize_class_names');
+# Booklet framework
 
 
+## Install
+
+Step 1: Create composer.json file in your new app directory with code.
+
+```
 {
   "repositories": [
     {
@@ -18,6 +20,10 @@ zdefinowianej tablicy Config::get('pluralize_class_names');
   "require": {
     "boooklet/framework": "dev-master",
     "boooklet/tester": "dev-master"
-
   }
 }
+```
+
+Step 2: Copy files from vendor/boooklet/framework/app_template to your app path
+
+Step 3: Rename files \_.gitignore and \_.htaccess
