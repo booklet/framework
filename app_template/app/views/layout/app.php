@@ -7,8 +7,8 @@
     <meta content="noydir" name="robots">
     <title>Twoja nowa aplikacja</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <?php include 'app/views/shared/_stylesheet.php'; ?>
-    <?php include 'app/views/shared/_javascript.php'; ?>
+    <?php # include 'app/views/shared/_stylesheet.php'; ?>
+    <?php # include 'app/views/shared/_javascript.php'; ?>
   </head>
   <body data-env="<?= Config::get('env') ?>">
     <?php
