@@ -6,7 +6,7 @@ class ValidatorNestedAttributesTest extends TesterCase
     // create new object with first level nested resources
     public function testValidObjectWithNestedAttributes()
     {
-      $this->pending();
+
         $this->createParentChildGrandsonMysqlTables();
         $data = [
             'name'=>'Parent name',
@@ -25,7 +25,7 @@ class ValidatorNestedAttributesTest extends TesterCase
     // check vaidation for nested resources (address in unique, required and not blank allowed)
     public function testValidObjectWithNestedAttributesWithRequiredError()
     {
-      $this->pending();
+
         $this->createParentChildGrandsonMysqlTables();
         $data = [
             'name'=>'Parent name',
@@ -52,7 +52,7 @@ class ValidatorNestedAttributesTest extends TesterCase
     // add childs to exist object
     public function testWithOneSaveObject()
     {
-      $this->pending();
+
         $this->createParentChildGrandsonMysqlTables();
         $child = new TesterChildModel(['address' => 'email@test.com', 'tester_parent_model_id' => 0]);
         $child->save();
@@ -78,7 +78,7 @@ class ValidatorNestedAttributesTest extends TesterCase
     //
     public function testNotValidParentObject()
     {
-      $this->pending();
+
         $this->createParentChildGrandsonMysqlTables();
         $data = [
             'name'=>'',
@@ -102,7 +102,7 @@ class ValidatorNestedAttributesTest extends TesterCase
     // save with two level nested objects
     public function testWithThreeLevelSave()
     {
-      $this->pending();
+
         $this->createParentChildGrandsonMysqlTables();
         $data = [
             'name'=>'Parent name',
@@ -124,7 +124,7 @@ class ValidatorNestedAttributesTest extends TesterCase
     // try to save object to not belongs to parent
     public function testSaveWithManipulateParentId()
     {
-      $this->pending();
+
         $this->createParentChildGrandsonMysqlTables();
 
         $parent = new TesterParentModel(['name' => 'Parent name']);
@@ -156,7 +156,7 @@ class ValidatorNestedAttributesTest extends TesterCase
     // test validation on granson object (required description)
     public function testWithThreeLevelSaveGrandsonError()
     {
-      $this->pending();
+
         $this->createParentChildGrandsonMysqlTables();
         $data = [
             'name'=>'Parent name',
@@ -180,7 +180,7 @@ class ValidatorNestedAttributesTest extends TesterCase
     // test childs validation with grandson
     public function testWithThreeLevelSaveDubleError()
     {
-      $this->pending();
+
         $this->createParentChildGrandsonMysqlTables();
         $data = [
             'name'=>'Parent name',
@@ -212,7 +212,7 @@ class ValidatorNestedAttributesTest extends TesterCase
     // update childs and add new child object
     public function testUpdateObjectsAndAddNew()
     {
-      $this->pending();
+
         $this->createParentChildGrandsonMysqlTables();
 
         $child1 = new TesterChildModel(['address' => 'email1@test.com', 'tester_parent_model_id' => 1]);
@@ -247,7 +247,7 @@ class ValidatorNestedAttributesTest extends TesterCase
     // test delete validation object
     public function testWithObjectToDelete()
     {
-      $this->pending();
+
         $child1 = new TesterChildModel(['address' => 'email@test.com', 'tester_parent_model_id' => 1]);
         $child1->save();
 

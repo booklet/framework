@@ -165,7 +165,7 @@ class ValidatorTest extends TesterCase
 
     public function testValidEmail()
     {
-      $this->pending();
+
         $obj = new stdClass();
         $rules = ['user_email' => ['email']];
 
@@ -232,7 +232,7 @@ class ValidatorTest extends TesterCase
 
     public function testValidUnique()
     {
-      $this->pending();
+
         $user1 = UserFactory::user();
         $user1->save();
 
@@ -270,7 +270,7 @@ class ValidatorTest extends TesterCase
 
     public function testValidPassword()
     {
-      $this->pending();
+
         $user = new User(['username' => 'Name', 'email' => 'test@booklet.pl', 'role' => 'admin', 'password' => '', 'password_confirmation' => '']);
         $user->isValid();
         Assert::expect($user->errors['password'][0])->to_equal('cannot be blank.');

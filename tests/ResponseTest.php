@@ -3,7 +3,7 @@ class ResponseTest extends TesterCase
 {
     public function testFnRaiseError()
     {
-      $this->pending();
+
         $res = Response::raiseError(401, ['Missing login or password.']);
         Assert::expect($res)->to_equal('{"errors":[{"message":"Missing login or password."}]}');
 

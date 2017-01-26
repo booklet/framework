@@ -8,7 +8,7 @@ class RelationsTest extends TesterCase
 
     public function testHasManyRelation()
     {
-$this->pending();
+
         $parent = new RelationParent();
         $parent->id = 1;
 
@@ -21,7 +21,7 @@ $this->pending();
 
     public function testWrongHasManyRelation()
     {
-$this->pending();
+
         $parent = new RelationParent();
         $parent->id = 1;
 
@@ -34,7 +34,7 @@ $this->pending();
 
     public function testBelongsToRelation()
     {
-      $this->pending();
+
         $parent = new RelationParent();
         $parent->id = 11;
 
@@ -63,7 +63,7 @@ $this->pending();
 
     public function testHABTMGetObjects()
     {
-      $this->pending();
+
         $client1 = ClientFactory::client(['name' => 'Client 1']);
         $client1->save();
         $client2 = ClientFactory::client(['name' => 'Client 2']);
@@ -79,12 +79,12 @@ $this->pending();
         $client1->categoriesPush($category2);
 
         $c1 = Client::find(1);
-        Assert::expect(count($c1->categories()))->to_equal(2);
+        Assert::expect(count( $c1->categories() ))->to_equal(2);
 
         $client2->categoriesPush([$category1, $category2]);
 
         $c2 = Client::find(2);
-        Assert::expect(count($c2->categories()))->to_equal(2);
+        Assert::expect(count( $c2->categories() ))->to_equal(2);
 
         $c2->categoriesPush($category1);
         Assert::expect(count($c2->categories()))->to_equal(2);
@@ -105,7 +105,7 @@ $this->pending();
 
     public function testHABTMCheckTypeObjects()
     {
-      $this->pending();
+
         $client = ClientFactory::client(['name' => 'Client 1']);
         $client->save();
 

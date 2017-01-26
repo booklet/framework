@@ -19,7 +19,7 @@ class BasicOrmTest extends TesterCase
 
     public function testAll()
     {
-      $this->pending();
+
         $this->populateUserTable();
         $users = User::all();
 
@@ -29,7 +29,7 @@ class BasicOrmTest extends TesterCase
 
     public function testAllByOrder()
     {
-      $this->pending();
+
         $this->populateUserTable();
         $users = User::all(['order'=>'id DESC']);
 
@@ -39,7 +39,7 @@ class BasicOrmTest extends TesterCase
 
     public function testAllByLimitAndPage()
     {
-      $this->pending();
+
         $this->populateUserTable();
         $users = User::all(['limit'=>'2', 'page'=>2]);
 
@@ -49,7 +49,7 @@ class BasicOrmTest extends TesterCase
 
     public function testFind()
     {
-      $this->pending();
+
         $this->populateUserTable();
         $user = User::find(3);
 
@@ -58,7 +58,7 @@ class BasicOrmTest extends TesterCase
 
     public function testFindWithWrongId()
     {
-      $this->pending();
+
         $this->populateUserTable();
 
         try {
@@ -70,7 +70,7 @@ class BasicOrmTest extends TesterCase
 
     public function testFindBy()
     {
-      $this->pending();
+
         $this->populateUserTable();
         $user = User::findBy('email', 'user2@booklet.pl');
 
@@ -79,7 +79,7 @@ class BasicOrmTest extends TesterCase
 
     public function testFirst()
     {
-      $this->pending();
+
         $this->populateUserTable();
         $user = User::first();
         Assert::expect($user->username)->to_equal('Uzytkownik nr1');
@@ -87,7 +87,7 @@ class BasicOrmTest extends TesterCase
 
     public function testFast()
     {
-      $this->pending();
+
         $this->populateUserTable();
         $user = User::last();
         Assert::expect($user->username)->to_equal('Uzytkownik nr6');
@@ -95,7 +95,7 @@ class BasicOrmTest extends TesterCase
 
     public function testWhere()
     {
-      $this->pending();
+
         $this->populateUserTable();
         $users = User::where("role = ?", ['role'=>'customer_service']);
 
@@ -104,7 +104,7 @@ class BasicOrmTest extends TesterCase
 
     public function testWhereTwoWar()
     {
-      $this->pending();
+
         $this->populateUserTable();
         $users = User::where("role = ? AND username = ?", ['role'=>'customer_service', 'username'=>'Uzytkownik nr3']);
 
@@ -119,7 +119,7 @@ class BasicOrmTest extends TesterCase
 
     public function testUpdate()
     {
-      $this->pending();
+
         $this->populateUserTable();
         $user = User::find(3);
         $user->update(['username' => 'Nowa nazwa', 'email' => 'nowyemail@booklet.pl']);
@@ -131,7 +131,7 @@ class BasicOrmTest extends TesterCase
 
     public function testDestroy()
     {
-      $this->pending();
+
         $this->populateUserTable();
 
         $user = User::find(3);
@@ -143,7 +143,7 @@ class BasicOrmTest extends TesterCase
 
     public function testFnCreateDbObject()
     {
-      $this->pending();
+
         $this->populateUserTable();
         $user = User::first();
 
@@ -163,7 +163,7 @@ class BasicOrmTest extends TesterCase
 
     public function testFnExtraParams()
     {
-      $this->pending();
+
         $orm = new MysqlORM(null, new User);
 
         $sql1 = $orm->extraParams(['limit' => 1, 'order'=>'id DESC']);

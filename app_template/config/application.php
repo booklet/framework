@@ -9,3 +9,5 @@ include 'config/environment/'.Config::get('env').'.php';
 // List of files to minify
 Config::set('js_files',  ['application.js']);
 Config::set('css_files', ['application.css']);
+
+include 'config/secret.php';
