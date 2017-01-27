@@ -27,14 +27,14 @@ class Authorize
     public function auth($obj = null)
     {
         if (!($this->current_user instanceof User)) {
-            throw new Exception('Not Authorized Action.');
+            throw new Exception('Not Authorized Action.', 401);
         }
 
         $police = new $this->auth_class($this->current_user, $obj);
         $access = $police->{$this->auth_action}();
 
         if ($access !== true) {
-            throw new Exception('Not Authorized Action.');
+            throw new Exception('Not Authorized Action.', 401);
         }
     }
 }
