@@ -1,5 +1,5 @@
 <?php
-class StaticPagesController extends Controller
+class StaticPagesController extends ApplicationController
 {
     public function start()
     {

@@ -1,5 +1,5 @@
 <?php
-class ObjectUntils
+trait ObjectUntils
 {
     // object parameters to mysql string => "`name`, `name_search`, `created_at`, `updated_at`"
     public static function mysqlParameters($obj)
@@ -70,12 +70,12 @@ class ObjectUntils
         foreach ($obj as $key => $value) {
             $params[] = '?';
         }
-        
+
         return implode(", ", $params);
     }
 
     // convert object to array
-    public static function toArray($obj)
+    public static function objToArray($obj)
     {
         if (is_array($obj)) {
             return $obj;

@@ -12,13 +12,19 @@
           "type": "git",
           "reference": "master"
         }
-
       }
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/boooklet/tester.git"
     }
   ],
+  "require": {
+    "boooklet/tester": "dev-master"
+  },
   "autoload": {
       "classmap": [
-          "src"
+          "src/", "src/utils/"
       ]
   }
 }

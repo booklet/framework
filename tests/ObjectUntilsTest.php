@@ -69,17 +69,17 @@ class ObjectUntilsTest extends TesterCase
         Assert::expect($values)->to_equal(false);
     }
 
-    public function testToArray()
+    public function testObjToArray()
     {
         $obj = $this->objectForTest();
 
-        $values = ObjectUntils::toArray($obj);
+        $values = Util::objToArray($obj);
         Assert::expect($values)->to_equal(['attrib1'=>'value1', 'attrib2'=>'value2']);
 
-        $values = ObjectUntils::toArray(['attr1'=>'val1', 'attr2'=>'val2']);
+        $values = Util::objToArray(['attr1'=>'val1', 'attr2'=>'val2']);
         Assert::expect($values)->to_equal(['attr1'=>'val1', 'attr2'=>'val2']);
 
-        $values = ObjectUntils::toArray('wrong_params');
+        $values = Util::objToArray('wrong_params');
         Assert::expect($values)->to_equal(false);
     }
 }

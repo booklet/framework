@@ -178,7 +178,7 @@ class MysqlORM
     {
         $class_pluralize_name = $model_obj->pluralizeClassName();
 
-        return StringUntils::camelCaseToUnderscore($class_pluralize_name);
+        return StringUntils::camelCaseStringToUnderscore($class_pluralize_name);
     }
 
     /**
@@ -337,7 +337,7 @@ class MysqlORM
                     }
                 } else {
                     $params = $item;
-                    $underscore_class_name = StringUntils::camelCaseToUnderscore($this->model_class_name);
+                    $underscore_class_name = StringUntils::camelCaseStringToUnderscore($this->model_class_name);
                     $parent_key_name = $underscore_class_name . '_id';
                     $params[$parent_key_name] = $this->model_obj->id;
 

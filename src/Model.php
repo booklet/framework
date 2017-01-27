@@ -1,6 +1,8 @@
 <?php
-abstract class Model extends BasicORM
+abstract class Model
 {
+    use BasicORM;
+
     function __construct(Array $attributes = [])
     {
         // first setup default values
@@ -117,12 +119,12 @@ abstract class Model extends BasicORM
     public function __call($name, $args)
     {
         // dynamic generate Push method => $client->categoriesPush($category1);
-        if ((new StringUntils($name))->isInclude('Push')) {
+        if (Util::isStringInclude($name, 'Push')) {
             $relation = new Relations($this, $name, $args);
             return $relation->habtmPushObjects();
 
         // dynamic generate Delete method => $client->categoriesDelete($category1);
-        } elseif ((new StringUntils($name))->isInclude('Delete')) {
+      } elseif (Util::isStringInclude($name, 'Delete')) {
             $relation = new Relations($this, $name, $args);
             return $relation->habtmDeleteObjects();
 
@@ -225,7 +227,7 @@ abstract class Model extends BasicORM
 
     private function saveErrorsInParentObject($attribute_name, $index, $nested_object)
     {
-        $nested_obj_underscore_class_name = StringUntils::camelCaseToUnderscore(get_class($nested_object));
+        $nested_obj_underscore_class_name = Util::camelCaseStringToUnderscore(get_class($nested_object));
         foreach ($nested_object->errors as $key => $value) {
             $this->errors[$attribute_name . '[' . $index . '].' . $key] = $value;
         }
@@ -263,7 +265,7 @@ abstract class Model extends BasicORM
     // add fake parent id to pass parent required id validation
     private function addFakeParentId($params)
     {
-        $underscore_class_name = StringUntils::camelCaseToUnderscore(get_class($this));
+        $underscore_class_name = Util::camelCaseStringToUnderscore(get_class($this));
         $parent_key_name = $underscore_class_name . '_id';
         $params[$parent_key_name] = 0;
 

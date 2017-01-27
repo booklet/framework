@@ -6,38 +6,35 @@ class Authorize
     public $current_user;
 
     /**
-    *
     * @param $method => 'UserController::index'
     * @param Array $params
     */
-    function __construct($method, array $params = [])
+    function __construct($method, $user, Array $params = [])
     {
         // 'UserController::index' => 'UserPolicies'
         $this->auth_class = str_replace("Controller", "Policies", explode('::', $method)[0]);
         // 'UserController::index' => 'index'
         $this->auth_action = explode('::', $method)[1];
 
-        $this->current_user = $params['user'] ?? CurrentUser::fetch();
+        $this->current_user = $user;
     }
 
     /**
     * Load related police class
     * @param $obj
-    * @return exeption or
+    * @return exeption if not access
     */
-    public function auth($obj=null)
+    public function auth($obj = null)
     {
         if (!($this->current_user instanceof User)) {
-            echo Response::raiseError(401, ['Not Authorized Action.']);
-            die();
+            throw new Exception('Not Authorized Action.');
         }
 
         $police = new $this->auth_class($this->current_user, $obj);
         $access = $police->{$this->auth_action}();
 
         if ($access !== true) {
-            echo Response::raiseError(401, ['Not Authorized Action.']);
-            die();
+            throw new Exception('Not Authorized Action.');
         }
     }
 }

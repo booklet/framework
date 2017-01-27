@@ -75,7 +75,7 @@ class Relations
         foreach ($this->obj_class_name::relations() as $relation_fn_name => $relation_params) {
             if ($relation_fn_name == $this->fn_name) {
                 if ($relation_params['relation'] == 'has_many') {
-                    $underscore_class_name = StringUntils::camelCaseToUnderscore($this->obj_class_name);
+                    $underscore_class_name = StringUntils::camelCaseStringToUnderscore($this->obj_class_name);
                     return $underscore_class_name . '_id = ?';
                 }
                 if ($relation_params['relation'] == 'belongs_to') {
@@ -92,7 +92,7 @@ class Relations
       foreach ($this->obj_class_name::relations() as $relation_fn_name => $relation_params) {
           if ($relation_fn_name == $this->fn_name) {
               if ($relation_params['relation'] == 'has_many') {
-                  $underscore_class_name = StringUntils::camelCaseToUnderscore($this->obj_class_name);
+                  $underscore_class_name = StringUntils::camelCaseStringToUnderscore($this->obj_class_name);
                   return [$underscore_class_name . '_id' => $this->obj->id];
               }
               if ($relation_params['relation'] == 'belongs_to') {
@@ -211,14 +211,14 @@ class Relations
 
     private function getTableIdKey($class_name)
     {
-        return StringUntils::camelCaseToUnderscore($class_name) . '_id';
+        return StringUntils::camelCaseStringToUnderscore($class_name) . '_id';
     }
 
     private function getHABTMTableName($relation_params)
     {
         $habtm_model_name_arr = [];
-        $habtm_model_name_arr[] = StringUntils::camelCaseToUnderscore($this->obj->pluralizeClassName());
-        $habtm_model_name_arr[] = StringUntils::camelCaseToUnderscore((new $relation_params['class'])->pluralizeClassName());
+        $habtm_model_name_arr[] = StringUntils::camelCaseStringToUnderscore($this->obj->pluralizeClassName());
+        $habtm_model_name_arr[] = StringUntils::camelCaseStringToUnderscore((new $relation_params['class'])->pluralizeClassName());
         sort($habtm_model_name_arr);
 
         return join('_', $habtm_model_name_arr);

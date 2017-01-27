@@ -1,5 +1,5 @@
 <?php
-class FilesUntils
+trait FilesUntils
 {
     public static function getListFilesPathFromDirectoryAndSubfolders($dir)
     {

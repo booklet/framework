@@ -20,7 +20,7 @@ class JSONBuilder
             $pluralize = new Pluralize();
             $class_pluralize_name = $pluralize->pluralizeClassName($class);
 
-            $class = StringUntils::camelCaseToUnderscore($class_pluralize_name);
+            $class = StringUntils::camelCaseStringToUnderscore($class_pluralize_name);
             // $class = strtolower($class);
 
             // zbuduj scieze do pliku wygladu

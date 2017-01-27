@@ -9,7 +9,9 @@ abstract class Controller
 
     // authorize controller method
     public function auth($data) {
-        $authorizator = new Authorize($this->getControllerAndAction());
+        $user = $params['user'] ?? CurrentUser::fetch();
+
+        $authorizator = new Authorize($this->getControllerAndAction(), $user);
         $authorizator->auth($data);
     }
 

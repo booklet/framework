@@ -21,7 +21,7 @@ class Request
         if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
             $put_data = file_get_contents('php://input');
             if (JsonUntils::isJSON($put_data)) {
-                $arr_put = ObjectUntils::toArray(json_decode($put_data));
+                $arr_put = Util::objToArray(json_decode($put_data));
             } else {
                 parse_str($put_data, $arr_put);
             }

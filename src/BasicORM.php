@@ -1,5 +1,5 @@
 <?php
-abstract class BasicORM
+trait BasicORM
 {
     /**
     * Get all records from database
@@ -115,7 +115,7 @@ abstract class BasicORM
         $extra_params = self::extra_params($params);
         self::$class = get_called_class();
         $class_pluralize_name = (new self::$class)->pluralizeClassName();
-        self::$table = StringUntils::camelCaseToUnderscore($class_pluralize_name);
+        self::$table = StringUntils::camelCaseStringToUnderscore($class_pluralize_name);
 
         self::$query = MyDB::db()->prepare($sql);
         self::bindParams($fileds);

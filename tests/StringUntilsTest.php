@@ -1,7 +1,7 @@
 <?php
 class StringUntilsTest extends TesterCase
 {
-    public function testFnExplodeCamelcase()
+    public function testFnExplodeCamelcaseString()
     {
         $testdata = [
             'oneTwoThreeFour' => ['one','Two','Three','Four'],
@@ -11,12 +11,12 @@ class StringUntilsTest extends TesterCase
         ];
 
         foreach ($testdata as $from => $to) {
-            $exploded_arr = StringUntils::explodeCamelcase($from);
+            $exploded_arr = Util::explodeCamelcaseString($from);
             Assert::expect($exploded_arr)->to_equal($to);
         }
     }
 
-    public function testFnToCamelCase()
+    public function testFnToCamelCaseString()
     {
         $testdata = [
             'one-two-three-four' => 'OneTwoThreeFour',
@@ -25,7 +25,7 @@ class StringUntilsTest extends TesterCase
         ];
 
         foreach ($testdata as $from => $to) {
-            $camel_case = StringUntils::toCamelCase($from);
+            $camel_case = Util::toCamelCaseString($from);
             Assert::expect($camel_case)->to_equal($to);
         }
     }
@@ -39,17 +39,17 @@ class StringUntilsTest extends TesterCase
         ];
 
         foreach ($testdata as $from => $to) {
-            $file_name = StringUntils::fileNameFormPathToClass($from);
+            $file_name = Util::fileNameFormPathToClass($from);
             Assert::expect($file_name)->to_equal($to);
         }
     }
 
     public function testFnStringInclude()
     {
-        $is_include = (new StringUntils('my test string'))->isInclude('test');
+        $is_include = Util::isStringInclude('my test string', 'test');
         Assert::expect($is_include)->to_equal(true);
 
-        $is_include = (new StringUntils('my test string'))->isInclude('notexist');
+        $is_include = Util::isStringInclude('my test string', 'notexist');
         Assert::expect($is_include)->to_equal(false);
     }
 
@@ -69,12 +69,12 @@ class StringUntilsTest extends TesterCase
         ];
 
         foreach ($testdata as $from => $to) {
-            $clear_text = StringUntils::transliterate($from);
+            $clear_text = Util::transliterate($from);
             Assert::expect($clear_text)->to_equal($to);
         }
     }
 
-    public function testFnCamelCaseToUnderscore()
+    public function testFnCamelCaseStringToUnderscore()
     {
         $testdata = [
             'simpleTest' => 'simple_test',
@@ -104,7 +104,7 @@ class StringUntilsTest extends TesterCase
         // libC => lib_c
 
         foreach ($testdata as $camel_case => $underscore) {
-            $underscored_camel_case = StringUntils::camelCaseToUnderscore($camel_case);
+            $underscored_camel_case = Util::camelCaseStringToUnderscore($camel_case);
             Assert::expect($underscored_camel_case)->to_equal($underscore);
         }
     }
