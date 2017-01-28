@@ -64,6 +64,6 @@ abstract class Controller
     // WARMING
     // use with caution
     private function getControllerAndAction() {
-        return get_class($this) . '::' . debug_backtrace()[2]['function'];
+        return get_class($this) . '::' . debug_backtrace()[3]['function'];
     }
 }
