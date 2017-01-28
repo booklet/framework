@@ -141,10 +141,15 @@ abstract class Model
 
     public function pluralizeClassName()
     {
-        $class = get_class($this);
-        $pluralize = new Pluralize();
+        // custom pluralize class name setup in model
+        if (method_exists($this, 'customPluralizeClassName')) {
+            return $this->customPluralizeClassName();
+        }
 
-        return $pluralize->pluralizeClassName($class);
+        // pluralize by add s on the end
+        $pluralize_class_name = get_class($this) . 's';
+
+        return $pluralize_class_name;
     }
 
     private function validNestedObjects()

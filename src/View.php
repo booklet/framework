@@ -16,7 +16,7 @@ class View
             // 'app/views/session/login.php'
             $this->path = $variables['path'];
         } else {
-            $folder = StringUntils::camelCaseStringToUnderscore(str_replace("Controller", "", $params['controller']));
+            $folder = Util::camelCaseStringToUnderscore(str_replace("Controller", "", $params['controller']));
             $file = strtolower($params['action']).'.php';
             $this->path = 'app/views/' . $folder . '/' . $file;
         }

@@ -115,7 +115,7 @@ trait BasicORM
         $extra_params = self::extra_params($params);
         self::$class = get_called_class();
         $class_pluralize_name = (new self::$class)->pluralizeClassName();
-        self::$table = StringUntils::camelCaseStringToUnderscore($class_pluralize_name);
+        self::$table = Util::camelCaseStringToUnderscore($class_pluralize_name);
 
         self::$query = MyDB::db()->prepare($sql);
         self::bindParams($fileds);

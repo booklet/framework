@@ -32,7 +32,7 @@ class MysqlORM
 
         if (!$query_statement) {
             // handle error
-            die("Złe zapytanie");
+            die("Złe zapytanie 1");
         }
 
         $query_statement = $this->bindQueryParams($query_statement, $fileds);
@@ -178,7 +178,7 @@ class MysqlORM
     {
         $class_pluralize_name = $model_obj->pluralizeClassName();
 
-        return StringUntils::camelCaseStringToUnderscore($class_pluralize_name);
+        return Util::camelCaseStringToUnderscore($class_pluralize_name);
     }
 
     /**
@@ -237,7 +237,7 @@ class MysqlORM
 
         if (!$query) {
             // handle error
-            die("Złe zapytanie");
+            die("Złe zapytanie 2");
         } else {
             return $query;
         }
@@ -254,7 +254,7 @@ class MysqlORM
 
         if (!$query) {
             // handle error
-            die("Złe zapytanie");
+            die("Złe zapytanie 3");
         } else {
             return $query;
         }
@@ -337,7 +337,7 @@ class MysqlORM
                     }
                 } else {
                     $params = $item;
-                    $underscore_class_name = StringUntils::camelCaseStringToUnderscore($this->model_class_name);
+                    $underscore_class_name = Util::camelCaseStringToUnderscore($this->model_class_name);
                     $parent_key_name = $underscore_class_name . '_id';
                     $params[$parent_key_name] = $this->model_obj->id;
 

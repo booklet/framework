@@ -17,10 +17,10 @@ class JSONBuilder
             $class = str_replace("Controller", "", $controller);
 
             // jest problem gdy controller nie ma modelu
-            $pluralize = new Pluralize();
-            $class_pluralize_name = $pluralize->pluralizeClassName($class);
+            $c = new $class();
+            $class_pluralize_name = $c->pluralizeClassName();
 
-            $class = StringUntils::camelCaseStringToUnderscore($class_pluralize_name);
+            $class = Util::camelCaseStringToUnderscore($class_pluralize_name);
             // $class = strtolower($class);
 
             // zbuduj scieze do pliku wygladu

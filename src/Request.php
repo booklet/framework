@@ -20,7 +20,7 @@ class Request
         $arr_put = [];
         if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
             $put_data = file_get_contents('php://input');
-            if (JsonUntils::isJSON($put_data)) {
+            if (Util::isJSON($put_data)) {
                 $arr_put = Util::objToArray(json_decode($put_data));
             } else {
                 parse_str($put_data, $arr_put);
@@ -35,7 +35,7 @@ class Request
     public static function getJsonData()
     {
         $json_data = file_get_contents('php://input');
-        if (JsonUntils::isJSON($json_data)) {
+        if (Util::isJSON($json_data)) {
             $json = json_decode($json_data, true);
         } else {
             $json = [];
