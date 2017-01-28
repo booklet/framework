@@ -7,26 +7,27 @@ abstract class Controller
         $this->params = $params;
     }
 
-    // authorize controller method
-    public function auth($data) {
-        $user = $params['user'] ?? CurrentUser::fetch();
+    // Authorize controller method.
+    public function auth($data, $user) {
+        // TODO get currnent user
+        //$user = $params['user'] ?? CurrentUser::fetch();
 
         $authorizator = new Authorize($this->getControllerAndAction(), $user);
         $authorizator->auth($data);
     }
 
-    // create array of response data, base on view file template
-    public function renderToJson($data, $controller_and_action) {
-        $response_body = new JSONBuilder($data, $controller_and_action);
-
-        return $response_body->data;
-    }
-
-    // set header status and return data to response (to show)
+    // Set header status and return data to response (to show).
     public function response($data, $status = 200) {
         $data = $this->renderToJson($data, $this->getControllerAndAction());
 
         return Response::bulid($status, $data);
+    }
+
+    // Create array of response data, base on view file template.
+    public function renderToJson($data, $controller_and_action) {
+        $response_body = new JSONBuilder($data, $controller_and_action);
+
+        return $response_body->data;
     }
 
     // for 422 - Unprocessable Entity
@@ -47,7 +48,6 @@ abstract class Controller
         $data = $this->renderToJson($data, $this->getControllerAndAction());
         return Response::bulid($status, $data);
     }
-
 
     // other custom responses with custom data and custom satatuses
     public function customDataResponse($data = null, $status = 200) {

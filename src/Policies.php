@@ -3,7 +3,7 @@ abstract class Policies
 {
     function __construct($current_user, $obj)
     {
-         $this->current_user = $current_user; // use currentUser() function!
+         $this->current_user = $current_user;
          $this->obj = $obj;
     }
 
