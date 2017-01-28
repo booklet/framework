@@ -151,7 +151,7 @@ class BasicOrmTest extends TesterCase
         $user->email = 'user101@booklet.pl';
 
         $orm = new MysqlORM(null, $user);
-        $db_obj = $orm->createDbObject();
+        $db_obj = MysqlORMObjectCreator::createDbObject($orm->model_obj);
 
         Assert::expect(Util::objToArray($db_obj))->to_equal(['username' => 'Nowa nazwa uzytkownia', 'email' => 'user101@booklet.pl']);
 
@@ -159,20 +159,5 @@ class BasicOrmTest extends TesterCase
         $user = User::first();
         Assert::expect($user->username)->to_equal('Nowa nazwa uzytkownia');
         Assert::expect($user->email)->to_equal('user101@booklet.pl');
-    }
-
-    public function testFnExtraParams()
-    {
-
-        $orm = new MysqlORM(null, new User);
-
-        $sql1 = $orm->extraParams(['limit' => 1, 'order'=>'id DESC']);
-        Assert::expect($sql1)->to_equal(' ORDER BY id DESC LIMIT 0, 1');
-
-        $sql2 = $orm->extraParams(['limit' => 1]);
-        Assert::expect($sql2)->to_equal(' LIMIT 0, 1');
-
-        $sql3 = $orm->extraParams(['order'=>'name DESC']);
-        Assert::expect($sql3)->to_equal(' ORDER BY name DESC');
     }
 }

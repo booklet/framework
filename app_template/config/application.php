@@ -11,3 +11,6 @@ Config::set('js_files',  ['application.js']);
 Config::set('css_files', ['application.css']);
 
 include 'config/secret.php';
+
+// TIME FOR DATABASE
+Config::set('mysqltime', "Y-m-d H:i:s");

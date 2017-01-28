@@ -12,13 +12,6 @@ trait ParentChildGrandsonMysqlTables
         $db_setup = 'db_'.Config::get('env');
         MyDB::connect(Config::get($db_setup));
 
-        // add pluralize models class names
-        $pluralize_class_names = array_merge(['TesterParentModel' => 'TesterParentModels',
-                                              'TesterChildModel' => 'TesterChildModels',
-                                              'TesterGrandsonModel' => 'TesterGrandsonModels'
-                                              ], Config::get('pluralize_class_names'));
-        Config::set('pluralize_class_names', $pluralize_class_names);
-
         // we ignore mysl errors i table exist or not (clear)
         // PARENT
         // clear table

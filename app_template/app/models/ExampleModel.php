@@ -50,7 +50,7 @@ class ExampleModel extends Model
     // Mając model clienta który na wiele emaili możemy zapisać taki obiekt:
     // $client = [
     //   'name' => 'Nazwa',
-    //   'emails' => [
+    //   'emails_attributes' => [
     //      ['adress' => 'test1@test.com'],
     //      ['adress' => 'test2@test.com']
     //    ]

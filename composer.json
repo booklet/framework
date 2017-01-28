@@ -24,7 +24,7 @@
   },
   "autoload": {
       "classmap": [
-          "src/", "src/utils/"
+          "src/", "src/orm", "src/utils"
       ]
   }
 }

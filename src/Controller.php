@@ -9,9 +9,6 @@ abstract class Controller
 
     // Authorize controller method.
     public function auth($data, $user) {
-        // TODO get currnent user
-        //$user = $params['user'] ?? CurrentUser::fetch();
-
         $authorizator = new Authorize($this->getControllerAndAction(), $user);
         $authorizator->auth($data);
     }
@@ -61,9 +58,7 @@ abstract class Controller
         return (new View($this->params, $params, $options))->render();
     }
 
-    // WARMING
-    // use with caution
     private function getControllerAndAction() {
-        return get_class($this) . '::' . debug_backtrace()[1]['function'];
+        return get_class($this) . '::' . $this->params['action'];
     }
 }

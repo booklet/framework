@@ -26,7 +26,7 @@ abstract class Model
         // allow attributes
         // errors -> store errors validation informations
         // oryginal_record -> clone object attributes when get object from database
-        // _destroy ->
+        // _destroy -> use to delete object
         $specialPropertis = ['errors', 'oryginal_record', '_destroy'];
 
         // custom model allowed attributes
@@ -98,6 +98,7 @@ abstract class Model
             array_push($validations_rules, $type_validator);
 
             // custom validators
+            // required, lenght, uniques, etc
             if (isset($value['validations'])) {
                 $validations_rules = array_merge($validations_rules, $value['validations']);
             }
@@ -124,7 +125,7 @@ abstract class Model
             return $relation->habtmPushObjects();
 
         // dynamic generate Delete method => $client->categoriesDelete($category1);
-      } elseif (Util::isStringInclude($name, 'Delete')) {
+        } elseif (Util::isStringInclude($name, 'Delete')) {
             $relation = new Relations($this, $name, $args);
             return $relation->habtmDeleteObjects();
 
@@ -152,6 +153,7 @@ abstract class Model
         return $pluralize_class_name;
     }
 
+    // valid objects passed by items_attribute field
     private function validNestedObjects()
     {
         // check if object has declared nested attributes
