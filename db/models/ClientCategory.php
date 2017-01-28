@@ -24,12 +24,4 @@ class ClientCategory extends Model
             'clients'         => ['relation' => 'has_and_belongs_to_many', 'class' => 'Client']
         ];
     }
-
-    public static function customPluralizeClassName()
-    {
-        return 'ClientCategories';
-    }
-
-
-
 }

@@ -142,13 +142,8 @@ abstract class Model
 
     public function pluralizeClassName()
     {
-        // custom pluralize class name setup in model
-        if (method_exists($this, 'customPluralizeClassName')) {
-            return $this->customPluralizeClassName();
-        }
-
-        // pluralize by add s on the end
-        $pluralize_class_name = get_class($this) . 's';
+        $class_name = get_class($this);
+        $pluralize_class_name = Inflector::pluralize($class_name);
 
         return $pluralize_class_name;
     }

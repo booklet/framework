@@ -16,9 +16,7 @@ class JSONBuilder
             list($controller, $method) = explode('::', $template);
             $class = str_replace("Controller", "", $controller);
 
-            // jest problem gdy controller nie ma modelu
-            $c = new $class();
-            $class_pluralize_name = $c->pluralizeClassName();
+            $class_pluralize_name = Inflector::pluralize($class);
 
             $class = Util::camelCaseStringToUnderscore($class_pluralize_name);
             // $class = strtolower($class);

@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 include_once 'src/Config.php';
-Config::set('autoloader_paths', ['src', 'src/models', 'src/orm', 'src/utils', 'tests/support']);
+Config::set('autoloader_paths', ['src', 'src/models', 'src/orm', 'src/utils', 'tests/fixtures/support']);
 include_once 'src/Autoloader.php';
 
 foreach (Config::get('autoloader_paths') as $path) {
