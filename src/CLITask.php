@@ -4,10 +4,11 @@ class CLITask
     public $action;
     public $action_param;
 
-    public function __construct($args)
+    public function __construct($args, $options = [])
     {
         $this->action = $args[1] ?? null;
         $this->action_param = $args[2] ?? null;
+        $this->options = $options;
         // run tests if no action (parmas)
         if (!$this->action) { $this->testRunAll(); }
     }
@@ -52,13 +53,18 @@ class CLITask
 
     public function testRunAll()
     {
-        Config::set('env', 'test');
-        $db_setup = 'db_' . Config::get('env');
-        MyDB::connect(Config::get($db_setup));
+        if (isset($this->options['use_database']) and $this->options['use_database'] == false) {
+            $db = null;
+        } else {
+            Config::set('env', 'test');
+            $db_setup = 'db_' . Config::get('env');
+            MyDB::connect(Config::get($db_setup));
+            $db = MyDB::db();
+        }
 
         echo "\nRun all tests\n";
         $time_start = microtime(true);
-        $tests = new Tester(['db_connection' => MyDB::db(), 'tests_paths' => ['tests']]);
+        $tests = new Tester(['db_connection' => $db, 'tests_paths' => ['tests']]);
         $tests->run();
 
         echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
