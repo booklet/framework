@@ -66,6 +66,9 @@ abstract class Model
         // callback function beforeValidate()
         if (method_exists($this, 'beforeValidate')) { $this->beforeValidate(); }
 
+        // TODO
+        // in uniqes validator rule validator nedd db connection to check database
+        // that not good, so we need to pass this database records as validator params
         $validation = new Validator($this, $this->validationRules(), $params);
         $validation->isValid();
 

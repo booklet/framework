@@ -19,14 +19,10 @@ class MysqlORM
     */
     public function where($query, Array $fileds = [], Array $params = [])
     {
-        $query_string = "SELECT `" . $this->table_name."`.* FROM `" . $this->table_name . "`";
-        if ($query != '') {
-            $query_string .= " WHERE " . $query;
-        }
+        $query_string = MysqlORMQueryString::where($this->table_name, $query);
         $query_string .= MysqlORMExtraParams::extraParams($params);
 
         $query_statement = $this->prepareStatement($query_string);
-
         $query_statement = MysqlORMBinder::bindQueryParams($query_statement, $this->model_obj, $fileds);
 
         return $this->runQueryGetResultsObjects($query_statement);
@@ -207,28 +203,14 @@ class MysqlORM
     {
         if (!method_exists($this->model_obj, 'relations')) { return; }
 
-        // get habtm relations from current object and ids array
-        $habtm_relations = [];
-
-        foreach ($this->model_obj->relations() as $relation_key => $relation_params) {
-            if ($relation_params['relation'] == 'has_and_belongs_to_many' and isset($this->model_obj->{$relation_key . '_ids'})) {
-                $habtm_relations[$relation_key] = $relation_params;
-            }
-        }
+        $habtm_relations = MysqlORMHABTM::getAllHabtmRelationsFromModelObject($this->model_obj);
 
         foreach ($habtm_relations as $relation_key => $relation_params) {
-            // get current habtm objects ids
-            $current_ids = array_map(function ($o) { return $o->id; }, $this->model_obj->$relation_key());
+            $current_ids = MysqlORMHABTM::getCurrentIdsForHabtmRelation($this->model_obj);
+            $passed_ids = MysqlORMHABTM::getPassedIdsForHabtmRelation($this->model_obj);
 
-            // what if pass empty array
-            $passed_ids = $this->model_obj->{$relation_key . '_ids'};
+          #  MysqlORMHABTM::addItemsToObject($this->model_obj, $relation_key, $current_ids, $passed_ids);
 
-            // convert empty array passed as string '[]' to array object
-            // http_build_query used in test request remove empty arrays
-            if ($passed_ids == '[]') { $passed_ids = []; }
-
-            // remove empty items (last field is always empty for deleting purpose)
-            $passed_ids = array_filter($passed_ids);
 
             // add items
             $ids_to_add = array_diff($passed_ids, $current_ids);

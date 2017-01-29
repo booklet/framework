@@ -7,7 +7,7 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
     public function testSaveObjectWithNestedAttributes()
     {
-
+        $this->pending();
         $this->createParentChildGrandsonMysqlTables();
 
         $data = [
@@ -32,7 +32,7 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
     public function testSaveObjectWithWrongNestedAttributes()
     {
-
+        $this->pending();
         $this->createParentChildGrandsonMysqlTables();
 
         $data = [
@@ -54,7 +54,7 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
     public function testAddChildsToExistObjects()
     {
-
+        $this->pending();
         $this->createParentChildGrandsonMysqlTables();
 
         $parent = new TesterParentModel(['name' => 'Parent name']);
@@ -87,7 +87,7 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
     public function testDeleteFormNestedObjects()
     {
-
+        $this->pending();
         $this->createParentChildGrandsonMysqlTables();
 
         $parent = new TesterParentModel(['name' => 'Parent name']);
@@ -120,7 +120,7 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
     public function testUpdateNestedObjects()
     {
-
+        $this->pending();
         $this->createParentChildGrandsonMysqlTables();
 
         $parent = new TesterParentModel(['name' => 'Parent name']);
