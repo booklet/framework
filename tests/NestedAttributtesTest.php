@@ -1,10 +1,13 @@
 <?php
+include_once 'tests/fixtures/support/CreateUserWithSession.php';
+
 class NestedAttributtesTest extends TesterCase
 {
     use CreateUserWithSession;
 
     public function offtestCreateClientWithEmails()
     {
+        $this->pending();
         list($user, $token) = $this->createUserWithSession();
         $data = ['client'=> [
                     'name'=>'Kontakt z emailem',
@@ -26,6 +29,7 @@ class NestedAttributtesTest extends TesterCase
 
     public function offtestCreateClientWithEmailsWrong()
     {
+        $this->pending();
         list($user, $token) = $this->createUserWithSession();
         $data = ['client'=> [
                     'name'=>'Kontakt z emailem',

@@ -68,4 +68,10 @@ trait StringUntils
 
         return $randomString;
     }
+
+    public static function encryptPassword($password, $salt = '') {
+        $salt = Config::get('password_salt') ?? $salt;
+
+        return sha1($salt.$password);
+    }
 }

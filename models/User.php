@@ -67,7 +67,7 @@ class User extends Model
     public static function autorize($login, $password)
     {
         $user = User::findBy('email', $login);
-        $password_digest = Password::encrypt($password);
+        $password_digest = Util::encryptPassword($password);
 
         if ($user && ($user->password_digest == $password_digest)) {
             return $user;

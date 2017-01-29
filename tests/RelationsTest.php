@@ -1,6 +1,7 @@
 <?php
-include 'tests/fixtures/relations/RelationParent.php';
-include 'tests/fixtures/relations/RelationChildOne.php';
+include_once 'tests/fixtures/models/FWTestRelationParent.php';
+include_once 'tests/fixtures/models/FWTestRelationChildOne.php';
+include_once 'tests/fixtures/support/CreateUserWithSession.php';
 
 class RelationsTest extends TesterCase
 {
@@ -8,21 +9,19 @@ class RelationsTest extends TesterCase
 
     public function testHasManyRelation()
     {
-
-        $parent = new RelationParent();
+        $parent = new FWTestRelationParent();
         $parent->id = 1;
 
         $relation = new Relations($parent, 'childs', []);
 
-        Assert::expect($relation->sqlQuery())->to_equal('relation_parent_id = ?');
-        Assert::expect($relation->sqlParams())->to_equal(['relation_parent_id' => 1]);
-        Assert::expect($relation->sqlModel())->to_equal('RelationChildOne');
+        Assert::expect($relation->sqlQuery())->to_equal('fw_test_relation_parent_id = ?');
+        Assert::expect($relation->sqlParams())->to_equal(['fw_test_relation_parent_id' => 1]);
+        Assert::expect($relation->sqlModel())->to_equal('FWTestRelationChildOne');
     }
 
     public function testWrongHasManyRelation()
     {
-
-        $parent = new RelationParent();
+        $parent = new FWTestRelationParent();
         $parent->id = 1;
 
         $relation = new Relations($parent, 'no_exist_relation', []);
@@ -35,10 +34,10 @@ class RelationsTest extends TesterCase
     public function testBelongsToRelation()
     {
 
-        $parent = new RelationParent();
+        $parent = new FWTestRelationParent();
         $parent->id = 11;
 
-        $child = new RelationChildOne();
+        $child = new FWTestRelationChildOne();
         $child->id = 22;
         $child->parent_id = 11;
 
@@ -46,12 +45,12 @@ class RelationsTest extends TesterCase
 
         Assert::expect($relation->sqlQuery())->to_equal('id = ?');
         Assert::expect($relation->sqlParams())->to_equal(['id' => 11]);
-        Assert::expect($relation->sqlModel())->to_equal('RelationParent');
+        Assert::expect($relation->sqlModel())->to_equal('FWTestRelationParent');
     }
 
     public function testIsRelationMethod()
     {
-        $parent = new RelationParent();
+        $parent = new FWTestRelationParent();
         $is_relation_method = Relations::isRelationMethod($parent, 'childs');
 
         Assert::expect($is_relation_method)->to_equal(true);
@@ -63,7 +62,7 @@ class RelationsTest extends TesterCase
 
     public function testHABTMGetObjects()
     {
-
+        $this->pending();
         $client1 = ClientFactory::client(['name' => 'Client 1']);
         $client1->save();
         $client2 = ClientFactory::client(['name' => 'Client 2']);
@@ -105,7 +104,7 @@ class RelationsTest extends TesterCase
 
     public function testHABTMCheckTypeObjects()
     {
-
+        $this->pending();
         $client = ClientFactory::client(['name' => 'Client 1']);
         $client->save();
 
@@ -139,7 +138,7 @@ class RelationsTest extends TesterCase
 
     public function testHABTMApiAddCategoriesToObject()
     {
-      $this->pending();
+        $this->pending();
         $client1 = ClientFactory::client(['name' => 'Client name']);
         $client1->save();
 
@@ -167,7 +166,7 @@ class RelationsTest extends TesterCase
 
     public function testHABTMApiRemoveCategoriesToObject()
     {
-      $this->pending();
+        $this->pending();
         $client1 = ClientFactory::client(['name' => 'Client name']);
         $client1->save();
 
@@ -200,7 +199,7 @@ class RelationsTest extends TesterCase
 
     public function testHABTMApiCreateObjectWithCategories()
     {
-      $this->pending();
+        $this->pending();
         $category1 = ClientCategoryFactory::category(['name' => 'Category 1']);
         $category1->save();
         $category2 = ClientCategoryFactory::category(['name' => 'Category 2']);
@@ -225,7 +224,7 @@ class RelationsTest extends TesterCase
 
     public function testHABTMApiRemoveCategoriesFromObject()
     {
-      $this->pending();
+        $this->pending();
         $client1 = ClientFactory::client(['name' => 'Client name']);
         $client1->save();
 

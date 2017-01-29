@@ -1,4 +1,6 @@
 <?php
+include_once 'tests/fixtures/support/ParentChildGrandsonMysqlTables.php';
+
 class ValidatorNestedAttributesTest extends TesterCase
 {
     use ParentChildGrandsonMysqlTables;
