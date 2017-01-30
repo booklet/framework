@@ -62,6 +62,15 @@ class MysqlORM
             if ($this->model_obj->isNewRecord()) {
                 $this->model_obj->id = $query_statement->insert_id;
                 $this->model_obj->created_at = $db_obj->created_at;
+
+                // add this to solve use update() after save(), witout get form database 
+                $this->oryginal_record = [];
+                foreach ($this as $key => $value) {
+                    $this->oryginal_record[$key] = $value;
+                }
+                unset($this->oryginal_record['id']);
+                unset($this->oryginal_record['created_at']);
+                unset($this->oryginal_record['updated_at']);
             }
             $this->model_obj->updated_at = $db_obj->updated_at;
 

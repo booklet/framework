@@ -56,10 +56,15 @@ class MysqlORMObjectCreator
             if (isset($model_obj->oryginal_record)) {
                 // Update only fields that changes
                 foreach ($model_obj->oryginal_record as $attr => $val) {
-                    if ($val != $model_obj->$attr)
+                    if ($val != $model_obj->$attr) {
                         $db_obj->{$attr} = $model_obj->$attr;
+                    }
                 }
             }
+            // if (!isset($model_obj->oryginal_record)) {
+                // run update() on object that save(), but not load from database
+
+            // }
         }
 
         return $db_obj;
