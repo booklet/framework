@@ -3,7 +3,7 @@ class MysqlORMQueryString
 {
     public static function where($table_name, $query, $params = [])
     {
-        if (isset($params['count'] == true)) {
+        if (isset($params['count']) and $params['count'] == true) {
             $query_string = 'SELECT count(*) FROM `' . $table_name . '`';
         } else {
             $query_string = 'SELECT `' . $table_name.'`.* FROM `' . $table_name . '`';
