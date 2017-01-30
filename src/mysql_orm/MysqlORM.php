@@ -25,7 +25,7 @@ class MysqlORM
         $query_statement = $this->prepareStatement($query_string);
         $query_statement = MysqlORMBinder::bindQueryParams($query_statement, $this->model_obj, $fileds);
 
-        return $this->runQueryGetResultsObjects($query_statement);
+        return $this->runQueryGetResultsObjects($query_statement, $params);
     }
 
     /**
@@ -81,10 +81,17 @@ class MysqlORM
     /**
     *
     */
-    private function runQueryGetResultsObjects($query_statement) {
+    private function runQueryGetResultsObjects($query_statement, $params = []) {
         $query_statement->execute();
         $result = $query_statement->get_result();
-        $objects = MysqlORMObjectCreator::createObjects($result, $this->model_class_name);
+
+        if (isset($params['count']) and $params['count'] == true) {
+            $objects = $result;
+        } else {
+            $objects = MysqlORMObjectCreator::createObjects($result, $this->model_class_name);
+        }
+
+
 
         $query_statement->free_result();
 
