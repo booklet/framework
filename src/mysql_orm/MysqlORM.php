@@ -19,7 +19,7 @@ class MysqlORM
     */
     public function where($query, Array $fileds = [], Array $params = [])
     {
-        $query_string = MysqlORMQueryString::where($this->table_name, $query);
+        $query_string = MysqlORMQueryString::where($this->table_name, $query, $params);
         $query_string .= MysqlORMExtraParams::extraParams($params);
 
         $query_statement = $this->prepareStatement($query_string);
