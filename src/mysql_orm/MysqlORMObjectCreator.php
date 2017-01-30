@@ -61,10 +61,6 @@ class MysqlORMObjectCreator
                     }
                 }
             }
-            // if (!isset($model_obj->oryginal_record)) {
-                // run update() on object that save(), but not load from database
-
-            // }
         }
 
         return $db_obj;
