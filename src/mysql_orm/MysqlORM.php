@@ -86,16 +86,15 @@ class MysqlORM
         $result = $query_statement->get_result();
 
         if (isset($params['count']) and $params['count'] == true) {
-            $objects = $result;
+            $res = $result->fetch_assoc($result);
+            $response = $res['count'];
         } else {
-            $objects = MysqlORMObjectCreator::createObjects($result, $this->model_class_name);
+            $response = MysqlORMObjectCreator::createObjects($result, $this->model_class_name);
         }
-
-
 
         $query_statement->free_result();
 
-        return $objects;
+        return $response;
     }
 
     /**
