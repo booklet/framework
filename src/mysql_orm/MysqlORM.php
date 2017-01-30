@@ -87,7 +87,7 @@ class MysqlORM
 
         if (isset($params['count']) and $params['count'] == true) {
             $res = $result->fetch_assoc();
-            $response = $res;
+            $response = $res['count']; // return count items
         } else {
             $response = MysqlORMObjectCreator::createObjects($result, $this->model_class_name);
         }
