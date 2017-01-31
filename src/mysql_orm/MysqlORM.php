@@ -66,9 +66,11 @@ class MysqlORM
                 if (!isset($this->model_obj->oryginal_record)) {
                     // add this to solve use update() after save(), witout get form database
                     $this->model_obj->oryginal_record = [];
-                    foreach ((new $this->model_class_name)->fields()   as $key => $value) {
-                        $this->model_obj->oryginal_record[$key] = $value;
+
+                    foreach ((new $this->model_class_name)->fields() as $key => $value) {
+                        $this->model_obj->oryginal_record[$key] = $this->model_obj[$key];
                     }
+
                     unset($this->model_obj->oryginal_record['id']);
                     unset($this->model_obj->oryginal_record['created_at']);
                     unset($this->model_obj->oryginal_record['updated_at']);
