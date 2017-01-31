@@ -68,7 +68,7 @@ class MysqlORM
                     $this->model_obj->oryginal_record = [];
 
                     foreach ((new $this->model_class_name)->fields() as $key => $value) {
-                        $this->model_obj->oryginal_record[$key] = $this->model_obj[$key];
+                        $this->model_obj->oryginal_record[$key] = $this->model_obj->$key;
                     }
 
                     unset($this->model_obj->oryginal_record['id']);
