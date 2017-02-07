@@ -158,6 +158,20 @@ trait BasicORM
     }
 
     /**
+    * Create
+    */
+    public static function create(Array $attributes)
+    {
+        $object = self::getModelInstance();
+
+        foreach ($attributes as $key => $value) {
+            $object->$key = $value;
+        }
+
+        return $object->save();
+    }
+
+    /**
     * Get current model instance
     */
     private static function getModelInstance()
