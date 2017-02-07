@@ -24,4 +24,25 @@ class FloatUntilsTest extends TesterCase
         $ceil = Util::floatFloorTo(1.222822222, 3);
         Assert::expect($ceil)->to_equal(1.222);
     }
+
+    public function testGetWrapperFolderById()
+    {
+        $wrapper_folder = Util::getWrapperFolderById(0);
+        Assert::expect($wrapper_folder)->to_equal('000');
+
+        $wrapper_folder = Util::getWrapperFolderById(1);
+        Assert::expect($wrapper_folder)->to_equal('000');
+
+        $wrapper_folder = Util::getWrapperFolderById(999);
+        Assert::expect($wrapper_folder)->to_equal('000');
+
+        $wrapper_folder = Util::getWrapperFolderById(1000);
+        Assert::expect($wrapper_folder)->to_equal('001');
+
+        $wrapper_folder = Util::getWrapperFolderById(1999);
+        Assert::expect($wrapper_folder)->to_equal('001');
+
+        $wrapper_folder = Util::getWrapperFolderById(2000);
+        Assert::expect($wrapper_folder)->to_equal('002');
+    }
 }
