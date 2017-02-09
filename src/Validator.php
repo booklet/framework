@@ -29,6 +29,14 @@ class Validator
             }
         }
 
+        // custom validators in model
+        if (method_exists($this->obj, 'customValidation')) {
+            $custom_validation_errors = $this->obj->customValidation();
+            foreach ($custom_validation_errors as $key => $value) {
+                $this->addError($key, $value);
+            }
+        }
+
         if (empty($this->errors)) {
             return true;
         }

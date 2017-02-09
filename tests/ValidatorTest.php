@@ -1,5 +1,6 @@
 <?php
 include_once 'tests/fixtures/models/FWTestModelUser.php';
+include_once 'tests/fixtures/models/FWTestCustomModel.php';
 
 class ValidatorTest extends TesterCase
 {
@@ -327,5 +328,17 @@ class ValidatorTest extends TesterCase
 
         Assert::expect($valid->isValid())->to_equal(false);
         Assert::expect($valid->errors()['bool_field'][0])->to_equal('is not boolean type.');
+    }
+
+    public function testCustomValidators()
+    {
+        $test_calas = new FWTestCustomModel;
+        $test_calas->variable = 0;
+
+        // success
+        $valid = new Validator($test_calas, []);
+
+        Assert::expect($valid->isValid())->to_equal(false);
+        Assert::expect($valid->errors()['variable'][0])->to_equal('must be greater than 0.');
     }
 }
