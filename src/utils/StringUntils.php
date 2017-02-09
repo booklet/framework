@@ -74,4 +74,9 @@ trait StringUntils
 
         return sha1($salt.$password);
     }
+
+    public static function removeAccentsAndDiacritics($string) {
+        $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: [:Punctuation:] Remove;');
+        return $transliterator->transliterate($string);
+    }
 }

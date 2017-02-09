@@ -108,4 +108,10 @@ class StringUntilsTest extends TesterCase
             Assert::expect($underscored_camel_case)->to_equal($underscore);
         }
     }
+
+    public function testRemoveAccentsAndDiacritics()
+    {
+        $normalize = Util::removeAccentsAndDiacritics('Śtręët ņąmę Ćity ńąmę Čómpąńy ńąmę Ċõntaçt ňamê');
+        Assert::expect($normalize)->to_equal('Street name City name Company name Contact name');
+    }
 }
