@@ -45,12 +45,4 @@ trait FilesUntils
         $wrapper_folder_id = floor($id / 1000);
         return sprintf('%03d', $wrapper_folder_id);
     }
-
-    public static function sefFolderChmod($path, $chmod)
-    {
-        $mode = substr(sprintf('%o', fileperms($path)), -3); // return examp 755
-        if ($mode != $chmod) {
-            chmod($path, '0' . $chmod);
-        }
-    }
 }
