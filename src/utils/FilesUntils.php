@@ -36,14 +36,21 @@ trait FilesUntils
         }
     }
 
-
     public static function getWrapperFolderById($id)
     {
-        // To resolve problem with to many files in one folder 
+        // To resolve problem with to many files in one folder
         // we group files in wrappers folders 000, 001, 002
         // by 1000 items
         // folder base on item id, 0-999 => 000, 1000-1999 => 001
         $wrapper_folder_id = floor($id / 1000);
         return sprintf('%03d', $wrapper_folder_id);
+    }
+
+    public static function sefFolderChmod($path, $chmod)
+    {
+        $mode = substr(sprintf('%o', fileperms($path)), -3); // return examp 755
+        if ($mode != $chmod) {
+            chmod($path, '0' . $chmod);
+        }
     }
 }
