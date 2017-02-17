@@ -114,4 +114,10 @@ class StringUntilsTest extends TesterCase
         $normalize = Util::removeAccentsAndDiacritics('Śtręët ņąmę Ćity ńąmę Čómpąńy ńąmę Ċõntaçt ňamê');
         Assert::expect($normalize)->to_equal('Street name City name Company name Contact name');
     }
+
+    public function testSlug()
+    {
+        $normalize = Util::slug('Śtręët  ņąmę Ćity ńąmę /_Čómpąńy ńąmę Ċõntaçt ňamê');
+        Assert::expect($normalize)->to_equal('street-name-city-name-company-name-contact-name');
+    }
 }

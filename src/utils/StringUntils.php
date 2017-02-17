@@ -79,4 +79,13 @@ trait StringUntils
         $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: [:Punctuation:] Remove;');
         return $transliterator->transliterate($string);
     }
+
+    public static function slug($string, $delimiter = '-') {
+        $clean = (string) self::removeAccentsAndDiacritics($string);
+        $clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
+        $clean = strtolower(trim($clean, '-'));
+        $clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
+
+        return $clean;
+    }
 }
