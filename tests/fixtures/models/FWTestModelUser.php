@@ -4,16 +4,6 @@ class FWTestModelUser extends Model
 #    use UserRoles;
     use HasSecurePassword;
 
-    // model allowed attributes
-    public $id;
-    public $username;
-    public $email;
-    public $role;
-    public $password_digest;
-#    public $rebound_device_user_id;
-    public $created_at;
-    public $updated_at;
-
     function __construct(Array $attributes = [])
     {
         parent::__construct($attributes);

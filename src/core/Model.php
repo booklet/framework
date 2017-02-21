@@ -21,40 +21,15 @@ abstract class Model
     * @param $name
     * @return $value
     */
-    public function __set($name, $value)
+    public function __set($property_name, $property_value)
     {
-        // allow attributes
-        // errors -> store errors validation informations
-        // oryginal_record -> clone object attributes when get object from database
-        // _destroy -> use to delete object
-        $specialPropertis = ['errors', 'oryginal_record', '_destroy'];
+        $allowed_propertis = $this->allowedPropertis();
 
-        // custom model allowed attributes
-        if (method_exists($this, 'specialPropertis')) {
-            $specialPropertis = array_merge($specialPropertis, $this->specialPropertis());
+        if (!in_array($property_name, $allowed_propertis)) {
+            throw new Exception(get_class($this) . " does not have '" . $property_name . "' property.");
         }
 
-        // allow nested attributes params
-        if (method_exists($this, 'acceptsNestedAtributesFor')) {
-            foreach ($this->acceptsNestedAtributesFor() as $attr) {
-                $specialPropertis[] = $attr . '_attributes';
-            }
-        }
-
-        // allow habtm ids array
-        if (method_exists($this, 'relations')) {
-            foreach ($this->relations() as $relation_name => $relation_params) {
-                if ($relation_params['relation'] == 'has_and_belongs_to_many'){
-                    $specialPropertis[] = $relation_name . '_ids';
-                }
-            }
-        }
-
-        if ((property_exists(get_class($this), $name) === false) && !in_array($name, $specialPropertis)) {
-            throw new Exception(get_class($this) . " does not have '" . $name . "' property.");
-        } else {
-            $this->$name = $value;
-        }
+        $this->$property_name = $property_value;
     }
 
     /**
@@ -275,5 +250,43 @@ abstract class Model
         $params[$parent_key_name] = 0;
 
         return $params;
+    }
+
+    // Return all allowed model propertis
+    public function allowedPropertis()
+    {
+        // allow attributes
+        // errors -> store errors validation informations
+        // oryginal_record -> clone object attributes when get object from database
+        // _destroy -> use to delete object
+        $allowed_propertis = ['errors', 'oryginal_record', '_destroy'];
+
+        // declarative attributes in model
+        foreach ($this->fields() as $key => $value) {
+            $allowed_propertis[] = $key;
+        }
+
+        // custom model allowed attributes
+        if (method_exists($this, 'specialPropertis')) {
+            $allowed_propertis = array_merge($allowed_propertis, $this->specialPropertis());
+        }
+
+        // allow nested attributes params
+        if (method_exists($this, 'acceptsNestedAtributesFor')) {
+            foreach ($this->acceptsNestedAtributesFor() as $attr) {
+                $allowed_propertis[] = $attr . '_attributes';
+            }
+        }
+
+        // allow habtm ids array
+        if (method_exists($this, 'relations')) {
+            foreach ($this->relations() as $relation_name => $relation_params) {
+                if ($relation_params['relation'] == 'has_and_belongs_to_many'){
+                    $allowed_propertis[] = $relation_name . '_ids';
+                }
+            }
+        }
+
+        return $allowed_propertis;
     }
 }
