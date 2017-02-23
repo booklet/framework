@@ -213,6 +213,4 @@ class Inflector
         static::$_cache['singularize'][$word] = $word;
         return $word;
     }
-
-
 }

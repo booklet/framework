@@ -1,5 +1,5 @@
 <?php
-trait FilesUntils
+trait FWFilesUntils
 {
     public static function getListFilesPathFromDirectoryAndSubfolders($dir)
     {
@@ -13,7 +13,9 @@ trait FilesUntils
         return $files;
     }
 
-    // filter array of files paths to grab only test files
+    /**
+    * Filter array of files paths to grab only test files
+    */
     public static function getTestsFiles(Array $files_paths)
     {
         $files = [];
@@ -36,12 +38,13 @@ trait FilesUntils
         }
     }
 
+    /**
+    * To resolve problem with to many files in one folder
+    * we group files in wrappers folders 000, 001, 002 by 1000 items
+    * Folder base on item id, 0-999 => 000, 1000-1999 => 001
+    */
     public static function getWrapperFolderById($id)
     {
-        // To resolve problem with to many files in one folder
-        // we group files in wrappers folders 000, 001, 002
-        // by 1000 items
-        // folder base on item id, 0-999 => 000, 1000-1999 => 001
         $wrapper_folder_id = floor($id / 1000);
         return sprintf('%03d', $wrapper_folder_id);
     }

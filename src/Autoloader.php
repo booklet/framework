@@ -11,7 +11,7 @@ class Autoloader
     public function autoload($class_name)
     {
         $file_name = $class_name . '.php';
-        $file = $this->directory_name.'/'.$file_name;
+        $file = $this->directory_name . '/' . $file_name;
         if (file_exists($file) == false) {
             return false;
         }

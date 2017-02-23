@@ -22,9 +22,10 @@ abstract class Controller
 
     // Create array of response data, base on view file template.
     public function renderToJson($data, $controller_and_action) {
-        $response_body = new JSONBuilder($data, $controller_and_action);
+        $json_builder = new JSONBuilder($data, $controller_and_action);
+        $response_data = $json_builder->render();
 
-        return $response_body->data;
+        return json_encode($response_data);
     }
 
     // for 422 - Unprocessable Entity
@@ -53,6 +54,7 @@ abstract class Controller
         return Response::bulid($status, $response_data);
     }
 
+    // Render html
     public function render(Array $params = [], Array $options = [])
     {
         return (new View($this->params, $params, $options))->render();

@@ -20,11 +20,15 @@ class BasicOrmTest extends TesterCase
     public function testAll()
     {
         $this->pending();
-        $this->populateUserTable();
-        $users = User::all();
 
-        Assert::expect(count($users))->to_equal(6);
-        Assert::expect($users[1]->username)->to_equal('Uzytkownik nr2');
+        # $this->populateUserTable();
+        $all_users_query = User::all()->to_sql();
+
+        // nie testujemy wykonania zapytania tylko jakie zapytanie zostało wygenerowane
+
+
+
+        Assert::expect($all_users_query)->to_equal('SELECT ');
     }
 
     public function testAllByOrder()

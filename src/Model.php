@@ -14,6 +14,10 @@ abstract class Model
         foreach ($attributes as $key => $value) {
             $this->$key = $value;
         }
+
+        // inicjalizuj obiekty z relacji
+        
+
     }
 
     /**

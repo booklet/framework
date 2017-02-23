@@ -5,7 +5,7 @@ class JSONBuilderTest extends TesterCase
     {
         $response_body = new JSONBuilder(['atrib1' => 'value1', 'atrib2' => 'value2'], 'tests/fixtures/jsonbuilder/test1.php');
 
-        Assert::expect($response_body->data)->to_equal('{"atrib1":"value1","atrib2":"value2"}');
+        Assert::expect($response_body->render())->to_equal(['a' => 'value1', 'b' => 'value2']);
     }
 
     public function testCallFromController()
@@ -20,7 +20,5 @@ class JSONBuilderTest extends TesterCase
         } catch (Exception $e) {
             Assert::expect($e->getMessage())->to_equal("Missing view file.");
         }
-
-        // Assert::expect($response_body->view)->to_equal('app/views/sessions/create.php');
     }
 }

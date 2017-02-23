@@ -1,7 +1,10 @@
 <?php
-trait ObjectUntils
+trait FWObjectUntils
 {
-    // object parameters to mysql string => "`name`, `name_search`, `created_at`, `updated_at`"
+    /**
+    * Object parameters to mysql string
+    * @return string "`name`, `name_search`, `created_at`, `updated_at`"
+    */
     public static function mysqlParameters($obj)
     {
         if (!is_object($obj)) { return false; }
@@ -14,9 +17,11 @@ trait ObjectUntils
         return implode(", ",$params);
     }
 
-    // object parameters to mysql string => "`name`=?, `name_search=?`, `created_at=?`, `updated_at=?`"
+    /**
+    * Object parameters to mysql string
+    * @return string "`name`=?, `name_search=?`, `created_at=?`, `updated_at=?`"
+    */
     public static function mysqlParametersUpdate($obj) {
-
         if (!is_object($obj)) { return false; }
 
         $params = [];
@@ -32,13 +37,11 @@ trait ObjectUntils
 
     }
 
-    // get object values as array
-    // Stdandard Object (
-    //   [name] => 'Kowalski'
-    //   [email] => 'k.kowalski.example.com'
-    //   [telefon] => '888 888 88'
-    // )
-    // => ['Kowalski','k.kowalski.example.com','888 888 88']
+    /**
+    * Get object values as array
+    * @param object ([name] => 'Kowalski' [email] => 'k.kowalski.example.com' [telefon] => '888 888 88')
+    * @return array ['Kowalski', 'k.kowalski.example.com', '888 888 88']
+    */
     public static function mysqlParametersValuesArray($obj)
     {
         if (!is_object($obj)) { return false; }
@@ -51,17 +54,25 @@ trait ObjectUntils
         return $params;
     }
 
-    // return atributes as coma separated string => "name, email, telefon, ..."
+    /**
+    * Return atributes as coma separated
+    * @param object ([name] => 'Kowalski' [email] => 'k.kowalski.example.com' [telefon] => '888 888 88')
+    * @return array "name, email, telefon"
+    */
     public static function mysqlParametersValues($obj)
     {
         if (!is_object($obj)) { return false; }
 
-        $arr = ObjectUntils::mysqlParametersValuesArray($obj);
+        $arr = FWObjectUntils::mysqlParametersValuesArray($obj);
 
         return implode(", ", $arr);
     }
 
-    // retrun question marks coma sparated equal to atributes count => "?, ?, ?, ..."
+    /**
+    * Retrun question marks coma sparated
+    * @param object ([name] => 'Kowalski' [email] => 'k.kowalski.example.com' [telefon] => '888 888 88')
+    * @return array "?, ?, ?"
+    */
     public static function mysqlParametersValuesPlaceholder($obj)
     {
         if (!is_object($obj)) { return false; }
@@ -74,7 +85,9 @@ trait ObjectUntils
         return implode(", ", $params);
     }
 
-    // convert object to array
+    /**
+    * Convert object to array
+    */
     public static function objToArray($obj)
     {
         if (is_array($obj)) {

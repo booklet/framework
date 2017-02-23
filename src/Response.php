@@ -1,7 +1,9 @@
 <?php
 class Response
 {
-    // set header and return body content
+    /**
+    * Set header and return body content
+    */
     public static function bulid($status = 200, $body, Array $headers = [])
     {
         if (Config::get('env') != 'test') {
@@ -22,7 +24,7 @@ class Response
         $e = [];
         $e['errors'] = [];
         foreach ($errors as $error) {
-            $e['errors'][] = ['message'=>$error];
+            $e['errors'][] = ['message' => $error];
         }
 
         return json_encode($e);

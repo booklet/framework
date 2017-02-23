@@ -13,10 +13,10 @@ class ObjectUntilsTest extends TesterCase
     {
         $obj = $this->objectForTest();
 
-        $parameters = ObjectUntils::mysqlParameters($obj);
+        $parameters = FWObjectUntils::mysqlParameters($obj);
         Assert::expect($parameters)->to_equal('`attrib1`, `attrib2`');
 
-        $parameters = ObjectUntils::mysqlParameters([]);
+        $parameters = FWObjectUntils::mysqlParameters([]);
         Assert::expect($parameters)->to_equal(false);
     }
 
@@ -24,10 +24,10 @@ class ObjectUntilsTest extends TesterCase
     {
         $obj = $this->objectForTest();
 
-        $parameters = ObjectUntils::mysqlParametersUpdate($obj);
+        $parameters = FWObjectUntils::mysqlParametersUpdate($obj);
         Assert::expect($parameters)->to_equal('`attrib1`=?, `attrib2`=?');
 
-        $parameters = ObjectUntils::mysqlParametersUpdate([]);
+        $parameters = FWObjectUntils::mysqlParametersUpdate([]);
         Assert::expect($parameters)->to_equal(false);
     }
 
@@ -40,10 +40,10 @@ class ObjectUntilsTest extends TesterCase
     {
         $obj = $this->objectForTest();
 
-        $values = ObjectUntils::mysqlParametersValuesArray($obj);
+        $values = FWObjectUntils::mysqlParametersValuesArray($obj);
         Assert::expect($values)->to_equal(['value1', 'value2']);
 
-        $values = ObjectUntils::mysqlParametersValuesArray([]);
+        $values = FWObjectUntils::mysqlParametersValuesArray([]);
         Assert::expect($values)->to_equal(false);
     }
 
@@ -51,10 +51,10 @@ class ObjectUntilsTest extends TesterCase
     {
         $obj = $this->objectForTest();
 
-        $values = ObjectUntils::mysqlParametersValues($obj);
+        $values = FWObjectUntils::mysqlParametersValues($obj);
         Assert::expect($values)->to_equal('value1, value2');
 
-        $values = ObjectUntils::mysqlParametersValues([]);
+        $values = FWObjectUntils::mysqlParametersValues([]);
         Assert::expect($values)->to_equal(false);
     }
 
@@ -62,10 +62,10 @@ class ObjectUntilsTest extends TesterCase
     {
         $obj = $this->objectForTest();
 
-        $values = ObjectUntils::mysqlParametersValuesPlaceholder($obj);
+        $values = FWObjectUntils::mysqlParametersValuesPlaceholder($obj);
         Assert::expect($values)->to_equal('?, ?');
 
-        $values = ObjectUntils::mysqlParametersValuesPlaceholder([]);
+        $values = FWObjectUntils::mysqlParametersValuesPlaceholder([]);
         Assert::expect($values)->to_equal(false);
     }
 

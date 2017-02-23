@@ -1,7 +1,10 @@
 <?php
-trait StringUntils
+trait FWStringUntils
 {
-    // oneTwoThreeFour => ['one','Two','Three','Four']
+    /**
+    * @param string oneTwoThreeFour
+    * @return array ['one','Two','Three','Four']
+    */
     public static function explodeCamelcaseString($string)
     {
         preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $string, $matches);
@@ -9,7 +12,10 @@ trait StringUntils
         return $matches[0];
     }
 
-    // 'one-two-three-four', 'one_two_three_four' => 'OneTwoThreeFour'
+    /**
+    * @param string one-two-three-four|one_two_three_four
+    * @return string OneTwoThreeFour
+    */
     public static function toCamelCaseString($string)
     {
         // dashes
@@ -23,14 +29,17 @@ trait StringUntils
     public static function camelCaseStringToUnderscore($string)
     {
         $arr = Util::explodeCamelcaseString($string);
-        foreach ($arr as &$word)
+        foreach ($arr as &$word) {
             $word = strtolower($word);
+        }
 
         return implode('_',$arr);
     }
 
-    // "tests/models/users_test.php" => UsersTest
-    // "tests/models/UsersTest.php" => UsersTest
+    /**
+    * "tests/models/users_test.php" => UsersTest
+    * "tests/models/UsersTest.php" => UsersTest
+    */
     public static function fileNameFormPathToClass($string)
     {
         $file_name = pathinfo($string)['filename'];
@@ -47,11 +56,13 @@ trait StringUntils
         }
     }
 
-    // „UTASZ-SPEED” Sp. z o.o. => utaszspeedspzoo
+    /**
+    * @param string „UTASZ-SPEED” Sp. z o.o.
+    * @return string utaszspeedspzoo
+    */
     public static function transliterate($string)
     {
-        $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: [:Punctuation:] Remove;');
-        $normalized = $transliterator->transliterate($string);
+        $normalized = self::removeAccentsAndDiacritics($string);
         $normalized = strtolower($normalized);
         $normalized = preg_replace('/[^a-z0-9_]/', '', $normalized);
 

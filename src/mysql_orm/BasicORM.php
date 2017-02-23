@@ -7,6 +7,8 @@ trait BasicORM
     */
     public static function all(Array $params = [])
     {
+        // na podstawie modelu wygeneruj zapytanie sql
+
         $orm = new MysqlORM(MyDB::db(), self::getModelInstance());
         $results = $orm->where('', [], $params);
 

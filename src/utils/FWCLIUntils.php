@@ -1,7 +1,8 @@
 <?php
-trait CLIUntils
+trait FWCLIUntils
 {
-    public static function colorizeConsoleOutput($text, $status) {
+    public static function colorizeConsoleOutput($text, $status)
+    {
         $statuses = [
             'SUCCESS' => "\033[0;32m",
             'FAILURE' => "\033[0;31m",

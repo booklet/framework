@@ -1,5 +1,5 @@
 <?php
-trait JsonUntils
+trait FWJsonUntils
 {
     public static function isJSON($string)
     {

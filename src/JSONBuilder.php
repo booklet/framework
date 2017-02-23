@@ -2,38 +2,44 @@
 class JSONBuilder
 {
     public $data;
-    public $view;
+    public $controller_and_action_or_path;
+
     /**
     * Ta klasa uzywa pliku widoku do budowy obiektu odpowiedzi
-    * @param Array $data
-    * @return String $template
     */
-    public function __construct($data, $template)
+    public function __construct($data, $controller_and_action_or_path)
     {
-        // check if template is a path or ClassController::action
-        if (strpos($template, '::') !== false) {
-            // SessionsController::index => $class = 'session', $method = 'index'
-            list($controller, $method) = explode('::', $template);
-            $class = str_replace("Controller", "", $controller);
+        $this->data = $data;
+        $this->controller_and_action_or_path = $controller_and_action_or_path;
+    }
 
-            $class_pluralize_name = Inflector::pluralize($class);
+    public function render()
+    {
+        $view_file_path = $this->getFilePath();
 
-            $class = Util::camelCaseStringToUnderscore($class_pluralize_name);
-            // $class = strtolower($class);
-
-            // zbuduj scieze do pliku wygladu
-            $this->view = "app/views/" . $class . "/" . $method . ".php";
-        } else {
-            $this->view = $template;
-        }
-
-        // check if file exist
-        if (file_exists($this->view)) {
-            include $this->view; // grab $response variable
+        if (file_exists($view_file_path)) {
+            $data = $this->data; // $data variable use in view
+            include $view_file_path; // Grab $response variable
         } else {
             throw new RuntimeException('Missing view file.');
         }
 
-        $this->data = json_encode($response);
+        return $response;
+    }
+
+    private function getFilePath()
+    {
+        // Check if template is a path or ClassController::action
+        if (strpos($this->controller_and_action_or_path, '::') !== false) {
+            // SessionsController::index => $class = 'session', $method = 'index'
+            list($controller, $method) = explode('::', $this->controller_and_action_or_path);
+            $class = str_replace("Controller", "", $controller);
+            $class_pluralize_name = Inflector::pluralize($class);
+            $class = Util::camelCaseStringToUnderscore($class_pluralize_name);
+
+            return "app/views/" . $class . "/" . $method . ".php";
+        }
+
+        return $this->controller_and_action_or_path;
     }
 }

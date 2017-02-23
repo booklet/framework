@@ -1,13 +1,19 @@
 <?php
 class MigrationTools
 {
-    // db/migrate/201607061958_CreateUsersTable.php => 201607061958
+    /**
+    * @param string db/migrate/201607061958_CreateUsersTable.php
+    * @return string 201607061958
+    */
     public static function getVersionFromFilename($file_name)
     {
         preg_match("/\d{12}/", $file_name, $output_array);
         return $output_array[0];
     }
 
+    /**
+    * @return string 201607061958
+    */
     public static function getLastMigrationVersion()
     {
         $query = "SELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `version` DESC LIMIT 1";
@@ -21,7 +27,10 @@ class MigrationTools
         }
     }
 
-    // db/migrate/201607061958_CreateUsersTable.php => CreateUsersTable
+    /**
+    * @param string db/migrate/201607061958_CreateUsersTable.php
+    * @return string CreateUsersTable
+    */
     public static function getClassNameFromFilename($file_name)
     {
         $file_name = pathinfo($file_name)['filename'];
@@ -29,7 +38,9 @@ class MigrationTools
         return explode('_', $file_name)[1];
     }
 
-    // before first migration create schema_migrations table if not exist
+    /**
+    * Before first migration create schema_migrations table if not exist
+    */
     public static function createSchemaMigrationsTable()
     {
         $query = "SELECT version FROM schema_migrations";
@@ -44,7 +55,9 @@ class MigrationTools
         }
     }
 
-    // check if that migration has been migrated
+    /**
+    * Check if that migration has been migrated
+    */
     public static function isMigratedMigration($version)
     {
         $query = "SELECT * FROM schema_migrations WHERE version='" . $version . "'";
@@ -53,7 +66,9 @@ class MigrationTools
         return $result->num_rows == 1 ? true : false;
     }
 
-    // insert new migration version to schema_migrations table
+    /**
+    * Insert new migration version to schema_migrations table
+    */
     public static function incrementSchemaVersionIfSuccess($result, $version) {
         if (!empty($result)) {
             $query = "INSERT INTO schema_migrations (version) VALUES ($version)";
@@ -80,10 +95,12 @@ class MigrationTools
         return false;
     }
 
-    // remove passed version
+    /**
+    * Remove passed version
+    */
     public static function removeVersion($version)
     {
-      $query = "DELETE FROM schema_migrations WHERE version='" . $version . "'";
-      $result = mysqli_query(MyDB::db(), $query);
+        $query = "DELETE FROM schema_migrations WHERE version='" . $version . "'";
+        $result = mysqli_query(MyDB::db(), $query);
     }
 }
