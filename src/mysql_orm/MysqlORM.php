@@ -142,9 +142,9 @@ class MysqlORM
     private function builditNewRecordQuery($db_obj)
     {
         // obj => "`name`, `name_search`, `created_at`, `updated_at`"
-        $parameters = ObjectUntils::mysqlParameters($db_obj);
+        $parameters = FWObjectUntils::mysqlParameters($db_obj);
         // obj => "?, ?, ?, ..."
-        $parameters_values_placeholder = ObjectUntils::mysqlParametersValuesPlaceholder($db_obj);
+        $parameters_values_placeholder = FWObjectUntils::mysqlParametersValuesPlaceholder($db_obj);
 
         $query = $this->prepareStatement("INSERT INTO `" . $this->table_name . "` (" . $parameters . ") VALUES (" . $parameters_values_placeholder . ")");
 
@@ -157,7 +157,7 @@ class MysqlORM
     private function builditUpdateRecordQuery($db_obj)
     {
         // "UPDATE MyGuests SET lastname='Doe' WHERE id=2"
-        $parameters = ObjectUntils::mysqlParametersUpdate($db_obj);
+        $parameters = FWObjectUntils::mysqlParametersUpdate($db_obj);
         $query = $this->prepareStatement("UPDATE `" . $this->table_name . "` SET " . $parameters . " WHERE `id`=?");
 
         return $query;
