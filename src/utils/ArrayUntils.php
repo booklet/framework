@@ -1,5 +1,5 @@
 <?php
-trait ArrayUntils
+class ArrayUntils
 {
     /**
     * Check if array is associative or sequential

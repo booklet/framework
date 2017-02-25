@@ -1,5 +1,5 @@
 <?php
-trait JsonUntils
+class JsonUntils
 {
     public static function isJSON($string)
     {

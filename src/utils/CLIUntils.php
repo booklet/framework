@@ -1,5 +1,5 @@
 <?php
-trait CLIUntils
+class CLIUntils
 {
     public static function colorizeConsoleOutput($text, $status)
     {

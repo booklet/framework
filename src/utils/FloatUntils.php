@@ -1,5 +1,5 @@
 <?php
-trait FloatUntils
+class FloatUntils
 {
     /**
     * 1.222 => 1.3

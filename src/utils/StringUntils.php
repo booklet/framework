@@ -1,5 +1,5 @@
 <?php
-trait StringUntils
+class StringUntils
 {
     /**
     * @param string oneTwoThreeFour

@@ -1,5 +1,5 @@
 <?php
-trait ObjectUntils
+class ObjectUntils
 {
     /**
     * Object parameters to mysql string
