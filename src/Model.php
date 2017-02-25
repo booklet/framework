@@ -2,7 +2,8 @@
 abstract class Model
 {
     use BasicORM;
-
+    use BasicORM2;
+    
     function __construct(Array $attributes = [])
     {
         // first setup default values
@@ -16,7 +17,7 @@ abstract class Model
         }
 
         // inicjalizuj obiekty z relacji
-        
+
 
     }
 

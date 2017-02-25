@@ -168,7 +168,6 @@ class ValidatorTest extends TesterCase
 
     public function testValidEmail()
     {
-
         $obj = new stdClass();
         $rules = ['user_email' => ['email']];
 
@@ -233,27 +232,26 @@ class ValidatorTest extends TesterCase
         }
     }
 
-    public function testValidUnique()
-    {
-        // how test uniques witout use database
-
-        $this->pending();
-        $user1 = UserFactory::user();
-        $user1->save();
-
-        $rules = ['username' => ['unique']];
-
-        // success valid save object?
-        $valid = new Validator($user1, $rules);
-
-        Assert::expect($valid->isValid())->to_equal(true);
-
-        $user2 = UserFactory::user();
-        $valid = new Validator($user2, $rules);
-
-        Assert::expect($valid->isValid())->to_equal(false);
-        Assert::expect($user2->errors['username'][0])->to_equal('is not unique.');
-    }
+//    public function testValidUnique()
+//    {
+//        // how test uniques witout use database
+//        $this->pending();
+//        $user1 = UserFactory::user();
+//        $user1->save();
+//
+//        $rules = ['username' => ['unique']];
+//
+//        // success valid save object?
+//        $valid = new Validator($user1, $rules);
+//
+//        Assert::expect($valid->isValid())->to_equal(true);
+//
+//        $user2 = UserFactory::user();
+//        $valid = new Validator($user2, $rules);
+//
+//        Assert::expect($valid->isValid())->to_equal(false);
+//        Assert::expect($user2->errors['username'][0])->to_equal('is not unique.');
+//    }
 
     public function testValidIn()
     {

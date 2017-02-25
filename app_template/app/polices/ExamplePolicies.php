@@ -16,7 +16,6 @@ class ExamplePolicies extends Policies
         return true;
     }
 
-
     public function edit()
     {
         $this->returnFalseIfNullUser();
