@@ -1,5 +1,5 @@
 <?php
-trait FWObjectUntils
+trait ObjectUntils
 {
     /**
     * Object parameters to mysql string
@@ -63,7 +63,7 @@ trait FWObjectUntils
     {
         if (!is_object($obj)) { return false; }
 
-        $arr = FWObjectUntils::mysqlParametersValuesArray($obj);
+        $arr = ObjectUntils::mysqlParametersValuesArray($obj);
 
         return implode(", ", $arr);
     }

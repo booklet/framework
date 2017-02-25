@@ -1,5 +1,5 @@
 <?php
-trait FWCLIUntils
+trait CLIUntils
 {
     public static function colorizeConsoleOutput($text, $status)
     {

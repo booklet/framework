@@ -1,11 +1,11 @@
 <?php
 class Util
 {
-    use FWArrayUntils;
-    use FWCLIUntils;
-    use FWFilesUntils;
-    use FWFloatUntils;
-    use FWJsonUntils;
-    use FWObjectUntils;
-    use FWStringUntils;
+    use ArrayUntils;
+    use CLIUntils;
+    use FilesUntils;
+    use FloatUntils;
+    use JsonUntils;
+    use ObjectUntils;
+    use StringUntils;
 }

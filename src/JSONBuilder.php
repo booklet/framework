@@ -35,7 +35,7 @@ class JSONBuilder
             list($controller, $method) = explode('::', $this->controller_and_action_or_path);
             $class = str_replace("Controller", "", $controller);
             $class_pluralize_name = Inflector::pluralize($class);
-            $class = Util::camelCaseStringToUnderscore($class_pluralize_name);
+            $class = StringUntils::camelCaseToUnderscore($class_pluralize_name);
 
             return "app/views/" . $class . "/" . $method . ".php";
         }

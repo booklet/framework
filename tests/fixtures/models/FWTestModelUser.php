@@ -57,7 +57,7 @@ class FWTestModelUser extends Model
 #    public static function autorize($login, $password)
 #    {
 #        $user = User::findBy('email', $login);
-#        $password_digest = Util::encryptPassword($password);
+#        $password_digest = StringUntils::encryptPassword($password);
 #
 #        if ($user && ($user->password_digest == $password_digest)) {
 #            return $user;

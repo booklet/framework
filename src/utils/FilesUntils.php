@@ -1,5 +1,5 @@
 <?php
-trait FWFilesUntils
+trait FilesUntils
 {
     public static function getListFilesPathFromDirectoryAndSubfolders($dir)
     {

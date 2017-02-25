@@ -158,7 +158,7 @@ class BasicOrmTest extends TesterCase
         $orm = new MysqlORM(null, $user);
         $db_obj = MysqlORMObjectCreator::createDbObject($orm->model_obj);
 
-        Assert::expect(Util::objToArray($db_obj))->to_equal(['username' => 'Nowa nazwa uzytkownia', 'email' => 'user101@booklet.pl']);
+        Assert::expect(ObjectUntils::objToArray($db_obj))->to_equal(['username' => 'Nowa nazwa uzytkownia', 'email' => 'user101@booklet.pl']);
 
         $user->save();
         $user = User::first();

@@ -31,7 +31,7 @@ trait HasSecurePassword
         }
 
         if (isset($this->password) && isset($this->password_confirmation) && ($this->password == $this->password_confirmation)) {
-            $this->password_digest = Util::encryptPassword($this->password);
+            $this->password_digest = StringUntils::encryptPassword($this->password);
         } else {
             $errors[] = 'confirmation doesn\'t match.';
         }

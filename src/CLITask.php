@@ -19,11 +19,11 @@ class CLITask
         $runs_migrations_paths = $this->runMigrations();
 
         foreach ($runs_migrations_paths as $migration_path) {
-            echo Util::colorizeConsoleOutput("$migration_path\n\n", 'SUCCESS');
+            echo CLIUntils::colorizeConsoleOutput("$migration_path\n\n", 'SUCCESS');
         }
 
         if (empty($runs_migrations_paths)) {
-            echo Util::colorizeConsoleOutput("All migrations are made\n\n", 'SUCCESS');
+            echo CLIUntils::colorizeConsoleOutput("All migrations are made\n\n", 'SUCCESS');
         }
     }
 
@@ -31,7 +31,7 @@ class CLITask
     {
         echo "\nRun database rollback (" . Config::get('env') . ")\n";
         $rollback_status = $this->runRollback();
-        echo Util::colorizeConsoleOutput($rollback_status['message'] . "\n\n", $rollback_status['status']);
+        echo CLIUntils::colorizeConsoleOutput($rollback_status['message'] . "\n\n", $rollback_status['status']);
     }
 
     public function dbSeed()
@@ -39,7 +39,7 @@ class CLITask
         MyDB::connect(Config::get('db_development'));
         MyDB::clearDatabaseExceptSchema();
         require_once 'db/seed.php';
-        echo Util::colorizeConsoleOutput("\nSeeds database (" . Config::get('env') . ") successfully\n\n", 'SUCCESS');
+        echo CLIUntils::colorizeConsoleOutput("\nSeeds database (" . Config::get('env') . ") successfully\n\n", 'SUCCESS');
     }
 
     public function dbPrepare()
@@ -48,7 +48,7 @@ class CLITask
         Config::set('env', 'test');
         $this->dropAllTablesAndRecreate();
         $this->runMigrations();
-        echo Util::colorizeConsoleOutput("Test database migration successfully\n\n", 'SUCCESS');
+        echo CLIUntils::colorizeConsoleOutput("Test database migration successfully\n\n", 'SUCCESS');
     }
 
     public function testRunAll()
@@ -109,7 +109,7 @@ class CLITask
 
                 $result = mysqli_query(MyDB::db(), $query);
                 if ($result == false) {
-                    die(Util::colorizeConsoleOutput("\nMigrate error: $file\n\n", 'FAILURE'));
+                    die(CLIUntils::colorizeConsoleOutput("\nMigrate error: $file\n\n", 'FAILURE'));
                 }
 
                 MigrationTools::incrementSchemaVersionIfSuccess($result, $version);

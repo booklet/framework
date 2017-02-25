@@ -38,7 +38,7 @@ class Client extends Model
     {
         // to simplify search text: '„UTASZ-SPEED” Sp. z o.o.' to: 'utaszspeedspzoo'
         // use in search query this same transliterate method
-        $this->name_search = Util::transliterate($this->name);
+        $this->name_search = StringUntils::transliterate($this->name);
     }
 
     public function specialPropertis()

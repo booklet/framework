@@ -132,7 +132,7 @@ class MysqlORM
     {
         $class_pluralize_name = $model_obj->pluralizeClassName();
 
-        return Util::camelCaseStringToUnderscore($class_pluralize_name);
+        return StringUntils::camelCaseToUnderscore($class_pluralize_name);
     }
 
 
@@ -142,9 +142,9 @@ class MysqlORM
     private function builditNewRecordQuery($db_obj)
     {
         // obj => "`name`, `name_search`, `created_at`, `updated_at`"
-        $parameters = FWObjectUntils::mysqlParameters($db_obj);
+        $parameters = ObjectUntils::mysqlParameters($db_obj);
         // obj => "?, ?, ?, ..."
-        $parameters_values_placeholder = FWObjectUntils::mysqlParametersValuesPlaceholder($db_obj);
+        $parameters_values_placeholder = ObjectUntils::mysqlParametersValuesPlaceholder($db_obj);
 
         $query = $this->prepareStatement("INSERT INTO `" . $this->table_name . "` (" . $parameters . ") VALUES (" . $parameters_values_placeholder . ")");
 
@@ -157,7 +157,7 @@ class MysqlORM
     private function builditUpdateRecordQuery($db_obj)
     {
         // "UPDATE MyGuests SET lastname='Doe' WHERE id=2"
-        $parameters = FWObjectUntils::mysqlParametersUpdate($db_obj);
+        $parameters = ObjectUntils::mysqlParametersUpdate($db_obj);
         $query = $this->prepareStatement("UPDATE `" . $this->table_name . "` SET " . $parameters . " WHERE `id`=?");
 
         return $query;
@@ -200,7 +200,7 @@ class MysqlORM
                     }
                 } else {
                     $params = $item;
-                    $underscore_class_name = Util::camelCaseStringToUnderscore($this->model_class_name);
+                    $underscore_class_name = StringUntils::camelCaseToUnderscore($this->model_class_name);
                     $parent_key_name = $underscore_class_name . '_id';
                     $params[$parent_key_name] = $this->model_obj->id;
 

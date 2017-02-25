@@ -1,7 +1,7 @@
 <?php
 class StringUntilsTest extends TesterCase
 {
-    public function testFnExplodeCamelcaseString()
+    public function testFnexplodeCamelcase()
     {
         $testdata = [
             'oneTwoThreeFour' => ['one','Two','Three','Four'],
@@ -11,12 +11,12 @@ class StringUntilsTest extends TesterCase
         ];
 
         foreach ($testdata as $from => $to) {
-            $exploded_arr = Util::explodeCamelcaseString($from);
+            $exploded_arr = StringUntils::explodeCamelcase($from);
             Assert::expect($exploded_arr)->to_equal($to);
         }
     }
 
-    public function testFnToCamelCaseString()
+    public function testFntoCamelCase()
     {
         $testdata = [
             'one-two-three-four' => 'OneTwoThreeFour',
@@ -25,12 +25,12 @@ class StringUntilsTest extends TesterCase
         ];
 
         foreach ($testdata as $from => $to) {
-            $camel_case = Util::toCamelCaseString($from);
+            $camel_case = StringUntils::toCamelCase($from);
             Assert::expect($camel_case)->to_equal($to);
         }
     }
 
-    public function testFnFileNameFormPathToClass()
+    public function testFnfileNameFormPathToClass()
     {
         $testdata = [
             'tests/models/users_test.php' => 'UsersTest',
@@ -39,17 +39,17 @@ class StringUntilsTest extends TesterCase
         ];
 
         foreach ($testdata as $from => $to) {
-            $file_name = Util::fileNameFormPathToClass($from);
+            $file_name = StringUntils::fileNameFormPathToClass($from);
             Assert::expect($file_name)->to_equal($to);
         }
     }
 
     public function testFnStringInclude()
     {
-        $is_include = Util::isStringInclude('my test string', 'test');
+        $is_include = StringUntils::isInclude('my test string', 'test');
         Assert::expect($is_include)->to_equal(true);
 
-        $is_include = Util::isStringInclude('my test string', 'notexist');
+        $is_include = StringUntils::isInclude('my test string', 'notexist');
         Assert::expect($is_include)->to_equal(false);
     }
 
@@ -69,12 +69,12 @@ class StringUntilsTest extends TesterCase
         ];
 
         foreach ($testdata as $from => $to) {
-            $clear_text = Util::transliterate($from);
+            $clear_text = StringUntils::transliterate($from);
             Assert::expect($clear_text)->to_equal($to);
         }
     }
 
-    public function testFnCamelCaseStringToUnderscore()
+    public function testFncamelCaseToUnderscore()
     {
         $testdata = [
             'simpleTest' => 'simple_test',
@@ -104,20 +104,20 @@ class StringUntilsTest extends TesterCase
         // libC => lib_c
 
         foreach ($testdata as $camel_case => $underscore) {
-            $underscored_camel_case = Util::camelCaseStringToUnderscore($camel_case);
+            $underscored_camel_case = StringUntils::camelCaseToUnderscore($camel_case);
             Assert::expect($underscored_camel_case)->to_equal($underscore);
         }
     }
 
     public function testRemoveAccentsAndDiacritics()
     {
-        $normalize = Util::removeAccentsAndDiacritics('Śtręët ņąmę Ćity ńąmę Čómpąńy ńąmę Ċõntaçt ňamê');
+        $normalize = StringUntils::removeAccentsAndDiacritics('Śtręët ņąmę Ćity ńąmę Čómpąńy ńąmę Ċõntaçt ňamê');
         Assert::expect($normalize)->to_equal('Street name City name Company name Contact name');
     }
 
     public function testSlug()
     {
-        $normalize = Util::slug('Śtręët  ņąmę Ćity ńąmę /_Čómpąńy ńąmę Ċõntaçt ňamê');
+        $normalize = StringUntils::slug('Śtręët  ņąmę Ćity ńąmę /_Čómpąńy ńąmę Ċõntaçt ňamê');
         Assert::expect($normalize)->to_equal('street-name-city-name-company-name-contact-name');
     }
 }

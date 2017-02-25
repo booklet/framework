@@ -1,11 +1,11 @@
 <?php
-trait FWStringUntils
+trait StringUntils
 {
     /**
     * @param string oneTwoThreeFour
     * @return array ['one','Two','Three','Four']
     */
-    public static function explodeCamelcaseString($string)
+    public static function explodeCamelcase($string)
     {
         preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $string, $matches);
 
@@ -16,7 +16,7 @@ trait FWStringUntils
     * @param string one-two-three-four|one_two_three_four
     * @return string OneTwoThreeFour
     */
-    public static function toCamelCaseString($string)
+    public static function toCamelCase($string)
     {
         // dashes
         $string = str_replace('-', ' ', $string);
@@ -26,9 +26,9 @@ trait FWStringUntils
         return str_replace(' ', '', ucwords($string));
     }
 
-    public static function camelCaseStringToUnderscore($string)
+    public static function camelCaseToUnderscore($string)
     {
-        $arr = Util::explodeCamelcaseString($string);
+        $arr = StringUntils::explodeCamelcase($string);
         foreach ($arr as &$word) {
             $word = strtolower($word);
         }
@@ -43,11 +43,11 @@ trait FWStringUntils
     public static function fileNameFormPathToClass($string)
     {
         $file_name = pathinfo($string)['filename'];
-        return Util::toCamelCaseString($file_name);
+        return StringUntils::toCamelCase($file_name);
     }
 
 
-    public static function isStringInclude($source, $text)
+    public static function isInclude($source, $text)
     {
         if (strpos($source, $text) !== false) {
             return true;
