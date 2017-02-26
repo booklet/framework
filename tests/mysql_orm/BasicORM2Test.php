@@ -17,6 +17,20 @@ class BasicORM2Test extends TesterCase
         Assert::expect($query)->to_equal('SELECT `fw_test_model_users`.* FROM `fw_test_model_users` ORDER BY id DESC');
     }
 
+    public function testFind()
+    {
+        $query = FWTestModelUser::orm2_find(1)->toSql();
+
+        Assert::expect($query)->to_equal('SELECT `fw_test_model_users`.* FROM `fw_test_model_users` WHERE id = ? LIMIT 1');
+    }
+
+    public function testFindBy()
+    {
+        $query = FWTestModelUser::orm2_findBy('username', 'Jan')->toSql();
+
+        Assert::expect($query)->to_equal('SELECT `fw_test_model_users`.* FROM `fw_test_model_users` WHERE username = ? LIMIT 1');
+    }
+
     public function testWhere()
     {
         $query = FWTestModelUser::orm2_where("created_at BETWEEN ? AND ? AND series_id = ?", ['2017-01-01 00:00:00', '2017-01-01 23:59:59', 2])->toSql();

@@ -30,7 +30,10 @@ class ORMQueryBuilder
         $this->query .= ' ORDER BY ' . $column .' ' . $direction;
     }
 
-
+    public function limit($num)
+    {
+        $this->query .= ' LIMIT ' . $num;
+    }
 
 
 
