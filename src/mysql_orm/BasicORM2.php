@@ -1,10 +1,16 @@
 <?php
 trait BasicORM2
 {
+    // TODO
+    // domyslne ustawienia dla zapytan w modelu - scope
+    // np domyslne sortowanie dla wszystkich zapytan sql danego modelu
+
+    // Dodac metody
+    // - pluck
+    // - chunk - pobieranie duzych ilosci rekorów w paczkach po x rekordow
 
     private static $builder = null;
     private static $instance = null;
-
 
     /**
     * Get all records from database
@@ -12,43 +18,10 @@ trait BasicORM2
     */
     public static function orm2_all(Array $params = [])
     {
-        self::initializeBuilder();
+        self::initialize();
 
         // set all query
         self::$builder->select();
-
-#        // na podstawie modelu wygeneruj zapytanie sql
-#        // add scopes from model
-#
-#        $query->table('users')->
-#
-#        all  inicializuje $_instance
-#        find inicializuje $_instance
-#        findBy inicializuje $_instance
-#        where inicializuje $_instance co z multiple where
-#        first  moze inicializowac ale takze byc wywolanze na obiekcie
-#        last
-#        paginate  limity i ofsety
-#        orderBy
-#        pluck
-#        chunk !!
-#        count
-#        offset(10)
-#        limit(5)
-
-#        insert
-#        update
-#        delete
-
-#        get
-#
-#        $affectedRows = User::where('votes', '>', 100)->delete();
-#        $user->touch(); // update time stamp
-#
-#        $orm = new MysqlORM(MyDB::db(), self::getModelInstance());
-#        $results = $orm->where('', [], $params);
-
-#        return $results;
 
         return self::$instance;
     }
@@ -62,7 +35,7 @@ trait BasicORM2
 
     public static function orm2_findBy($field, $value)
     {
-        self::initializeBuilder();
+        self::initialize();
 
         self::orm2_where($field . ' = ?', [$value]);
         self::$builder->limit(1);
@@ -72,7 +45,7 @@ trait BasicORM2
 
     public static function orm2_where($query, Array $params = [])
     {
-        self::initializeBuilder();
+        self::initialize();
 
         self::$builder->select();
         self::$builder->where($query, $params);
@@ -80,12 +53,61 @@ trait BasicORM2
         return self::$instance;
     }
 
+
+#    public static function first()
+#    {
+#
+#    }
+#
+#    public static function last()
+#    {
+#
+#    }
+#
+#    public static function count()
+#    {
+#
+#    }
+
+#    public static function offset()
+#    {
+#
+#    }
+#
+#    public static function limit()
+#    {
+#
+#    }
+#
     public static function orderBy($column, $direction)
     {
         self::$builder->orderBy($column, $direction);
 
         return self::$instance;
     }
+
+
+#    public static function insert()
+#    {
+#
+#    }
+#
+#    public static function update()
+#    {
+#
+#    }
+#
+#
+#    public static function delete()
+#    {
+#
+#    }
+#
+#    public static function touch()
+#    {
+#
+#    }
+
 
     public static function get()
     {
@@ -99,7 +121,12 @@ trait BasicORM2
 
 
 
-    private static function initializeBuilder()
+
+
+
+
+
+    private static function initialize()
     {
         if (self::$builder == null) {
             self::$builder = new ORMQueryBuilder(self::getModelInstance());

@@ -34,11 +34,6 @@ class ORMQueryBuilder
         $this->query .= ' LIMIT ' . $num;
     }
 
-
-
-
-
-
     public function toSql()
     {
 
@@ -66,36 +61,32 @@ class ORMQueryBuilder
         return StringUntils::camelCaseToUnderscore($class_pluralize_name);
     }
 
+    #  SELECT
+    #    *
+    #  FROM
+    #    yourtable
+    #  WHERE
+    #    date BETWEEN '2012-01-01' AND '2012-06-01';
+    #
 
+    #  SELECT
+    #      column_1, column_2, ...
+    #  FROM
+    #      table_1
+    #  [INNER | LEFT |RIGHT] JOIN table_2 ON conditions
+    #  WHERE
+    #      conditions
+    #  GROUP BY column_1
+    #  HAVING group_conditions
+    #  ORDER BY column_1
+    #  LIMIT offset, length;
 
-
-
-#    SELECT
-#      *
-#    FROM
-#      yourtable
-#    WHERE
-#      date BETWEEN '2012-01-01' AND '2012-06-01';
-#
-
-# SELECT
-#     column_1, column_2, ...
-# FROM
-#     table_1
-# [INNER | LEFT |RIGHT] JOIN table_2 ON conditions
-# WHERE
-#     conditions
-# GROUP BY column_1
-# HAVING group_conditions
-# ORDER BY column_1
-# LIMIT offset, length;
-
-# SELECT followed by a list of comma-separated columns or an asterisk (*) to indicate that you want to return all columns.
-# FROM specifies the table or view where you want to query the data.
-# JOIN gets data from other tables based on certain join conditions.
-# WHERE filters rows in the result set.
-# GROUP BY groups a set of rows into groups and applies aggregate functions on each group.
-# HAVING filters group based on groups defined by GROUP BY clause.
-# ORDER BY specifies a list of columns for sorting.
-# LIMIT constrains the number of returned rows.
+    #  SELECT followed by a list of comma-separated columns or an asterisk (*) to indicate that you want to return all columns.
+    #  FROM specifies the table or view where you want to query the data.
+    #  JOIN gets data from other tables based on certain join conditions.
+    #  WHERE filters rows in the result set.
+    #  GROUP BY groups a set of rows into groups and applies aggregate functions on each group.
+    #  HAVING filters group based on groups defined by GROUP BY clause.
+    #  ORDER BY specifies a list of columns for sorting.
+    #  LIMIT constrains the number of returned rows.
 }

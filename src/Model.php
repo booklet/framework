@@ -8,7 +8,7 @@ abstract class Model
     {
         // first setup default values
         foreach ($this->fields() as $key => $value) {
-            $this->$key = $value['default'];
+            $this->$key = $value['default'] ?? null;
         }
 
         // assign object attributes/parameters when create

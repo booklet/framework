@@ -136,7 +136,6 @@ class MysqlORM
         return StringUntils::camelCaseToUnderscore($class_pluralize_name);
     }
 
-
     /**
     * Create sql query for new record
     */
@@ -163,7 +162,6 @@ class MysqlORM
 
         return $query;
     }
-
 
     private function saveNestedObjects()
     {
