@@ -1,22 +1,14 @@
 <?php
 class TesterChildModel extends Model
 {
-    // model allowed attributes
-    public $id;
-    public $tester_parent_model_id;
-    public $address;
-    public $created_at;
-    public $updated_at;
-
-    // for database queries and for validation
     public function fields()
     {
         return [
-            'id'                    => ['type' => 'integer',  'default' => null],
-            'tester_parent_model_id' => ['type' => 'integer',  'default' => null, 'validations' => ['required']],
-            'address'               => ['type' => 'string',   'default' => null, 'validations' => ['required', 'email', 'unique']],
-            'created_at'            => ['type' => 'datetime', 'default' => null],
-            'updated_at'            => ['type' => 'datetime', 'default' => null],
+            'id'                    => ['type' => 'integer'],
+            'tester_parent_model_id' => ['type' => 'integer', 'validations' => ['required']],
+            'address'               => ['type' => 'string', 'validations' => ['required', 'email', 'unique']],
+            'created_at'            => ['type' => 'datetime'],
+            'updated_at'            => ['type' => 'datetime'],
         ];
     }
 

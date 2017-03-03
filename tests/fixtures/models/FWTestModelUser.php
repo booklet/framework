@@ -15,14 +15,14 @@ class FWTestModelUser extends Model
     public function fields()
     {
         return [
-            'id'                     => ['type' => 'integer',  'default' => null],
-            'username'               => ['type' => 'string',   'default' => null, 'validations' => ['required', 'max_length:190']],
-            'email'                  => ['type' => 'string',   'default' => null, 'validations' => ['required', 'email']],
-            'role'                   => ['type' => 'string',   'default' => null, 'validations' => ['required']],
-            'password_digest'        => ['type' => 'string',   'default' => null, 'validations' => ['required', 'password']],
-#            'rebound_device_user_id' => ['type' => 'integer',  'default' => null],
-            'created_at'             => ['type' => 'datetime', 'default' => null],
-            'updated_at'             => ['type' => 'datetime', 'default' => null],
+            'id'                     => ['type' => 'integer'],
+            'username'               => ['type' => 'string', 'validations' => ['required', 'max_length:190']],
+            'email'                  => ['type' => 'string', 'validations' => ['required', 'email']],
+            'role'                   => ['type' => 'string', 'validations' => ['required']],
+            'password_digest'        => ['type' => 'string', 'validations' => ['required', 'password']],
+#            'rebound_device_user_id' => ['type' => 'integer'],
+            'created_at'             => ['type' => 'datetime'],
+            'updated_at'             => ['type' => 'datetime'],
         ];
     }
 

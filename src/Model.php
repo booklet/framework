@@ -4,16 +4,38 @@ abstract class Model
     use BasicORM;
     use BasicORM2;
 
+
+    /**
+     * Contains model values as column_name => value
+     *
+     * @var array
+     */
+    private $attributes = array();
+
+    /**
+     * Flag whether or not this model's attributes have been modified since it will either be null or an array of column_names that have been modified
+     *
+     * @var array
+     */
+    private $__dirty = null;
+
+
+
+
+
     function __construct(Array $attributes = [])
     {
         // first setup default values
-        foreach ($this->fields() as $key => $value) {
-            $this->$key = $value['default'] ?? null;
+        foreach ($this->fields() as $name => $value) {
+            # $this->$name = $value['default'] ?? null;
+            $this->assign_attribute($name, $value['default'] ?? null);
         }
 
         // assign object attributes/parameters when create
-        foreach ($attributes as $key => $value) {
-            $this->$key = $value;
+        foreach ($attributes as $name => $value) {
+            # $this->$key = $value;
+
+            $this->assign_attribute($name, $value);
         }
 
         // inicjalizuj obiekty z relacji
@@ -23,17 +45,187 @@ abstract class Model
     * Throw exception if property not exist, else set property
     * @param $name
     * @return $value
+    *
+
+
+    * class User extends Model {
+    *
+    *   # define custom setter methods. Note you must
+    *   # prepend set_ to your method name:
+    *   function set_password($plaintext) {
+    *     $this->encrypted_password = md5($plaintext);
+    *   }
+    * }
+    *
+    * $user = new User();
+    * $user->password = 'plaintext';  # will call $user->set_password('plaintext')
+    *
+    *
+    * class User extends Model {
+    *
+    *   # INCORRECT way to do it
+    *   # function set_name($name) {
+    *   #   $this->name = strtoupper($name);
+    *   # }
+    *
+    *   function set_name($name) {
+    *     $this->assign_attribute('name',strtoupper($name));
+    *   }
+    * }
     */
-    public function __set($property_name, $property_value)
+    public function __set($name, $value)
     {
         $allowed_propertis = $this->allowedPropertis();
-
-        if (!in_array($property_name, $allowed_propertis)) {
-            throw new Exception(get_class($this) . " does not have '" . $property_name . "' property.");
+        if (!in_array($name, $allowed_propertis)) {
+            throw new Exception(get_called_class() . " does not have '" . $name . "' property.");
         }
 
-        $this->$property_name = $property_value;
+        // set method from model
+        if (method_exists($this, "set_$name")) {
+            $name = "set_$name";
+            return $this->$name($value);
+        }
+
+        return $this->assign_attribute($name, $value);
     }
+
+
+
+    /**
+    * Magic method which delegates to read_attribute(). This handles firing off getter methods,
+    * as they are not checked/invoked inside of read_attribute(). This circumvents the problem with
+    * a getter being accessed with the same name as an actual attribute.
+    *
+    * You can also define customer getter methods for the model.
+    *
+    * EXAMPLE:
+    * <code>
+    * class User extends ActiveRecord\Model {
+    *
+    *   # define custom getter methods. Note you must
+    *   # prepend get_ to your method name:
+    *   function get_middle_initial() {
+    *     return $this->middle_name{0};
+    *   }
+    * }
+    *
+    * $user = new User();
+    * echo $user->middle_name;  # will call $user->get_middle_name()
+    * </code>
+    *
+    * If you define a custom getter with the same name as an attribute then you
+    * will need to use read_attribute() to get the attribute's value.
+    * This is necessary due to the way __get() works.
+    *
+    * For example, assume 'name' is a field on the table and we're defining a
+    * custom getter for 'name':
+    *
+    * <code>
+    * class User extends ActiveRecord\Model {
+    *
+    *   # INCORRECT way to do it
+    *   # function get_name() {
+    *   #   return strtoupper($this->name);
+    *   # }
+    *
+    *   function get_name() {
+    *     return strtoupper($this->read_attribute('name'));
+    *   }
+    * }
+    *
+    * $user = new User();
+    * $user->name = 'bob';
+    * echo $user->name; # => BOB
+    * </code>
+    *
+    *
+    * @see read_attribute()
+    * @param string $name Name of an attribute
+    * @return mixed The value of the attribute
+    */
+    public function &__get($name)
+    {
+        // check for getter
+        if (method_exists($this, "get_$name"))
+        {
+            $name = "get_$name";
+            $value = $this->$name();
+            return $value;
+        }
+        return $this->read_attribute($name);
+    }
+
+
+
+
+
+
+    /**
+     *
+     *
+     */
+    public function &read_attribute($name)
+    {
+        // check for attribute
+        if (array_key_exists($name, $this->attributes)) {
+            return $this->attributes[$name];
+        }
+
+        # // check relationships if no attribute
+        # if (array_key_exists($name,$this->__relationships))
+        #   return $this->__relationships[$name];
+
+        # $table = static::table();
+        # // this may be first access to the relationship so check Table
+        # if (($relationship = $table->get_relationship($name)))
+        # {
+        #   $this->__relationships[$name] = $relationship->load($this);
+        #   return $this->__relationships[$name];
+        # }
+
+        throw new Exception(get_called_class() . " does not have '" . $name . "' property.");
+    }
+
+
+
+    /**
+     * Determines if an attribute exists for this Model
+     * isset($myObj->item) call this function
+     *
+     * @param string $attribute_name
+     * @return boolean
+     */
+    public function __isset($attribute_name)
+    {
+        return array_key_exists($attribute_name,$this->attributes);
+    }
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Assign a value to an attribute.
+     *
+    */
+    public function assign_attribute($name, $value)
+    {
+        $this->attributes[$name] = $value;
+        # $this->flag_dirty($name);
+        return $value;
+    }
+
+
+
+
+
+
+
 
     /**
     * Object is valid
@@ -123,7 +315,7 @@ abstract class Model
 
     public function pluralizeClassName()
     {
-        $class_name = get_class($this);
+        $class_name = get_called_class();
         $pluralize_class_name = Inflector::pluralize($class_name);
 
         return $pluralize_class_name;
@@ -248,7 +440,7 @@ abstract class Model
     // add fake parent id to pass parent required id validation
     private function addFakeParentId($params)
     {
-        $underscore_class_name = StringUntils::camelCaseToUnderscore(get_class($this));
+        $underscore_class_name = StringUntils::camelCaseToUnderscore(get_called_class());
         $parent_key_name = $underscore_class_name . '_id';
         $params[$parent_key_name] = 0;
 
