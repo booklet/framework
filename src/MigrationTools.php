@@ -16,14 +16,14 @@ class MigrationTools
     */
     public static function getLastMigrationVersion()
     {
-        $query = "SELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `version` DESC LIMIT 1";
+        $query = 'SELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `version` DESC LIMIT 1';
         $result = mysqli_query(MyDB::db(), $query);
         $version = mysqli_fetch_assoc($result)['version'];
 
         if (strlen($version) == 12) {
             return $version;
         } else {
-            die("Can't get last migration version.");
+            die('Can\'t get last migration version.');
         }
     }
 
@@ -43,14 +43,14 @@ class MigrationTools
     */
     public static function createSchemaMigrationsTable()
     {
-        $query = "SELECT version FROM schema_migrations";
+        $query = 'SELECT version FROM schema_migrations';
         $result = mysqli_query(MyDB::db(), $query);
 
         if ($result == null) {
-            $query = "CREATE TABLE `schema_migrations` (
+            $query = 'CREATE TABLE `schema_migrations` (
                 `version` varchar(191) NOT NULL,
                 UNIQUE KEY `unique_schema_migrations` (`version`)
-            )";
+            )';
             $result = mysqli_query(MyDB::db(), $query);
         }
     }
@@ -69,7 +69,8 @@ class MigrationTools
     /**
     * Insert new migration version to schema_migrations table
     */
-    public static function incrementSchemaVersionIfSuccess($result, $version) {
+    public static function incrementSchemaVersionIfSuccess($result, $version)
+    {
         if (!empty($result)) {
             $query = "INSERT INTO schema_migrations (version) VALUES ($version)";
             mysqli_query(MyDB::db(), $query);
@@ -79,12 +80,12 @@ class MigrationTools
     public static function isAllMigrationsMade()
     {
         // get last migration version
-        $migrations_paths = glob("db/migrate/*.php");
+        $migrations_paths = glob('db/migrate/*.php');
         $last_migration_path = array_pop($migrations_paths);
         $last_migration_to_migrate_version = MigrationTools::getVersionFromFilename($last_migration_path);
 
         // get last migration version from database
-        $query = "SELECT version FROM schema_migrations ORDER BY version DESC LIMIT 1";
+        $query = 'SELECT version FROM schema_migrations ORDER BY version DESC LIMIT 1';
         $result = mysqli_query(MyDB::db(), $query);
         $last_database_migration_version = mysqli_fetch_assoc($result)['version'];
 

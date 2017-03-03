@@ -13,11 +13,11 @@ class View
         $this->variables = $variables;
 
         if (isset($variables['path'])) {
-            // 'app/views/session/login.php'
+            // example: 'app/views/session/login.php'
             $this->path = $variables['path'];
         } else {
-            $folder = StringUntils::camelCaseToUnderscore(str_replace("Controller", "", $params['controller']));
-            $file = strtolower($params['action']).'.php';
+            $folder = StringUntils::camelCaseToUnderscore(str_replace('Controller', '', $params['controller']));
+            $file = strtolower($params['action']) . '.php';
             $this->path = 'app/views/' . $folder . '/' . $file;
         }
 

@@ -94,7 +94,8 @@ class MysqlORM
     /**
     *
     */
-    private function runQueryGetResultsObjects($query_statement, $params = []) {
+    private function runQueryGetResultsObjects($query_statement, $params = [])
+    {
         $query_statement->execute();
         $result = $query_statement->get_result();
 
@@ -158,7 +159,7 @@ class MysqlORM
     {
         // "UPDATE MyGuests SET lastname='Doe' WHERE id=2"
         $parameters = ObjectUntils::mysqlParametersUpdate($db_obj);
-        $query = $this->prepareStatement("UPDATE `" . $this->table_name . "` SET " . $parameters . " WHERE `id`=?");
+        $query = $this->prepareStatement('UPDATE `' . $this->table_name . '` SET ' . $parameters . ' WHERE `id`=?');
 
         return $query;
     }
@@ -251,13 +252,12 @@ class MysqlORM
         }
     }
 
-
     private function prepareStatement($query_string)
     {
         $this->testDatabaseConnection();
         $query = $this->db_connection->prepare($query_string);
         if (!$query) {
-            throw new Exception("Error with prepare database query.");
+            throw new Exception('Error with prepare database query.');
         }
 
         return $query;
@@ -268,9 +268,7 @@ class MysqlORM
         if (isset($this->db_connection) and $this->db_connection->ping()) {
             // connection is ok
         } else {
-            throw new Exception("No database connection or connection close (MysqlORM).");
+            throw new Exception('No database connection or connection close (MysqlORM).');
         }
     }
-
-
 }

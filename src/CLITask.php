@@ -66,7 +66,6 @@ class CLITask
         $time_start = microtime(true);
         $tests = new Tester(['db_connection' => $db, 'tests_paths' => ['tests']]);
         $tests->run();
-
         echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
     }
 
@@ -86,7 +85,7 @@ class CLITask
     // private
 
     /**
-    * run all not migrated migrations
+    * Run all not migrated migrations
     */
     private function runMigrations()
     {
@@ -157,7 +156,7 @@ class CLITask
 
     private function dropAllTablesAndRecreate()
     {
-        // only i test env!!!
+        // Only in test env!
         Config::set('env', 'test');
         $db_setup = 'db_' . Config::get('env');
         MyDB::connect(Config::get($db_setup));

@@ -35,9 +35,6 @@ class MysqlORMObjectCreator
         return $objects;
     }
 
-
-
-
     /**
     * Create new object used to buldit query
     * Filter object attributes, leave only present and database exist params
@@ -65,6 +62,4 @@ class MysqlORMObjectCreator
 
         return $db_obj;
     }
-
-
 }

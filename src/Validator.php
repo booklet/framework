@@ -60,7 +60,7 @@ class Validator
         if (isset($this->obj->$attr) && trim($this->obj->$attr) !== '') {
             // OK
         } else {
-            $this->addError($attr,  "is required.");
+            $this->addError($attr,  'is required.');
         }
     }
 
@@ -97,7 +97,7 @@ class Validator
               $this->addError($attr, "is not $type type.");
             }
         } else {
-            $this->addError($attr, "is unknown data type.");
+            $this->addError($attr, 'is unknown data type.');
         }
     }
 
@@ -113,7 +113,7 @@ class Validator
         // make sure header is correct
         // HTTP-header (Content-Type: text/html; charset=UTF-8)
         if (mb_strlen($this->obj->$attr, 'UTF-8') > $max) {
-            $this->addError($attr, "is too long (max " . $max . ").");
+            $this->addError($attr, 'is too long (max ' . $max . ').');
         }
     }
 
@@ -126,7 +126,7 @@ class Validator
         if (ValidateEmail::valid($this->obj->$attr)) {
             // OK
         } else {
-            $this->addError($attr, "email is not valid.");
+            $this->addError($attr, 'email is not valid.');
         }
     }
 
@@ -172,7 +172,7 @@ class Validator
                 // after save object any next validation return false,
                 // but, this is valid object if ids is equal, so we not add error
             } else {
-                $this->addError($attr, "is not unique.");
+                $this->addError($attr, 'is not unique.');
             }
         }
     }
@@ -185,7 +185,7 @@ class Validator
     private function in($attr, $allow_values)
     {
         if (!in_array($this->obj->$attr, $allow_values)) {
-            $this->addError($attr, "is not allowed value.");
+            $this->addError($attr, 'is not allowed value.');
         }
     }
 
@@ -198,7 +198,7 @@ class Validator
     {
         // if password_digest contains
         // if value start with error
-        if (substr($this->obj->password_digest , 0, 5) == "error") {
+        if (substr($this->obj->password_digest , 0, 5) == 'error') {
             $errors = explode('|', $this->obj->password_digest);
             array_shift($errors); // remove error text
             foreach ($errors as $value) {

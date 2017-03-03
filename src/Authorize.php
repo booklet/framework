@@ -12,7 +12,7 @@ class Authorize
     function __construct($method, $user, Array $params = [])
     {
         // 'UserController::index' => 'UserPolicies'
-        $this->auth_class = str_replace("Controller", "Policies", explode('::', $method)[0]);
+        $this->auth_class = str_replace('Controller', 'Policies', explode('::', $method)[0]);
         // 'UserController::index' => 'index'
         $this->auth_action = explode('::', $method)[1];
 

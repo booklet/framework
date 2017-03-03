@@ -15,7 +15,6 @@ class ORMQueryBuilder
     public function select($colums = ['*'])
     {
         // save cols to varible and create query in to_sql
-
         $this->query = 'SELECT `' . $this->table_name . '`.* FROM `' . $this->table_name . '`';
     }
 

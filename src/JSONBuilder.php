@@ -33,11 +33,11 @@ class JSONBuilder
         if (strpos($this->controller_and_action_or_path, '::') !== false) {
             // SessionsController::index => $class = 'session', $method = 'index'
             list($controller, $method) = explode('::', $this->controller_and_action_or_path);
-            $class = str_replace("Controller", "", $controller);
+            $class = str_replace('Controller', '', $controller);
             $class_pluralize_name = Inflector::pluralize($class);
             $class = StringUntils::camelCaseToUnderscore($class_pluralize_name);
 
-            return "app/views/" . $class . "/" . $method . ".php";
+            return 'app/views/' . $class . '/' . $method . '.php';
         }
 
         return $this->controller_and_action_or_path;

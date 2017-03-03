@@ -39,7 +39,7 @@ trait HasSecurePassword
         // save errors in password_digest?
         // TODO reproject this
         if (!empty($errors)) {
-            $this->password_digest = 'error|' . implode("|", $errors);
+            $this->password_digest = 'error|' . implode('|', $errors);
         }
 
         unset($this->password);

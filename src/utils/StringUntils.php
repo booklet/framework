@@ -69,7 +69,8 @@ class StringUntils
         return $normalized;
     }
 
-    public static function generateRandomString($length = 10) {
+    public static function generateRandomString($length = 10)
+    {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -80,18 +81,21 @@ class StringUntils
         return $randomString;
     }
 
-    public static function encryptPassword($password, $salt = '') {
+    public static function encryptPassword($password, $salt = '')
+    {
         $salt = Config::get('password_salt') ?? $salt;
 
         return sha1($salt.$password);
     }
 
-    public static function removeAccentsAndDiacritics($string) {
+    public static function removeAccentsAndDiacritics($string)
+    {
         $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: [:Punctuation:] Remove;');
         return $transliterator->transliterate($string);
     }
 
-    public static function slug($string, $delimiter = '-') {
+    public static function slug($string, $delimiter = '-')
+    {
         $clean = (string) self::removeAccentsAndDiacritics($string);
         $clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
         $clean = strtolower(trim($clean, '-'));

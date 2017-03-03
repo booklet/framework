@@ -14,7 +14,7 @@ class ObjectUntils
             $params[] = '`' . $key . '`';
         }
 
-        return implode(", ",$params);
+        return implode(', ' ,$params);
     }
 
     /**
@@ -29,7 +29,7 @@ class ObjectUntils
             $params[] = '`' . $key . '`=?';
         }
 
-        return implode(", ", $params);
+        return implode(', ', $params);
     }
 
     public static function parameters($obj)
@@ -82,7 +82,7 @@ class ObjectUntils
             $params[] = '?';
         }
 
-        return implode(", ", $params);
+        return implode(', ', $params);
     }
 
     /**

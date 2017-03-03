@@ -14,6 +14,6 @@ class CLIUntils
             return chr(27) . $statuses[$status] . $text . chr(27) . "\033[0m";
         }
 
-        throw new Exception("Invalid status: " . $status);
+        throw new Exception('Invalid status: ' . $status);
     }
 }

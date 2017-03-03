@@ -31,43 +31,43 @@ class Relations
 
     public function getRelationsObjects()
     {
-      foreach ($this->obj_class_name::relations() as $relation_fn_name => $relation_params) {
-          if ($relation_fn_name == $this->fn_name) {
-              if ($relation_params['relation'] == 'has_many') {
-                  return $relation_params['class']::where($this->sqlQuery(), $this->sqlParams());
-              }
-              if ($relation_params['relation'] == 'belongs_to') {
-                  $parent_table_name = $this->fn_name . '_id';
-                  return $relation_params['class']::find($this->obj->$parent_table_name);
-              }
-              if ($relation_params['relation'] == 'has_and_belongs_to_many') {
-                  // keys
-                  $this_table_id_key = $this->getTableIdKey($this->obj_class_name);
-                  $target_table_id_key = $this->getTableIdKey($relation_params['class']);
+        foreach ($this->obj_class_name::relations() as $relation_fn_name => $relation_params) {
+            if ($relation_fn_name == $this->fn_name) {
+                if ($relation_params['relation'] == 'has_many') {
+                    return $relation_params['class']::where($this->sqlQuery(), $this->sqlParams());
+                }
+                if ($relation_params['relation'] == 'belongs_to') {
+                    $parent_table_name = $this->fn_name . '_id';
+                    return $relation_params['class']::find($this->obj->$parent_table_name);
+                }
+                if ($relation_params['relation'] == 'has_and_belongs_to_many') {
+                    // keys
+                    $this_table_id_key = $this->getTableIdKey($this->obj_class_name);
+                    $target_table_id_key = $this->getTableIdKey($relation_params['class']);
 
-                  $habtm_table_name = $this->getHABTMTableName($relation_params);
+                    $habtm_table_name = $this->getHABTMTableName($relation_params);
 
-                  // buildit query
-                  $query_string = "SELECT `" . $habtm_table_name . "`.* FROM `" . $habtm_table_name . "` WHERE `" . $this_table_id_key . "` = " . $this->obj->id;
-                  $result = mysqli_query(MyDB::db(), $query_string);
+                    // buildit query
+                    $query_string = "SELECT `" . $habtm_table_name . "`.* FROM `" . $habtm_table_name . "` WHERE `" . $this_table_id_key . "` = " . $this->obj->id;
+                    $result = mysqli_query(MyDB::db(), $query_string);
 
-                  // collect ids
-                  $relation_objects_ids = [];
-                  while ($row = $result->fetch_assoc()) {
-                      $relation_objects_ids[] = $row[$target_table_id_key];
-                  }
+                    // collect ids
+                    $relation_objects_ids = [];
+                    while ($row = $result->fetch_assoc()) {
+                        $relation_objects_ids[] = $row[$target_table_id_key];
+                    }
 
-                  if (!empty($relation_objects_ids)) {
-                      $relation_objects_ids_str = join(',', $relation_objects_ids);
-                      return $relation_params['class']::where('id IN (' . $relation_objects_ids_str . ')', []);
-                  } else {
-                      return [];
-                  }
-              }
-          }
-      }
+                    if (!empty($relation_objects_ids)) {
+                        $relation_objects_ids_str = join(',', $relation_objects_ids);
+                        return $relation_params['class']::where('id IN (' . $relation_objects_ids_str . ')', []);
+                    } else {
+                        return [];
+                    }
+                }
+            }
+        }
 
-      return false;
+        return false;
     }
 
     public function sqlQuery()
@@ -126,16 +126,16 @@ class Relations
 
         // $this->fn_name = categoriesPush
         foreach ($this->obj_class_name::relations() as $relation_fn_name => $relation_params) {
-            if ($relation_fn_name == str_replace("Push", '', $this->fn_name) ) {
+            if ($relation_fn_name == str_replace('Push', '', $this->fn_name) ) {
                 $model_relation_params = $relation_params;
             }
         }
-        if (!isset($model_relation_params)) { throw new Exception("Not found relation"); }
+        if (!isset($model_relation_params)) { throw new Exception('Not found relation'); }
 
         // check if passed items type is allowed
         foreach ($items as $item) {
             if ($model_relation_params['class'] != get_class($item)) {
-                throw new Exception("Wrong push object class, expect " . $model_relation_params['class'] . " got " . get_class($item));
+                throw new Exception('Wrong push object class, expect ' . $model_relation_params['class'] . ' got ' . get_class($item));
             }
         }
 
@@ -150,14 +150,14 @@ class Relations
         foreach ($items as $item) {
             // check if exist
             // buildit query
-            $query_string = "SELECT `" . $habtm_table_name . "`.* FROM `" . $habtm_table_name . "` WHERE `" . $this_table_id_key . "` = " . $this->obj->id . " AND `" . $target_table_id_key . "` = " . $item->id;
+            $query_string = 'SELECT `' . $habtm_table_name . '`.* FROM `' . $habtm_table_name . '` WHERE `' . $this_table_id_key . '` = ' . $this->obj->id . ' AND `' . $target_table_id_key . '` = ' . $item->id;
             $result = mysqli_query(MyDB::db(), $query_string);
 
             if ($result->num_rows > 0) {
                 // record exist, not create next
             } else {
                 // create database
-                $query_string = "INSERT INTO `" . $habtm_table_name . "` (`" . $this_table_id_key . "`, `" . $target_table_id_key . "`) VALUES (" . $this->obj->id . ", " . $item->id . ")";
+                $query_string = 'INSERT INTO `' . $habtm_table_name . '` (`' . $this_table_id_key . '`, `' . $target_table_id_key . '`) VALUES (' . $this->obj->id . ', ' . $item->id . ')';
                 $result = mysqli_query(MyDB::db(), $query_string);
             }
         }

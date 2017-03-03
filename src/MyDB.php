@@ -12,13 +12,9 @@ class MyDB
             self::$db = $mysqli;
         }
 
-        /* change character set to utf8 */
-        if (!$mysqli->set_charset("utf8")) {
-            // printf("Error loading character set utf8: %s\n", $mysqli->error);
-            // exit();
-            die("Error loading character set utf8: " . $mysqli->error);
-        } else {
-            // printf("Current character set: %s\n", $mysqli->character_set_name());
+        // Change character set to utf8
+        if (!$mysqli->set_charset('utf8')) {
+            die('Error loading character set utf8: ' . $mysqli->error);
         }
     }
 
@@ -29,7 +25,7 @@ class MyDB
 
     public static function tablesList()
     {
-        $query = MyDB::db()->prepare("SHOW TABLES");
+        $query = MyDB::db()->prepare('SHOW TABLES');
         $query->execute();
         $result = $query->get_result();
 
@@ -47,7 +43,7 @@ class MyDB
 
     public static function clearTable($table_name)
     {
-        $query = MyDB::db()->prepare("TRUNCATE TABLE $table_name");
+        $query = MyDB::db()->prepare('TRUNCATE TABLE ' . $table_name);
 
         if ($query->execute()) {
             return true;
