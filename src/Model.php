@@ -61,6 +61,10 @@ abstract class Model
     * $user->password = 'plaintext';  # will call $user->set_password('plaintext')
     *
     *
+    * If you define a custom setter with the same name as an attribute then you
+    * will need to use assign_attribute() to assign the value to the attribute.
+    * This is necessary due to the way __set() works.
+    *
     * class User extends Model {
     *
     *   # INCORRECT way to do it
@@ -197,13 +201,16 @@ abstract class Model
      */
     public function __isset($attribute_name)
     {
-        return array_key_exists($attribute_name,$this->attributes);
+        return array_key_exists($attribute_name, $this->attributes);
     }
 
 
 
 
-
+    public function attributes()
+  	{
+  		return $this->attributes;
+  	}
 
 
 

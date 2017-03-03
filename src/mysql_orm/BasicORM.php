@@ -143,7 +143,8 @@ trait BasicORM
     {
         // actualize object with new params
         foreach ($attributes as $key => $value) {
-            $this->$key = $value;
+            # $this->$key = $value;
+            $this->assign_attribute($key, $value);
         }
 
         return $this->save();

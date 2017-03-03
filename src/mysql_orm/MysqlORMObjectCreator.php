@@ -21,7 +21,7 @@ class MysqlORMObjectCreator
             $oryg = clone $obj;
             $obj->oryginal_record = [];
 
-            foreach ($oryg as $key => $value) {
+            foreach ($oryg->atributes() as $key => $value) {
                 $obj->oryginal_record[$key] = $value;
             }
 
