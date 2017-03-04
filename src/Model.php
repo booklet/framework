@@ -81,7 +81,7 @@ abstract class Model
     }
 
     /**
-    * Magic method which delegates to read_attribute().
+    * Magic method which delegates to readAttribute().
     *
     * You can also define customer getter methods for the model.
     *
@@ -99,7 +99,7 @@ abstract class Model
     * </code>
     *
     * If you define a custom getter with the same name as an attribute then you
-    * will need to use read_attribute() to get the attribute's value.
+    * will need to use readAttribute() to get the attribute's value.
     * This is necessary due to the way __get() works.
     *
     * For example, assume 'name' is a field on the table and we're defining a
@@ -112,7 +112,7 @@ abstract class Model
     *   # }
     *
     *   function get_name() {
-    *     return strtoupper($this->read_attribute('name'));
+    *     return strtoupper($this->readAttribute('name'));
     *   }
     * }
     *
@@ -129,13 +129,13 @@ abstract class Model
             return $value;
         }
 
-        return $this->read_attribute($name);
+        return $this->readAttribute($name);
     }
 
     /**
      *
      */
-    public function &read_attribute($name)
+    public function &readAttribute($name)
     {
         // Check for attribute
         if (array_key_exists($name, $this->attributes)) {
@@ -254,7 +254,7 @@ abstract class Model
         foreach ($fields as $key => $value) {
             // field type validator
             $validations_rules = [];
-            $type_validator = 'type:'.$value['type'];
+            $type_validator = 'type:' . $value['type'];
             array_push($validations_rules, $type_validator);
 
             // custom validators
@@ -276,7 +276,7 @@ abstract class Model
         return $this->id == null ? true : false;
     }
 
-    // catch relations methods
+    // Catch relations methods
     public function __call($name, $args)
     {
         // dynamic generate Push method => $client->categoriesPush($category1);
@@ -320,7 +320,6 @@ abstract class Model
 
         // loop current object nested atributes
         foreach ($nested_objects_params as $nested_object_param) {
-
             foreach ($this->{$nested_object_param['wrapper_name']} as $index => $item) {
 
                 // if object has id, then update/delete

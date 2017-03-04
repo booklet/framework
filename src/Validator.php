@@ -137,7 +137,7 @@ class Validator
     private function unique($attr)
     {
         $class = get_class($this->obj);
-        $items = $class::where($attr.' = ?', [$attr=>$this->obj->$attr]);
+        $items = $class::where($attr . ' = ?', [$attr=>$this->obj->$attr]);
 
         // chekc unique not only in databse but also in passed values
         if (!empty($this->unique_attribs[$attr])) {

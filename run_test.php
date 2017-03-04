@@ -15,4 +15,4 @@ echo "\nRun all tests\n";
 $time_start = microtime(true);
 $tests = new Tester([null, 'tests_paths' => ['tests']]);
 $tests->run();
-echo "\nFinished in ". number_format((microtime(true) - $time_start), 2)." seconds.\n\n";
+echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";

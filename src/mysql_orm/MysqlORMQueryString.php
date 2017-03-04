@@ -6,7 +6,7 @@ class MysqlORMQueryString
         if (isset($params['count']) and $params['count'] == true) {
             $query_string = 'SELECT COUNT(*) AS `count` FROM `' . $table_name . '`';
         } else {
-            $query_string = 'SELECT `' . $table_name.'`.* FROM `' . $table_name . '`';
+            $query_string = 'SELECT `' . $table_name . '`.* FROM `' . $table_name . '`';
         }
 
         if ($query != '') {

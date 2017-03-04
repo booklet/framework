@@ -4,7 +4,7 @@ setlocale(LC_MONETARY, 'pl_PL');
 
 // Environment
 include 'config/environment.php';
-include 'config/environment/'.Config::get('env').'.php';
+include 'config/environment/' . Config::get('env') . '.php';
 
 // List of files to minify
 Config::set('js_files',  ['application.js']);

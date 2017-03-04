@@ -184,7 +184,7 @@ class RelationsTest extends TesterCase
 //                    'name' => 'Client new name',
 //                    'categories_ids' => ['1', '3']
 //                ]];
-//        $response = $this->request('PUT', Config::get('api_url').'/clients/1', $token, $data);
+//        $response = $this->request('PUT', Config::get('api_url') . '/clients/1', $token, $data);
 //        $response_body = json_decode($response->body);
 //
 //        $client1 = Client::find($response_body->id);
@@ -209,7 +209,7 @@ class RelationsTest extends TesterCase
 //                    'name' => 'Client name',
 //                    'categories_ids' => ['1', '2']
 //                ]];
-//        $response = $this->request('POST', Config::get('api_url').'/clients', $token, $data);
+//        $response = $this->request('POST', Config::get('api_url') . '/clients', $token, $data);
 //        $response_body = json_decode($response->body);
 //
 //        $client1 = Client::find($response_body->id);
@@ -242,7 +242,7 @@ class RelationsTest extends TesterCase
 //                    'name' => 'Client new name',
 //                    'categories_ids' => []
 //                ]];
-//        $response = $this->request('PUT', Config::get('api_url').'/clients/1', $token, $data);
+//        $response = $this->request('PUT', Config::get('api_url') . '/clients/1', $token, $data);
 //        $response_body = json_decode($response->body);
 //
 //        $client1 = Client::find($response_body->id);

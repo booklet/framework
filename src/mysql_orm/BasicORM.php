@@ -45,7 +45,7 @@ trait BasicORM
         $params['limit'] = 1;
 
         $orm = new MysqlORM(MyDB::db(), self::getModelInstance());
-        $results = $orm->where($attribute.' = ?', [$attribute => $value], $params);
+        $results = $orm->where($attribute . ' = ?', [$attribute => $value], $params);
 
         if (empty($results)) {
             return null;

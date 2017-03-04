@@ -1,5 +1,7 @@
 Plan rozwojowy
 
+- przywrocenie testowej bazy danych dla testow modeli
+
 - przepisanie ORM
   - konstruktor zapytan sql
   - binder parametrow bez podawania typu
@@ -11,3 +13,8 @@ Plan rozwojowy
   $client->create_email([...])
 
 - kreator elementów html
+
+- dodanie biblioteki łączacej i minimalizujacej pliki css i js
+
+- dodanie wparcia dla HAML
+- doanie wparcia dla scss
