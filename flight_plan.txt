@@ -1,0 +1,13 @@
+Plan rozwojowy
+
+- przepisanie ORM
+  - konstruktor zapytan sql
+  - binder parametrow bez podawania typu
+
+- przepisanie relacji
+  - tworzenie obiektów relacyjnych poprzez
+  $client->emails
+  $client->build_email()
+  $client->create_email([...])
+
+- kreator elementów html
