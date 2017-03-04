@@ -19,34 +19,26 @@ abstract class Model
      */
     private $__dirty = null;
 
-
     function __construct(Array $attributes = [])
     {
         // Setup default model values
         foreach ($this->fields() as $name => $value) {
-            # $this->$name = $value['default'] ?? null;
-            $this->assign_attribute($name, $value['default'] ?? null);
+            // Use assignAttribute to not call any callbacks
+            $this->assignAttribute($name, $value['default'] ?? null);
         }
 
         // Assign object attributes when create
         foreach ($attributes as $name => $value) {
             $this->$name = $value;
-
-            # $this->assign_attribute($name, $value);
         }
 
-        // inicjalizuj obiekty z relacji
+        // Initialize object relations if passed
     }
 
     /**
     * Throw exception if property not exist, else set property
-    * @param $name
-    * @return $value
     *
-
-
     * class User extends Model {
-    *
     *   # define custom setter methods. Note you must
     *   # prepend set_ to your method name:
     *   function set_password($plaintext) {
@@ -57,20 +49,18 @@ abstract class Model
     * $user = new User();
     * $user->password = 'plaintext';  # will call $user->set_password('plaintext')
     *
-    *
     * If you define a custom setter with the same name as an attribute then you
-    * will need to use assign_attribute() to assign the value to the attribute.
+    * will need to use assignAttribute() to assign the value to the attribute.
     * This is necessary due to the way __set() works.
     *
     * class User extends Model {
-    *
     *   # INCORRECT way to do it
     *   # function set_name($name) {
     *   #   $this->name = strtoupper($name);
     *   # }
     *
     *   function set_name($name) {
-    *     $this->assign_attribute('name',strtoupper($name));
+    *     $this->assignAttribute('name',strtoupper($name));
     *   }
     * }
     */
@@ -81,28 +71,22 @@ abstract class Model
             throw new Exception(get_called_class() . " does not have '" . $name . "' property.");
         }
 
-        // set method from model
+        // Set method from model if exists
         if (method_exists($this, "set_$name")) {
             $name = "set_$name";
             return $this->$name($value);
         }
 
-        return $this->assign_attribute($name, $value);
+        return $this->assignAttribute($name, $value);
     }
 
-
-
     /**
-    * Magic method which delegates to read_attribute(). This handles firing off getter methods,
-    * as they are not checked/invoked inside of read_attribute(). This circumvents the problem with
-    * a getter being accessed with the same name as an actual attribute.
+    * Magic method which delegates to read_attribute().
     *
     * You can also define customer getter methods for the model.
     *
     * EXAMPLE:
-    * <code>
     * class User extends ActiveRecord\Model {
-    *
     *   # define custom getter methods. Note you must
     *   # prepend get_ to your method name:
     *   function get_middle_initial() {
@@ -121,9 +105,7 @@ abstract class Model
     * For example, assume 'name' is a field on the table and we're defining a
     * custom getter for 'name':
     *
-    * <code>
     * class User extends ActiveRecord\Model {
-    *
     *   # INCORRECT way to do it
     *   # function get_name() {
     *   #   return strtoupper($this->name);
@@ -137,37 +119,25 @@ abstract class Model
     * $user = new User();
     * $user->name = 'bob';
     * echo $user->name; # => BOB
-    * </code>
-    *
-    *
-    * @see read_attribute()
-    * @param string $name Name of an attribute
-    * @return mixed The value of the attribute
     */
     public function &__get($name)
     {
-        // check for getter
-        if (method_exists($this, "get_$name"))
-        {
+        // Check for getter
+        if (method_exists($this, "get_$name")) {
             $name = "get_$name";
             $value = $this->$name();
             return $value;
         }
+
         return $this->read_attribute($name);
     }
 
-
-
-
-
-
     /**
-     *
      *
      */
     public function &read_attribute($name)
     {
-        // check for attribute
+        // Check for attribute
         if (array_key_exists($name, $this->attributes)) {
             return $this->attributes[$name];
         }
@@ -176,60 +146,71 @@ abstract class Model
         # if (array_key_exists($name,$this->__relationships))
         #   return $this->__relationships[$name];
 
-        # $table = static::table();
-        # // this may be first access to the relationship so check Table
-        # if (($relationship = $table->get_relationship($name)))
-        # {
-        #   $this->__relationships[$name] = $relationship->load($this);
-        #   return $this->__relationships[$name];
-        # }
-
         throw new Exception(get_called_class() . " does not have '" . $name . "' property.");
     }
-
-
 
     /**
      * Determines if an attribute exists for this Model
      * isset($myObj->item) call this function
-     *
-     * @param string $attribute_name
-     * @return boolean
      */
     public function __isset($attribute_name)
     {
         return array_key_exists($attribute_name, $this->attributes);
     }
 
-
-
-
     public function attributes()
-  	{
-  		return $this->attributes;
-  	}
-
-
-
-
+    {
+        return $this->attributes;
+    }
 
     /**
      * Assign a value to an attribute.
-     *
     */
-    public function assign_attribute($name, $value)
+    public function assignAttribute($name, $value)
     {
         $this->attributes[$name] = $value;
-        # $this->flag_dirty($name);
+        $this->flagDirty($name);
         return $value;
     }
 
+    /**
+     * Flags an attribute as dirty.
+     *
+     * @param string $name Attribute name
+     */
+    public function flagDirty($name)
+    {
+        if (!$this->__dirty) {
+            $this->__dirty = array();
+        }
 
+        $this->__dirty[$name] = true;
+    }
 
+    /**
+     * Returns hash of attributes that have been modified since loading the model.
+     *
+     * @return mixed null if no dirty attributes otherwise returns array of dirty attributes.
+     */
+    public function dirtyAttributes()
+    {
+        if (!$this->__dirty) {
+            return null;
+        }
+        $dirty = array_intersect_key($this->attributes, $this->__dirty);
 
+        return !empty($dirty) ? $dirty : null;
+    }
 
-
-
+    /**
+     * Check if a particular attribute has been modified since loading the model.
+     * @param string $attribute  Name of the attribute
+     * @return boolean TRUE if it has been modified.
+     */
+    public function attributeIsDirty($attribute)
+    {
+        return $this->__dirty && isset($this->__dirty[$attribute]) && array_key_exists($attribute, $this->attributes);
+    }
 
     /**
     * Object is valid
@@ -238,7 +219,9 @@ abstract class Model
     public function isValid(Array $params = [])
     {
         // callback function beforeValidate()
-        if (method_exists($this, 'beforeValidate')) { $this->beforeValidate(); }
+        if (method_exists($this, 'beforeValidate')) {
+            $this->beforeValidate();
+        }
 
         // TODO
         // in uniqes validator rule validator nedd db connection to check database
