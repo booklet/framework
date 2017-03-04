@@ -4,7 +4,6 @@ abstract class Model
     use BasicORM;
     use BasicORM2;
 
-
     /**
      * Contains model values as column_name => value
      *
@@ -13,29 +12,27 @@ abstract class Model
     private $attributes = array();
 
     /**
-     * Flag whether or not this model's attributes have been modified since it will either be null or an array of column_names that have been modified
+     * Flag whether or not this model's attributes have been modified since
+     * it will either be null or an array of column_names that have been modified
      *
      * @var array
      */
     private $__dirty = null;
 
 
-
-
-
     function __construct(Array $attributes = [])
     {
-        // first setup default values
+        // Setup default model values
         foreach ($this->fields() as $name => $value) {
             # $this->$name = $value['default'] ?? null;
             $this->assign_attribute($name, $value['default'] ?? null);
         }
 
-        // assign object attributes/parameters when create
+        // Assign object attributes when create
         foreach ($attributes as $name => $value) {
-            # $this->$key = $value;
+            $this->$name = $value;
 
-            $this->assign_attribute($name, $value);
+            # $this->assign_attribute($name, $value);
         }
 
         // inicjalizuj obiekty z relacji
@@ -411,6 +408,9 @@ abstract class Model
     {
         $nested_obj_underscore_class_name = StringUntils::camelCaseToUnderscore(get_class($nested_object));
         foreach ($nested_object->errors as $key => $value) {
+            if (!isset($this->errors)) {
+                $this->errors = [];
+            }
             $this->errors[$attribute_name . '[' . $index . '].' . $key] = $value;
         }
     }
