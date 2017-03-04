@@ -64,7 +64,7 @@ class CLITask
 
         echo "\nRun all tests\n";
         $time_start = microtime(true);
-        $tests = new Tester(['db_connection' => $db, 'tests_paths' => ['tests']]);
+        $tests = new Tester(['db_connection' => $db, 'tests_paths' => ['tests'], 'migrations_path' => MigrationTools::migrationsPath()]);
         $tests->run();
         echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
     }
@@ -77,7 +77,7 @@ class CLITask
 
         echo "\nRun single test\n";
         $time_start = microtime(true);
-        $tests = new Tester(['db_connection' => MyDB::db(), 'tests_paths' => ['tests'], 'single_test_to_run' => $this->action_param]);
+        $tests = new Tester(['db_connection' => MyDB::db(), 'tests_paths' => ['tests'], 'single_test_to_run' => $this->action_param, 'migrations_path' => MigrationTools::migrationsPath()]);
         $tests->run();
         echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
     }
@@ -94,8 +94,10 @@ class CLITask
 
         MigrationTools::createSchemaMigrationsTable();
 
+        $migrations_path = MigrationTools::migrationsPath();
+
         $runs_migrations_arr = [];
-        foreach (glob("db/migrate/*.php") as $file) {
+        foreach (glob($migrations_path . "/*.php") as $file) {
             $version = MigrationTools::getVersionFromFilename($file);
             $is_migrated = MigrationTools::isMigratedMigration($version);
 
@@ -131,7 +133,8 @@ class CLITask
         $version = MigrationTools::getLastMigrationVersion();
 
         // get file
-        $migration_filepath_arr = glob("db/migrate/$version*.php");
+        $migrations_path = MigrationTools::migrationsPath();
+        $migration_filepath_arr = glob("$migrations_path/$version*.php");
 
         // jesli nie znaloeziono pliku z ta wesja to wywal blad
         if (empty($migration_filepath_arr)) {

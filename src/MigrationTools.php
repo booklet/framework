@@ -80,7 +80,9 @@ class MigrationTools
     public static function isAllMigrationsMade()
     {
         // get last migration version
-        $migrations_paths = glob('db/migrate/*.php');
+        $migrations_path = self::migrationsPath();
+
+        $migrations_paths = glob($migrations_path . '/*.php');
         $last_migration_path = array_pop($migrations_paths);
         $last_migration_to_migrate_version = MigrationTools::getVersionFromFilename($last_migration_path);
 
@@ -103,5 +105,10 @@ class MigrationTools
     {
         $query = "DELETE FROM schema_migrations WHERE version='" . $version . "'";
         $result = mysqli_query(MyDB::db(), $query);
+    }
+
+    public static function migrationsPath()
+    {
+        return Config::get('migrations_path') ?? 'db/migrate';
     }
 }
