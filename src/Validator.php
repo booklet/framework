@@ -92,9 +92,14 @@ class Validator
                 $this->addError($attr, "is not $type type.");
             }
         } else if ($type == 'datetime') {
-            preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/',$this->obj->$attr, $matches);
+            preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/', $this->obj->$attr, $matches);
             if (empty($matches)) {
-              $this->addError($attr, "is not $type type.");
+                $this->addError($attr, "is not $type type.");
+            }
+        } else if ($type == 'date') {
+            preg_match('/(\d{4})-(\d{2})-(\d{2})/', $this->obj->$attr, $matches);
+            if (empty($matches)) {
+                $this->addError($attr, "is not $type type.");
             }
         } else {
             $this->addError($attr, 'is unknown data type.');
