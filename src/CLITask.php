@@ -113,6 +113,17 @@ class CLITask
                     die(CLIUntils::colorizeConsoleOutput("\nMigrate error: $file\n\n", 'FAILURE'));
                 }
 
+                // TODO improve this code
+                try {
+                    if (method_exists((new $migration_class_name), 'runAfterMigrationUp')) {
+                        (new $migration_class_name)->runAfterMigrationUp();
+                    }
+                } catch (Exception $e) {
+                    // rollback migration
+                    $query = (new $migration_class_name)->down();
+                    $result = mysqli_query(MyDB::db(), $query);
+                }
+
                 MigrationTools::incrementSchemaVersionIfSuccess($result, $version);
                 $runs_migrations_arr[] = $file;
             }
