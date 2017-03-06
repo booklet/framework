@@ -122,6 +122,8 @@ class CLITask
                     // rollback migration
                     $query = (new $migration_class_name)->down();
                     $result = mysqli_query(MyDB::db(), $query);
+
+                    die(CLIUntils::colorizeConsoleOutput("\nRun code after migration up fail: $file\n\nERROR:" . $e->getMessage() . "\n\n", 'FAILURE'));
                 }
 
                 MigrationTools::incrementSchemaVersionIfSuccess($result, $version);
