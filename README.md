@@ -27,3 +27,12 @@ Step 1: Create composer.json file in your new app directory with code.
 Step 2: Copy files from vendor/boooklet/framework/app_template to your app path
 
 Step 3: Rename files \_.gitignore and \_.htaccess
+
+
+## Tests
+
+Setup test database: test_framework
+
+```
+php run_test.php db:prepare
+```
