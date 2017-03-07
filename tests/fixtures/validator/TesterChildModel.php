@@ -4,11 +4,11 @@ class TesterChildModel extends Model
     public function fields()
     {
         return [
-            'id'                    => ['type' => 'integer'],
+            'id'                     => ['type' => 'integer'],
             'tester_parent_model_id' => ['type' => 'integer', 'validations' => ['required']],
-            'address'               => ['type' => 'string', 'validations' => ['required', 'email', 'unique']],
-            'created_at'            => ['type' => 'datetime'],
-            'updated_at'            => ['type' => 'datetime'],
+            'address'                => ['type' => 'string', 'validations' => ['required', 'email', 'unique']],
+            'created_at'             => ['type' => 'datetime'],
+            'updated_at'             => ['type' => 'datetime'],
         ];
     }
 

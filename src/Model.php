@@ -135,6 +135,14 @@ abstract class Model
     /**
      *
      */
+    public function __unset($name)
+    {
+        unset($this->attributes[$name]);
+    }
+
+    /**
+     *
+     */
     public function &readAttribute($name)
     {
         // Check for attribute

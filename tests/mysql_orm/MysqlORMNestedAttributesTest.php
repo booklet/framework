@@ -23,6 +23,9 @@ class MysqlORMNestedAttributesTest extends TesterCase
         Assert::expect($parent->id)->to_equal(1);
         Assert::expect(count($parent->childs()))->to_equal(2);
 
+        $parent = TesterParentModel::find($parent->id);
+        Assert::expect(count($parent->childs()))->to_equal(2);
+
         $childs = TesterChildModel::where('tester_parent_model_id = ?', ['tester_parent_model_id' => 1]);
         Assert::expect(count($childs))->to_equal(2);
     }
@@ -143,5 +146,32 @@ class MysqlORMNestedAttributesTest extends TesterCase
         Assert::expect( $childs[1]->address)->to_equal('new_email2@test.com');
 
         $this->dropDownParentChildGrandsonMysqlTables();
+    }
+
+    public function testRemoveNestedAttributesWhenSaveObject()
+    {
+        $this->createParentChildGrandsonMysqlTables();
+
+        $data = [
+            'tester_parent_model_id' => 1,
+            'address' => 'test1@test.com',
+            'grandsons_attributes' => [
+                ['description' => 'wartosc 1'],
+                ['description' => 'wartosc 2'],
+            ]
+        ];
+
+        $parent = new TesterChildModel($data);
+        $parent->save();
+
+        Assert::expect($parent->id)->to_equal(1);
+        Assert::expect(count($parent->grandsons()))->to_equal(2);
+
+        $parent->update(['address' => 'test2@test.com']);
+        Assert::expect($parent->id)->to_equal(1);
+        Assert::expect(count($parent->grandsons()))->to_equal(2);
+
+        $parent = TesterChildModel::find($parent->id);
+        Assert::expect(count($parent->grandsons()))->to_equal(2);
     }
 }

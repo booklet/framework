@@ -214,6 +214,9 @@ class MysqlORM
             if (!empty($this->model_obj->errors)) {
                 return false;
             }
+
+            // remove nested attributes after save
+            unset($this->model_obj->{$nested_object_param['wrapper_name']});
         }
     }
 
