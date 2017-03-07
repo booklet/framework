@@ -133,7 +133,7 @@ abstract class Model
     }
 
     /**
-     *
+     * TODO After reorganize model nested attributes remove this function
      */
     public function __unset($name)
     {
