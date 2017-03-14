@@ -9,4 +9,9 @@ class VarUntils
 
         return false;
     }
+
+    public static function isVariableNotExistsOrEmpty($var)
+    {
+        return !self::isVariableExistsAndNotEmpty($var);
+    }
 }
