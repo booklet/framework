@@ -9,12 +9,12 @@ class View
     public function __construct($params, Array $variables = [], Array $options = [])
     {
         $this->params = $params;
-        $this->layout = $variables['layout'] ?? 'app';
+        $this->layout = $options['layout'] ?? 'app';
         $this->variables = $variables;
 
-        if (isset($variables['path'])) {
+        if (isset($options['path'])) {
             // example: 'app/views/session/login.php'
-            $this->path = $variables['path'];
+            $this->path = $options['path'];
         } else {
             $folder = StringUntils::camelCaseToUnderscore(str_replace('Controller', '', $params['controller']));
             $file = strtolower($params['action']) . '.php';
