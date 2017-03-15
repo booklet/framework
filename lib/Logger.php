@@ -1,6 +1,4 @@
 <?php
-namespace Katzgrau\KLogger;
-
 use DateTime;
 use RuntimeException;
 use Psr\Log\AbstractLogger;
