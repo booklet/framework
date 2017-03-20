@@ -80,9 +80,9 @@ class CLITask
             $db = MyDB::db();
         }
 
-        echo "\nRun module all tests\n";
+        echo "\nRun module tests\n";
         $time_start = microtime(true);
-        $module_path = 'tests/modules/' . $this->action;
+        $module_path = 'tests/modules/' . $this->action_param;
         $tests = new Tester(['db_connection' => $db, 'tests_paths' => [$module_path], 'migrations_path' => MigrationTools::migrationsPath()]);
         $tests->run();
         echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
