@@ -74,6 +74,26 @@ class StringUntilsTest extends TesterCase
         }
     }
 
+    public function testGenerateRandomString()
+    {
+        $string = StringUntils::generateRandomString(50);
+        Assert::expect(strlen($string))->to_equal(50);
+    }
+
+    public function testGenerateRandomDigitsString()
+    {
+        $string = StringUntils::generateRandomDigitsString(10);
+        Assert::expect(preg_match_all( "/[0-9]/", $string ))->to_equal(10);
+    }
+
+    public static function generateRandomDigitsString($length = 10)
+    {
+        $characters = '0123456789';
+        $randomString = self::generateRandom($length, $characters);
+
+        return $randomString;
+    }
+
     public function testFncamelCaseToUnderscore()
     {
         $testdata = [
