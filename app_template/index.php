@@ -1,10 +1,15 @@
 <?php
+// Autoloader
+// =============================================================================
+include_once 'config/autoload.php';
+
 try {
-    // Apliaction setup
-    include_once 'config/autoload.php';
+    // Application setup
+    // =========================================================================
     include_once 'config/application.php';
 
     // Routing
+    // =========================================================================
     include_once 'config/routing.php';
 
     if (!$match) {
@@ -14,8 +19,8 @@ try {
 
     // Connect to mysql database
     // TODO
-    //$db_setup = 'db_'.Config::get('env');
-    //MyDB::connect(Config::get($db_setup));
+    // $db_setup = 'db_'.Config::get('env');
+    // MyDB::connect(Config::get($db_setup));
 
     // Run Controller#action
     if ($match) {
