@@ -18,7 +18,15 @@ class View
         } else {
             $folder = StringUntils::camelCaseToUnderscore(str_replace('Controller', '', $params['controller']));
             $file = strtolower($params['action']) . '.php';
-            $this->path = 'app/views/' . $folder . '/' . $file;
+
+            // Check first module view folder, then default view folder
+            $module_name = $this->getModuleNameBaseOnControllerName($params['controller']);
+            $module_file_path = 'app/modules/' . $module_name. '/views/' . $folder . '/' . $file;
+            if (file_exists($module_file_path)) {
+                $this->path = $module_file_path;
+            } else {
+                $this->path = 'app/views/' . $folder . '/' . $file;
+            }
         }
 
         if (isset($options['helpers'])) {
@@ -46,5 +54,18 @@ class View
         $rendered_view = ob_get_clean();
 
         return $rendered_view;
+    }
+
+    private function getModuleNameBaseOnControllerName($controller)
+    {
+        $reflector = new ReflectionClass($controller);
+        $class_file_name = $reflector->getFileName();
+        $path_to_class_file_name = dirname($class_file_name);
+
+        // "/Users/admin/Sites/api.booklet.pl/app/modules/client/controllers" => "client"
+        $path_elements = explode('/', $path_to_class_file_name);
+        $module_name = $path_elements[count($path_elements)-2];
+
+        return $module_name;
     }
 }
