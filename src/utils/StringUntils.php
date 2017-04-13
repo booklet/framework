@@ -72,11 +72,15 @@ class StringUntils
     public static function generateRandomString($length = 10)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
+        $randomString = self::generateRandom($length, $characters);
+
+        return $randomString;
+    }
+
+    public static function generateRandomDigitsString($length = 10)
+    {
+        $characters = '0123456789';
+        $randomString = self::generateRandom($length, $characters);
 
         return $randomString;
     }
@@ -102,5 +106,16 @@ class StringUntils
         $clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
 
         return $clean;
+    }
+
+    private static function generateRandom($length = 10, $characters)
+    {
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        return $randomString;
     }
 }

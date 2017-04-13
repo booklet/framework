@@ -37,9 +37,29 @@ class JSONBuilder
             $class_pluralize_name = Inflector::pluralize($class);
             $class = StringUntils::camelCaseToUnderscore($class_pluralize_name);
 
-            return 'app/views/' . $class . '/' . $method . '.php';
+            // Check first module view folder, then default view folder
+            $module_name = $this->getModuleNameBaseOnControllerName($controller);
+            $module_file_path = 'app/modules/' . $module_name. '/views/' . $class . '/' . $method . '.php';
+            if (file_exists($module_file_path)) {
+                return $module_file_path;
+            } else {
+                return 'app/views/' . $class . '/' . $method . '.php';
+            }
         }
 
         return $this->controller_and_action_or_path;
+    }
+
+    private function getModuleNameBaseOnControllerName($controller)
+    {
+        $reflector = new ReflectionClass($controller);
+        $class_file_name = $reflector->getFileName();
+        $path_to_class_file_name = dirname($class_file_name);
+
+        // "/Users/admin/Sites/api.booklet.pl/app/modules/client/controllers" => "client"
+        $path_elements = explode('/', $path_to_class_file_name);
+        $module_name = $path_elements[count($path_elements)-2];
+
+        return $module_name;
     }
 }
