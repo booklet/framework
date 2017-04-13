@@ -5,11 +5,11 @@ abstract class Config
 
     public static function get($key = null)
     {
-        return static::$items[$key] ?? null;
+        return self::$items[$key] ?? null;
     }
 
     public static function set($key, $val)
     {
-        static::$items[$key] = $val;
+        self::$items[$key] = $val;
     }
 }
