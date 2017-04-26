@@ -56,7 +56,7 @@ class MysqlORM
         $query_statement = MysqlORMBinder::bindQueryParams($query_statement, $this->model_obj, $db_obj);
 
         if (!$query_statement->execute()) {
-            return false;
+            die($query_statement->error);
         } else {
             // When create new record, update object id and time stamp.
             if ($this->model_obj->isNewRecord()) {
