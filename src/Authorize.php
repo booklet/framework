@@ -26,8 +26,9 @@ class Authorize
     */
     public function auth($obj = null)
     {
-        if (!($this->current_user instanceof User)) {
-            throw new Exception('Not Authorized Action.', 401);
+        $allowed_classes = ['User', 'Contact'];
+        if (!in_array(get_class($this->current_user), $allowed_classes)) {
+            throw new Exception('Authorized action fail, unexpected object class.', 401);
         }
 
         $police = new $this->auth_class($this->current_user, $obj);
