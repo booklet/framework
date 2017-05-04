@@ -258,7 +258,7 @@ class MysqlORM
         $this->testDatabaseConnection();
         $query = $this->db_connection->prepare($query_string);
         if (!$query) {
-            throw new Exception('Error with prepare database query.');
+            throw new Exception('Error with prepare database query (' . $this->db_connection->errno . ') ' . $this->db_connection->error);
         }
 
         return $query;
