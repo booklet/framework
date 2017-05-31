@@ -12,7 +12,7 @@ abstract class Controller
     public function auth($data, $user)
     {
         $authorizator = new Authorize($this->getControllerAndAction(), $user);
-        $authorizator->auth($data);
+        return $authorizator->auth($data);
     }
 
     // Set header status and return data to response (to show)
