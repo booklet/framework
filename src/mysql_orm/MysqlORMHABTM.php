@@ -13,12 +13,12 @@ class MysqlORMHABTM
         return $habtm_relations;
     }
 
-    public static function getCurrentIdsForHabtmRelation($model_obj)
+    public static function getCurrentIdsForHabtmRelation($model_obj, $relation_key)
     {
         return array_map(function ($o) { return $o->id; }, $model_obj->$relation_key());
     }
 
-    public static function getPassedIdsForHabtmRelation($model_obj)
+    public static function getPassedIdsForHabtmRelation($model_obj, $relation_key)
     {
         // what if pass empty array
         $passed_ids = $model_obj->{$relation_key . '_ids'};

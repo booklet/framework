@@ -227,8 +227,8 @@ class MysqlORM
         $habtm_relations = MysqlORMHABTM::getAllHabtmRelationsFromModelObject($this->model_obj);
 
         foreach ($habtm_relations as $relation_key => $relation_params) {
-            $current_ids = MysqlORMHABTM::getCurrentIdsForHabtmRelation($this->model_obj);
-            $passed_ids = MysqlORMHABTM::getPassedIdsForHabtmRelation($this->model_obj);
+            $current_ids = MysqlORMHABTM::getCurrentIdsForHabtmRelation($this->model_obj, $relation_key);
+            $passed_ids = MysqlORMHABTM::getPassedIdsForHabtmRelation($this->model_obj, $relation_key);
 
           #  MysqlORMHABTM::addItemsToObject($this->model_obj, $relation_key, $current_ids, $passed_ids);
 
