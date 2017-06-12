@@ -166,6 +166,30 @@ class ValidatorTest extends TesterCase
         Assert::expect($valid->isValid())->to_equal(false);
     }
 
+    public function testValidGreaterThanOrEqualTo()
+    {
+        $obj = new stdClass();
+        $obj->quanity = 6;
+        $rules = ['quanity' => ['greater_than_or_equal_to:5']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(true);
+
+        $obj->quanity = 5;
+        $rules = ['quanity' => ['greater_than_or_equal_to:5']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(true);
+
+        // error
+        $obj->quanity = 4;
+        $rules = ['quanity' => ['greater_than_or_equal_to:5']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(false);
+        Assert::expect($valid->errors()['quanity'][0])->to_equal('is low value (min 5).');
+    }
+
     public function testValidEmail()
     {
         $obj = new stdClass();

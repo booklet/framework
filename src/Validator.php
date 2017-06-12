@@ -123,6 +123,20 @@ class Validator
     }
 
     /**
+    * Check minimal item vaue
+    * @param $attr
+    * @param Array $params
+    */
+    private function greater_than_or_equal_to($attr, $params)
+    {
+        $min = intval($params[0]);
+
+        if ($this->obj->$attr < $min) {
+            $this->addError($attr, 'is low value (min ' . (string) $min . ').');
+        }
+    }
+
+    /**
     * Check if email has valid format
     * @param $attr
     */
