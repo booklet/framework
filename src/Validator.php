@@ -226,6 +226,23 @@ class Validator
         }
     }
 
+    private function zip_code($attr)
+    {
+        $is_valid = false;
+        $zip_codes = ['[0-9]{2}-[0-9]{3}'];
+
+        foreach ($zip_codes as $zip_code) {
+            if (preg_match('/^'.$zip_code.'$/', $this->obj->$attr)) {
+                
+                $is_valid = true;
+            }
+        }
+
+        if (!$is_valid) {
+            $this->addError($attr, 'is not zip code.');
+        }
+    }
+
     private function addError($attr, $error)
     {
         if (!isset($this->errors[$attr])) {
