@@ -19,7 +19,7 @@ abstract class Model
      */
     private $__dirty = null;
 
-    function __construct(Array $attributes = [])
+    function __construct(array $attributes = [])
     {
         // Setup default model values
         foreach ($this->fields() as $name => $value) {
@@ -224,7 +224,7 @@ abstract class Model
     * Object is valid
     * @return true/false
     */
-    public function isValid(Array $params = [])
+    public function isValid(array $params = [])
     {
         // callback function beforeValidate()
         if (method_exists($this, 'beforeValidate')) {

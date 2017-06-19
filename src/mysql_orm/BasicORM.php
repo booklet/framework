@@ -5,7 +5,7 @@ trait BasicORM
     * Get all records from database
     * @return array of objects
     */
-    public static function all(Array $params = [])
+    public static function all(array $params = [])
     {
         // na podstawie modelu wygeneruj zapytanie sql
 
@@ -20,7 +20,7 @@ trait BasicORM
     * @param Integer $id
     * @return object
     */
-    public static function find($id, Array $params = [])
+    public static function find($id, array $params = [])
     {
         $params['limit'] = 1;
 
@@ -40,7 +40,7 @@ trait BasicORM
     * @param String $value
     * @return Array of objects
     */
-    public static function findBy($attribute, $value, Array $params = [])
+    public static function findBy($attribute, $value, array $params = [])
     {
         $params['limit'] = 1;
 
@@ -60,7 +60,7 @@ trait BasicORM
     * @param Array $fileds
     * @return Array of objects
     */
-    public static function where($query, Array $fileds = [], Array $params = [])
+    public static function where($query, array $fileds = [], array $params = [])
     {
         $orm = new MysqlORM(MyDB::db(), self::getModelInstance());
         $results = $orm->where($query, $fileds, $params);
@@ -92,7 +92,7 @@ trait BasicORM
     * @param Array $params
     * @return object
     */
-    public static function last(Array $params = [])
+    public static function last(array $params = [])
     {
         $params['limit'] = 1;
         $params['order'] = 'id DESC';
@@ -112,7 +112,7 @@ trait BasicORM
     * @param Array $params
     * @return object
     */
-    public static function sql($query, Array $fileds, Array $params = [])
+    public static function sql($query, array $fileds, array $params = [])
     {
         $extra_params = self::extra_params($params);
         self::$class = get_called_class();
@@ -129,7 +129,7 @@ trait BasicORM
     /**
     * Save model in database
     */
-    public function save(Array $params = [])
+    public function save(array $params = [])
     {
         $orm = new MysqlORM(MyDB::db(), $this);
 
@@ -139,7 +139,7 @@ trait BasicORM
     /**
     * Update database record
     */
-    public function update(Array $attributes)
+    public function update(array $attributes)
     {
         // actualize object with new params
         foreach ($attributes as $key => $value) {
@@ -163,7 +163,7 @@ trait BasicORM
     /**
     * Create
     */
-    public static function create(Array $attributes)
+    public static function create(array $attributes)
     {
         $object = self::getModelInstance();
 

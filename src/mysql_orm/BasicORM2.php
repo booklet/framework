@@ -16,7 +16,7 @@ trait BasicORM2
     * Get all records from database
     * @return array of objects
     */
-    public static function orm2_all(Array $params = [])
+    public static function orm2_all(array $params = [])
     {
         self::initialize();
 
@@ -43,7 +43,7 @@ trait BasicORM2
         return self::$instance;
     }
 
-    public static function orm2_where($query, Array $params = [])
+    public static function orm2_where($query, array $params = [])
     {
         self::initialize();
 

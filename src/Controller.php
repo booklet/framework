@@ -62,7 +62,7 @@ abstract class Controller
     }
 
     // Render html
-    public function render(Array $params = [], Array $options = [])
+    public function render(array $params = [], array $options = [])
     {
         return (new View($this->params, $params, $options))->render();
     }

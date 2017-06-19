@@ -6,7 +6,7 @@ class View
     public $path;
     public $params;
 
-    public function __construct($params, Array $variables = [], Array $options = [])
+    public function __construct($params, array $variables = [], array $options = [])
     {
         $this->params = $params;
         $this->layout = $options['layout'] ?? 'app';

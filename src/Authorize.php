@@ -9,7 +9,7 @@ class Authorize
     * @param $method => 'UserController::index'
     * @param Array $params
     */
-    function __construct($method, $user, Array $params = [])
+    function __construct($method, $user, array $params = [])
     {
         // 'UserController::index' => 'UserPolicies'
         $this->auth_class = str_replace('Controller', 'Policies', explode('::', $method)[0]);

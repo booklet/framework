@@ -4,7 +4,7 @@ class Response
     /**
     * Set header and return body content
     */
-    public static function bulid($status = 200, $body, Array $headers = [])
+    public static function bulid($status = 200, $body, array $headers = [])
     {
         if (Config::get('env') != 'test') {
             header('Content-Type: application/json');
@@ -14,7 +14,7 @@ class Response
         return $body;
     }
 
-    public static function raiseError($status, Array $errors)
+    public static function raiseError($status, array $errors)
     {
         if (Config::get('env') != 'test') {
             header('Content-Type: application/json');

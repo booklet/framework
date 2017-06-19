@@ -17,7 +17,7 @@ class MysqlORM
     /**
     * Buildit query statement and return objects
     */
-    public function where($query, Array $fileds = [], Array $params = [])
+    public function where($query, array $fileds = [], array $params = [])
     {
         $query_string = MysqlORMQueryString::where($this->table_name, $query, $params);
         $query_string .= MysqlORMExtraParams::extraParams($params);
@@ -31,7 +31,7 @@ class MysqlORM
     /**
     * Save/update model in database
     */
-    public function save(Array $params = [])
+    public function save(array $params = [])
     {
         // Exit if not valid model
         if (!$this->model_obj->isValid()) {

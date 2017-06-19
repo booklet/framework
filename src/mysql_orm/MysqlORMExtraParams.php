@@ -1,10 +1,10 @@
 <?php
-class MysqlORMExtraParams 
+class MysqlORMExtraParams
 {
     /**
     * Generate params to sql query
     */
-    public static function extraParams(Array $params)
+    public static function extraParams(array $params)
     {
         $sql = '';
 
