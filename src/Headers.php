@@ -19,9 +19,7 @@ class Headers
 
     public function isTesterTestRequest()
     {
-        $header_tester_key = $this->headers['TesterTestRequestBKT'] ?? '';
-
-        if (strtolower($header_tester_key) == 'testertestrequestbkt') {
+        if (isset($this->headers['TesterTestRequestBKT']) || isset($this->headers['testertestrequestbkt'])) {
             return true;
         } else {
             return false;
