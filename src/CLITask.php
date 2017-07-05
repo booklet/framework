@@ -214,8 +214,8 @@ class CLITask
 
     private function convertQueryToMysqlEngineMemory($query)
     {
-        $query = str_replace("` text ", '` varchar(5000) ', $query);
-        $query = str_replace("` MEDIUMTEXT ", '` varchar(5000) ', $query);
+        $query = str_replace("` text ", '` varchar(65535) ', $query); // 65535 max varchar allowed length in mysql engine memory
+        $query = str_replace("` MEDIUMTEXT ", '` varchar(65535) ', $query);
         if (strpos($query, 'CREATE TABLE') !== false) {
             $query = $query . ' ENGINE = MEMORY';
         }
