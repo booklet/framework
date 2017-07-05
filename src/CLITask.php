@@ -47,7 +47,7 @@ class CLITask
         echo "\nClear and run migrations for tests database\n";
         Config::set('env', 'test');
         $this->dropAllTablesAndRecreate();
-        $this->runMigrations();
+        $this->runMigrations(['engine' => 'memory']);
         echo CLIUntils::colorizeConsoleOutput("Test database migration successfully\n\n", 'SUCCESS');
     }
 
@@ -126,6 +126,10 @@ class CLITask
 
                 $migration_class_name = MigrationTools::getClassNameFromFilename($file);
                 $query = (new $migration_class_name)->up();
+
+                if (isset($options['engine']) and $options['engine'] == 'memory') {
+                    $query = $this->convertQueryToMysqlEngineMemory($query);
+                }
 
                 $result = mysqli_query(MyDB::db(), $query);
                 if ($result == false) {
@@ -206,5 +210,16 @@ class CLITask
         }
         MyDB::db()->query('SET foreign_key_checks = 1');
         MyDB::db()->close();
+    }
+
+    private function convertQueryToMysqlEngineMemory($query)
+    {
+        $query = str_replace("` text ", '` varchar(5000) ', $query);
+        $query = str_replace("` MEDIUMTEXT ", '` varchar(5000) ', $query);
+        if (strpos($query, 'CREATE TABLE') !== false) {
+            $query = $query . ' ENGINE = MEMORY';
+        }
+
+        return $query;
     }
 }
