@@ -75,7 +75,7 @@ class Validator
 
         $type = $params[0];
         if ($type == 'integer') {
-            if ($this->obj->$attr != '' and !($this->obj->$attr == (string)(integer)$this->obj->$attr)) {
+            if (!($this->obj->$attr == (string)(integer)$this->obj->$attr)) {
                 $this->addError($attr, "is not $type type.");
             }
         } else if ($type == 'string' || $type == 'text') {
