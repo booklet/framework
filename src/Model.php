@@ -5,21 +5,21 @@ abstract class Model
     use BasicORM2;
 
     /**
-     * Contains model values as column_name => value
+     * Contains model values as column_name => value.
      *
      * @var array
      */
-    private $attributes = array();
+    private $attributes = [];
 
     /**
      * Flag whether or not this model's attributes have been modified since
-     * it will either be null or an array of column_names that have been modified
+     * it will either be null or an array of column_names that have been modified.
      *
      * @var array
      */
     private $__dirty = null;
 
-    function __construct(array $attributes = [])
+    public function __construct(array $attributes = [])
     {
         // Setup default model values
         foreach ($this->fields() as $name => $value) {
@@ -36,34 +36,34 @@ abstract class Model
     }
 
     /**
-    * Throw exception if property not exist, else set property
-    *
-    * class User extends Model {
-    *   # define custom setter methods. Note you must
-    *   # prepend set_ to your method name:
-    *   function set_password($plaintext) {
-    *     $this->encrypted_password = md5($plaintext);
-    *   }
-    * }
-    *
-    * $user = new User();
-    * $user->password = 'plaintext';  # will call $user->set_password('plaintext')
-    *
-    * If you define a custom setter with the same name as an attribute then you
-    * will need to use assignAttribute() to assign the value to the attribute.
-    * This is necessary due to the way __set() works.
-    *
-    * class User extends Model {
-    *   # INCORRECT way to do it
-    *   # function set_name($name) {
-    *   #   $this->name = strtoupper($name);
-    *   # }
-    *
-    *   function set_name($name) {
-    *     $this->assignAttribute('name',strtoupper($name));
-    *   }
-    * }
-    */
+     * Throw exception if property not exist, else set property.
+     *
+     * class User extends Model {
+     *   # define custom setter methods. Note you must
+     *   # prepend set_ to your method name:
+     *   function set_password($plaintext) {
+     *     $this->encrypted_password = md5($plaintext);
+     *   }
+     * }
+     *
+     * $user = new User();
+     * $user->password = 'plaintext';  # will call $user->set_password('plaintext')
+     *
+     * If you define a custom setter with the same name as an attribute then you
+     * will need to use assignAttribute() to assign the value to the attribute.
+     * This is necessary due to the way __set() works.
+     *
+     * class User extends Model {
+     *   # INCORRECT way to do it
+     *   # function set_name($name) {
+     *   #   $this->name = strtoupper($name);
+     *   # }
+     *
+     *   function set_name($name) {
+     *     $this->assignAttribute('name',strtoupper($name));
+     *   }
+     * }
+     */
     public function __set($name, $value)
     {
         $allowed_propertis = $this->allowedPropertis();
@@ -74,6 +74,7 @@ abstract class Model
         // Set method from model if exists
         if (method_exists($this, "set_$name")) {
             $name = "set_$name";
+
             return $this->$name($value);
         }
 
@@ -81,51 +82,52 @@ abstract class Model
     }
 
     /**
-    * Magic method which delegates to readAttribute().
-    *
-    * You can also define customer getter methods for the model.
-    *
-    * EXAMPLE:
-    * class User extends ActiveRecord\Model {
-    *   # define custom getter methods. Note you must
-    *   # prepend get_ to your method name:
-    *   function get_middle_initial() {
-    *     return $this->middle_name{0};
-    *   }
-    * }
-    *
-    * $user = new User();
-    * echo $user->middle_name;  # will call $user->get_middle_name()
-    * </code>
-    *
-    * If you define a custom getter with the same name as an attribute then you
-    * will need to use readAttribute() to get the attribute's value.
-    * This is necessary due to the way __get() works.
-    *
-    * For example, assume 'name' is a field on the table and we're defining a
-    * custom getter for 'name':
-    *
-    * class User extends ActiveRecord\Model {
-    *   # INCORRECT way to do it
-    *   # function get_name() {
-    *   #   return strtoupper($this->name);
-    *   # }
-    *
-    *   function get_name() {
-    *     return strtoupper($this->readAttribute('name'));
-    *   }
-    * }
-    *
-    * $user = new User();
-    * $user->name = 'bob';
-    * echo $user->name; # => BOB
-    */
+     * Magic method which delegates to readAttribute().
+     *
+     * You can also define customer getter methods for the model.
+     *
+     * EXAMPLE:
+     * class User extends ActiveRecord\Model {
+     *   # define custom getter methods. Note you must
+     *   # prepend get_ to your method name:
+     *   function get_middle_initial() {
+     *     return $this->middle_name{0};
+     *   }
+     * }
+     *
+     * $user = new User();
+     * echo $user->middle_name;  # will call $user->get_middle_name()
+     * </code>
+     *
+     * If you define a custom getter with the same name as an attribute then you
+     * will need to use readAttribute() to get the attribute's value.
+     * This is necessary due to the way __get() works.
+     *
+     * For example, assume 'name' is a field on the table and we're defining a
+     * custom getter for 'name':
+     *
+     * class User extends ActiveRecord\Model {
+     *   # INCORRECT way to do it
+     *   # function get_name() {
+     *   #   return strtoupper($this->name);
+     *   # }
+     *
+     *   function get_name() {
+     *     return strtoupper($this->readAttribute('name'));
+     *   }
+     * }
+     *
+     * $user = new User();
+     * $user->name = 'bob';
+     * echo $user->name; # => BOB
+     */
     public function &__get($name)
     {
         // Check for getter
         if (method_exists($this, "get_$name")) {
             $name = "get_$name";
             $value = $this->$name();
+
             return $value;
         }
 
@@ -133,16 +135,13 @@ abstract class Model
     }
 
     /**
-     * TODO After reorganize model nested attributes remove this function
+     * TODO After reorganize model nested attributes remove this function.
      */
     public function __unset($name)
     {
         unset($this->attributes[$name]);
     }
 
-    /**
-     *
-     */
     public function &readAttribute($name)
     {
         // Check for attribute
@@ -150,16 +149,16 @@ abstract class Model
             return $this->attributes[$name];
         }
 
-        # // check relationships if no attribute
-        # if (array_key_exists($name,$this->__relationships))
-        #   return $this->__relationships[$name];
+        // // check relationships if no attribute
+        // if (array_key_exists($name,$this->__relationships))
+        //   return $this->__relationships[$name];
 
         throw new Exception(get_called_class() . " does not have '" . $name . "' property.");
     }
 
     /**
      * Determines if an attribute exists for this Model
-     * isset($myObj->item) call this function
+     * isset($myObj->item) call this function.
      */
     public function __isset($attribute_name)
     {
@@ -173,11 +172,12 @@ abstract class Model
 
     /**
      * Assign a value to an attribute.
-    */
+     */
     public function assignAttribute($name, $value)
     {
         $this->attributes[$name] = $value;
         $this->flagDirty($name);
+
         return $value;
     }
 
@@ -189,7 +189,7 @@ abstract class Model
     public function flagDirty($name)
     {
         if (!$this->__dirty) {
-            $this->__dirty = array();
+            $this->__dirty = [];
         }
 
         $this->__dirty[$name] = true;
@@ -198,7 +198,7 @@ abstract class Model
     /**
      * Returns hash of attributes that have been modified since loading the model.
      *
-     * @return mixed null if no dirty attributes otherwise returns array of dirty attributes.
+     * @return mixed null if no dirty attributes otherwise returns array of dirty attributes
      */
     public function dirtyAttributes()
     {
@@ -212,8 +212,10 @@ abstract class Model
 
     /**
      * Check if a particular attribute has been modified since loading the model.
-     * @param string $attribute  Name of the attribute
-     * @return boolean TRUE if it has been modified.
+     *
+     * @param string $attribute Name of the attribute
+     *
+     * @return bool TRUE if it has been modified
      */
     public function attributeIsDirty($attribute)
     {
@@ -221,11 +223,15 @@ abstract class Model
     }
 
     /**
-    * Object is valid
-    * @return true/false
-    */
+     * Object is valid.
+     *
+     * @return true/false
+     */
     public function isValid(array $params = [])
     {
+        // clear error
+        unset($this->errors);
+
         // callback function beforeValidate()
         if (method_exists($this, 'beforeValidate')) {
             $this->beforeValidate();
@@ -239,7 +245,7 @@ abstract class Model
 
         if ($this->validNestedObjects()) {
             // object OK
-        }  else {
+        } else {
             // save errors
         }
 
@@ -252,9 +258,10 @@ abstract class Model
     }
 
     /**
-    * Extact validation rules form fields array
-    * @return Array $rules
-    */
+     * Extact validation rules form fields array.
+     *
+     * @return array $rules
+     */
     public function validationRules()
     {
         $rules = [];
@@ -272,13 +279,15 @@ abstract class Model
             }
             $rules[$key] = $validations_rules;
         }
+
         return $rules;
     }
 
     /**
-    * Chcek if object is new object/record
-    * @return true/false
-    */
+     * Chcek if object is new object/record.
+     *
+     * @return true/false
+     */
     public function isNewRecord()
     {
         return $this->id == null ? true : false;
@@ -290,19 +299,22 @@ abstract class Model
         // dynamic generate Push method => $client->categoriesPush($category1);
         if (StringUntils::isInclude($name, 'Push')) {
             $relation = new Relations($this, $name, $args);
+
             return $relation->habtmPushObjects();
 
-        // dynamic generate Delete method => $client->categoriesDelete($category1);
+            // dynamic generate Delete method => $client->categoriesDelete($category1);
         } elseif (StringUntils::isInclude($name, 'Delete')) {
             $relation = new Relations($this, $name, $args);
+
             return $relation->habtmDeleteObjects();
 
-        // dynamic generate relations methods => $client->categories();
+            // dynamic generate relations methods => $client->categories();
         } elseif (Relations::isRelationMethod($this, $name)) {
             $relation = new Relations($this, $name, $args);
+
             return $relation->getRelationsObjects();
 
-        // if not Push, Delete or relation
+            // if not Push, Delete or relation
         } else {
             trigger_error('Call to undefined method ' . __CLASS__ . '::' . $name . '()', E_USER_ERROR);
         }
@@ -329,13 +341,12 @@ abstract class Model
         // loop current object nested atributes
         foreach ($nested_objects_params as $nested_object_param) {
             foreach ($this->{$nested_object_param['wrapper_name']} as $index => $item) {
-
                 // if object has id, then update/delete
                 if (isset($item['id'])) {
                     // check if ID contains in parent object children
                     // for security reason, if user manipulate ids in form
                     $children_objects = $this->{$nested_object_param['attribute_name']}();
-                    $children_ids = array_map(function($o) { return $o->id; }, $children_objects);
+                    $children_ids = array_map(function ($o) { return $o->id; }, $children_objects);
                     if (!empty($children_objects) && !in_array($item['id'], $children_ids)) {
                         $this->errors[$nested_object_param['attribute_name'] . '[' . $index . '].' . 'id'] = ['Item not belongs to this parent.'];
                         continue;
@@ -391,6 +402,7 @@ abstract class Model
                 $nested_attributes[] = $data;
             }
         }
+
         return $nested_attributes;
     }
 
@@ -473,7 +485,7 @@ abstract class Model
         // allow habtm ids array
         if (method_exists($this, 'relations')) {
             foreach ($this->relations() as $relation_name => $relation_params) {
-                if ($relation_params['relation'] == 'has_and_belongs_to_many'){
+                if ($relation_params['relation'] == 'has_and_belongs_to_many') {
                     $allowed_propertis[] = $relation_name . '_ids';
                 }
             }
