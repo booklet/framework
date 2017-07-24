@@ -24,7 +24,7 @@ class ValidatorTest extends TesterCase
         Assert::expect($valid->errors()['name'][0])->to_equal('is required.');
 
         // test fix
-        $obj->name = "ok name";
+        $obj->name = 'ok name';
         $valid = new Validator($obj, $rules);
 
         Assert::expect($valid->isValid())->to_equal(true);
@@ -34,7 +34,7 @@ class ValidatorTest extends TesterCase
         $valid = new Validator($obj, $rules);
 
         Assert::expect($valid->isValid())->to_equal(false);
-        Assert::expect($valid->errors()['name'][0])->to_equal('is required.'); # TODO nie $valid a obiekt
+        Assert::expect($valid->errors()['name'][0])->to_equal('is required.'); // TODO nie $valid a obiekt
     }
 
     public function testValidTypeStringText()
@@ -47,7 +47,7 @@ class ValidatorTest extends TesterCase
         // success
         $valid = new Validator($obj, $rules);
 
-        Assert::expect( $valid->isValid())->to_equal(true);
+        Assert::expect($valid->isValid())->to_equal(true);
 
         // error
         $obj->name = 12345;
@@ -69,13 +69,13 @@ class ValidatorTest extends TesterCase
 
         Assert::expect($valid->isValid())->to_equal(true);
 
-        $obj->parent_id = "12345";
+        $obj->parent_id = '12345';
         $valid = new Validator($obj, $rules);
 
         Assert::expect($valid->isValid())->to_equal(true);
 
         // error
-        $obj->parent_id = "onetwo";
+        $obj->parent_id = 'onetwo';
         $valid = new Validator($obj, $rules);
 
         Assert::expect($valid->isValid())->to_equal(false);
@@ -94,13 +94,13 @@ class ValidatorTest extends TesterCase
 
         Assert::expect($valid->isValid())->to_equal(true);
 
-        $obj->price = "99.99";
+        $obj->price = '99.99';
         $valid = new Validator($obj, $rules);
 
         Assert::expect($valid->isValid())->to_equal(true);
 
         // error
-        $obj->price = "onetwo";
+        $obj->price = 'onetwo';
         $valid = new Validator($obj, $rules);
 
         Assert::expect($valid->isValid())->to_equal(false);
@@ -120,7 +120,7 @@ class ValidatorTest extends TesterCase
         Assert::expect($valid->isValid())->to_equal(true);
 
         // error
-        $obj->created_at = "2016-10-14";
+        $obj->created_at = '2016-10-14';
         $valid = new Validator($obj, $rules);
 
         Assert::expect($valid->isValid())->to_equal(false);
@@ -151,7 +151,7 @@ class ValidatorTest extends TesterCase
     public function testValidMaxLengthEmoji()
     {
         $obj = new stdClass();
-        $obj->name = "👍🏿✌😍🇺🇸";
+        $obj->name = '👍🏿✌😍🇺🇸';
 
         // success
         $rules = ['name' => ['max_length:6']];
@@ -190,6 +190,30 @@ class ValidatorTest extends TesterCase
         Assert::expect($valid->errors()['quanity'][0])->to_equal('is low value (min 5).');
     }
 
+    public function testValidLessThanOrEqualTo()
+    {
+        $obj = new stdClass();
+        $obj->quanity = 4;
+        $rules = ['quanity' => ['less_than_or_equal_to:5']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(true);
+
+        $obj->quanity = 5;
+        $rules = ['quanity' => ['less_than_or_equal_to:5']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(true);
+
+        // error
+        $obj->quanity = 5;
+        $rules = ['quanity' => ['less_than_or_equal_to:4']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(false);
+        Assert::expect($valid->errors()['quanity'][0])->to_equal('is to high value (max 4).');
+    }
+
     public function testValidEmail()
     {
         $obj = new stdClass();
@@ -215,7 +239,7 @@ class ValidatorTest extends TesterCase
             '_somename@example.com',
             'Test \ Folding \ Whitespace@example.com',
             'HM2Kinsists@(that comments are allowed)this.is.ok',
-            'user%uucp!path@somehost.edu'
+            'user%uucp!path@somehost.edu',
         ];
 
         foreach ($valid_emails as $email) {
@@ -245,7 +269,7 @@ class ValidatorTest extends TesterCase
             'invalid@special.museum-',
             'shaitan@my-domain.thisisminekthx',
             'test@...........com',
-            'foobar@192.168.0.1'
+            'foobar@192.168.0.1',
         ];
 
         foreach ($invalid_emails as $email) {
@@ -256,26 +280,26 @@ class ValidatorTest extends TesterCase
         }
     }
 
-//    public function testValidUnique()
-//    {
-//        // how test uniques witout use database
-//        $this->pending();
-//        $user1 = UserFactory::user();
-//        $user1->save();
-//
-//        $rules = ['username' => ['unique']];
-//
-//        // success valid save object?
-//        $valid = new Validator($user1, $rules);
-//
-//        Assert::expect($valid->isValid())->to_equal(true);
-//
-//        $user2 = UserFactory::user();
-//        $valid = new Validator($user2, $rules);
-//
-//        Assert::expect($valid->isValid())->to_equal(false);
-//        Assert::expect($user2->errors['username'][0])->to_equal('is not unique.');
-//    }
+    //    public function testValidUnique()
+    //    {
+    //        // how test uniques witout use database
+    //        $this->pending();
+    //        $user1 = UserFactory::user();
+    //        $user1->save();
+    //
+    //        $rules = ['username' => ['unique']];
+    //
+    //        // success valid save object?
+    //        $valid = new Validator($user1, $rules);
+    //
+    //        Assert::expect($valid->isValid())->to_equal(true);
+    //
+    //        $user2 = UserFactory::user();
+    //        $valid = new Validator($user2, $rules);
+    //
+    //        Assert::expect($valid->isValid())->to_equal(false);
+    //        Assert::expect($user2->errors['username'][0])->to_equal('is not unique.');
+    //    }
 
     public function testValidIn()
     {
@@ -283,13 +307,13 @@ class ValidatorTest extends TesterCase
         $rules = ['role' => ['in:admin,customer_service,production_worker,web,client,agency']];
 
         // success
-        $obj->role = "customer_service";
+        $obj->role = 'customer_service';
         $valid = new Validator($obj, $rules);
 
         Assert::expect($valid->isValid())->to_equal(true);
 
         // error
-        $obj->role = "xxx";
+        $obj->role = 'xxx';
         $valid = new Validator($obj, $rules);
 
         Assert::expect($valid->isValid())->to_equal(false);
@@ -312,7 +336,7 @@ class ValidatorTest extends TesterCase
 
         $user = new FWTestModelUser(['username' => 'Name', 'email' => 'test@booklet.pl', 'role' => 'admin', 'password' => 'haslo', 'password_confirmation' => 'haslo']);
         Assert::expect($user->isValid())->to_equal(true);
-        Assert::expect(strlen ($user->password_digest))->to_equal(40);
+        Assert::expect(strlen($user->password_digest))->to_equal(40);
     }
 
     public function testValidTypeBoolean()
@@ -354,7 +378,7 @@ class ValidatorTest extends TesterCase
 
     public function testCustomValidators()
     {
-        $test_calas = new FWTestCustomModel;
+        $test_calas = new FWTestCustomModel();
         $test_calas->variable = 0;
 
         // success

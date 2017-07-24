@@ -3,7 +3,7 @@ class Validator
 {
     private $errors = [];
 
-    function __construct($obj, $rules, Array $params = [])
+    public function __construct($obj, $rules, array $params = [])
     {
         $this->obj = $obj;
         $this->rules = $rules;
@@ -43,6 +43,7 @@ class Validator
 
         // add error to validion object
         $this->obj->errors = $this->errors;
+
         return false;
     }
 
@@ -52,51 +53,51 @@ class Validator
     }
 
     /**
-    * Check if attribute is not blank
-    * @param $attr
-    */
+     * Check if attribute is not blank.
+     */
     private function required($attr)
     {
         if (isset($this->obj->$attr) && trim($this->obj->$attr) !== '') {
             // OK
         } else {
-            $this->addError($attr,  'is required.');
+            $this->addError($attr, 'is required.');
         }
     }
 
     /**
-    * Check if attribute is not blank
-    * @param $attr
-    */
+     * Check if attribute is required type.
+     */
     private function type($attr, $params)
     {
         // if empty field, not validation need
-        if (is_null($this->obj->$attr)) { return false; }
+        if (is_null($this->obj->$attr)) {
+            return false;
+        }
 
         $type = $params[0];
         if ($type == 'integer') {
-            if (!($this->obj->$attr == (string)(integer)$this->obj->$attr)) {
+            if (!($this->obj->$attr == (string) (int) $this->obj->$attr)) {
                 $this->addError($attr, "is not $type type.");
             }
-        } else if ($type == 'string' || $type == 'text') {
+        } elseif ($type == 'string' || $type == 'text') {
             if (!is_string($this->obj->$attr)) {
                 $this->addError($attr, "is not $type type.");
             }
-        } else if ($type == 'double' || $type == 'decimal') {
+        } elseif ($type == 'double' || $type == 'decimal') {
             if (!is_numeric($this->obj->$attr)) {
                 $this->addError($attr, "is not $type type.");
             }
-        // do we need '0', '1', false, true, 'false', 'true', 'yes', 'no'?
-        } else if ($type == 'boolean') {
-            if (!in_array($this->obj->$attr, array('0', '1', 0, 1, true, false), true)) {
+            // do we need '0', '1', false, true, 'false', 'true', 'yes', 'no'?
+        } elseif ($type == 'boolean') {
+            if (!in_array($this->obj->$attr, ['0', '1', 0, 1, true, false], true)) {
                 $this->addError($attr, "is not $type type.");
             }
-        } else if ($type == 'datetime') {
+        } elseif ($type == 'datetime') {
             preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/', $this->obj->$attr, $matches);
             if (empty($matches)) {
                 $this->addError($attr, "is not $type type.");
             }
-        } else if ($type == 'date') {
+        } elseif ($type == 'date') {
             preg_match('/(\d{4})-(\d{2})-(\d{2})/', $this->obj->$attr, $matches);
             if (empty($matches)) {
                 $this->addError($attr, "is not $type type.");
@@ -107,10 +108,8 @@ class Validator
     }
 
     /**
-    * Check lenght of attribute
-    * @param $attr
-    * @param Array $params
-    */
+     * Check lenght of attribute.
+     */
     private function max_length($attr, $params)
     {
         $max = $params[0];
@@ -123,10 +122,8 @@ class Validator
     }
 
     /**
-    * Check minimal item vaue
-    * @param $attr
-    * @param Array $params
-    */
+     * Check minimal item vaue.
+     */
     private function greater_than_or_equal_to($attr, $params)
     {
         $min = intval($params[0]);
@@ -137,9 +134,20 @@ class Validator
     }
 
     /**
-    * Check if email has valid format
-    * @param $attr
-    */
+     * Check maximal item vaue.
+     */
+    private function less_than_or_equal_to($attr, $params)
+    {
+        $max = intval($params[0]);
+
+        if ($this->obj->$attr > $max) {
+            $this->addError($attr, 'is to high value (max ' . (string) $max . ').');
+        }
+    }
+
+    /**
+     * Check if email has valid format.
+     */
     private function email($attr)
     {
         if (ValidateEmail::valid($this->obj->$attr)) {
@@ -150,17 +158,15 @@ class Validator
     }
 
     /**
-    * Check if value is unique
-    * @param $attr
-    */
+     * Check if value is unique.
+     */
     private function unique($attr)
     {
         $class = get_class($this->obj);
-        $items = $class::where($attr . ' = ?', [$attr=>$this->obj->$attr]);
+        $items = $class::where($attr . ' = ?', [$attr => $this->obj->$attr]);
 
         // chekc unique not only in databse but also in passed values
         if (!empty($this->unique_attribs[$attr])) {
-
             $unique_attrib_attributes = $this->unique_attribs[$attr];
             // Array (
             //     [address] => Array (
@@ -197,10 +203,8 @@ class Validator
     }
 
     /**
-    * Check if attribute is allowed value
-    * @param $attr
-    * @param Array $allow_values
-    */
+     * Check if attribute is allowed value.
+     */
     private function in($attr, $allow_values)
     {
         if (!in_array($this->obj->$attr, $allow_values)) {
@@ -209,15 +213,14 @@ class Validator
     }
 
     /**
-    * Special validator to use with HasSecurePassword
-    * @param $attr
-    */
+     * Special validator to use with HasSecurePassword.
+     */
     // TODO move this to HasSecurePassword module
     private function password()
     {
         // if password_digest contains
         // if value start with error
-        if (substr($this->obj->password_digest , 0, 5) == 'error') {
+        if (substr($this->obj->password_digest, 0, 5) == 'error') {
             $errors = explode('|', $this->obj->password_digest);
             array_shift($errors); // remove error text
             foreach ($errors as $value) {
@@ -226,14 +229,16 @@ class Validator
         }
     }
 
+    /**
+     * Check if value is polish zip code.
+     */
     private function zip_code($attr)
     {
         $is_valid = false;
         $zip_codes = ['[0-9]{2}-[0-9]{3}'];
 
         foreach ($zip_codes as $zip_code) {
-            if (preg_match('/^'.$zip_code.'$/', $this->obj->$attr)) {
-
+            if (preg_match('/^' . $zip_code . '$/', $this->obj->$attr)) {
                 $is_valid = true;
             }
         }
