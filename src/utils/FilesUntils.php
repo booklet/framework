@@ -38,7 +38,7 @@ class FilesUntils
         }
     }
 
-    public function getFilesFromDirectory($directory)
+    public static function getFilesFromDirectory($directory)
     {
         return array_filter(glob($directory . '*'), 'is_file');
     }
