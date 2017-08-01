@@ -38,6 +38,10 @@ class FilesUntils
         }
     }
 
+    public function getFilesFromDirectory($directory)
+    {
+        return array_filter(glob($directory . '*'), 'is_file');
+    }
     /**
     * To resolve problem with to many files in one folder
     * we group files in wrappers folders 000, 001, 002 by 1000 items
