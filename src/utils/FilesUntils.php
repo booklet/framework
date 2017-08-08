@@ -40,7 +40,7 @@ class FilesUntils
 
     public static function getFilesFromDirectory($directory)
     {
-        return array_filter(glob($directory . '*'), 'is_file');
+        return array_filter(glob($directory . '/*'), 'is_file');
     }
     /**
     * To resolve problem with to many files in one folder
