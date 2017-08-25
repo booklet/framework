@@ -4,10 +4,10 @@ class StringUntilsTest extends TesterCase
     public function testFnexplodeCamelcase()
     {
         $testdata = [
-            'oneTwoThreeFour' => ['one','Two','Three','Four'],
-            'oneTwo'          => ['one','Two'],
+            'oneTwoThreeFour' => ['one', 'Two', 'Three', 'Four'],
+            'oneTwo' => ['one', 'Two'],
             'onetwothreefour' => ['onetwothreefour'],
-            'Some4Numbers234' => ['Some4','Numbers234'],
+            'Some4Numbers234' => ['Some4', 'Numbers234'],
         ];
 
         foreach ($testdata as $from => $to) {
@@ -21,7 +21,7 @@ class StringUntilsTest extends TesterCase
         $testdata = [
             'one-two-three-four' => 'OneTwoThreeFour',
             'one_two_three_four' => 'OneTwoThreeFour',
-            'OneTwoThreeFour'    => 'OneTwoThreeFour',
+            'OneTwoThreeFour' => 'OneTwoThreeFour',
         ];
 
         foreach ($testdata as $from => $to) {
@@ -34,8 +34,8 @@ class StringUntilsTest extends TesterCase
     {
         $testdata = [
             'tests/models/users_test.php' => 'UsersTest',
-            'tests/models/UsersTest.php'  => 'UsersTest',
-            'UsersTest.php'              => 'UsersTest',
+            'tests/models/UsersTest.php' => 'UsersTest',
+            'UsersTest.php' => 'UsersTest',
         ];
 
         foreach ($testdata as $from => $to) {
@@ -83,7 +83,7 @@ class StringUntilsTest extends TesterCase
     public function testGenerateRandomDigitsString()
     {
         $string = StringUntils::generateRandomDigitsString(10);
-        Assert::expect(preg_match_all( "/[0-9]/", $string ))->to_equal(10);
+        Assert::expect(preg_match_all('/[0-9]/', $string))->to_equal(10);
     }
 
     public static function generateRandomDigitsString($length = 10)
@@ -139,5 +139,11 @@ class StringUntilsTest extends TesterCase
     {
         $normalize = StringUntils::slug('Śtręët  ņąmę Ćity ńąmę /_Čómpąńy ńąmę Ċõntaçt ňamê');
         Assert::expect($normalize)->to_equal('street-name-city-name-company-name-contact-name');
+    }
+
+    public function testSanitizeFileName()
+    {
+        $sanitize = StringUntils::sanitizeFileName('Pł\\ik $ź_pÓł\'śki/mi-"&-(Żnąk*^ąmi)_.02?.pdf');
+        Assert::expect($sanitize)->to_equal('Plik_z_pOlskimi_Znakami_.02.pdf');
     }
 }
