@@ -52,4 +52,25 @@ class FilesUntils
         $wrapper_folder_id = floor($id / 1000);
         return sprintf('%03d', $wrapper_folder_id);
     }
+
+    public function getFileExtension($file_path_or_name)
+    {
+        $path_parts = pathinfo($file_path_or_name);
+
+        return $path_parts['extension'];
+    }
+
+    public function getFileBasename($file_path_or_name)
+    {
+        $path_parts = pathinfo($file_path_or_name);
+
+        return $path_parts['basename'];
+    }
+
+    public function getFileName($file_path_or_name)
+    {
+        $path_parts = pathinfo($file_path_or_name);
+
+        return $path_parts['filename'];
+    }
 }
