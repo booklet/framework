@@ -53,28 +53,28 @@ class FilesUntils
         return sprintf('%03d', $wrapper_folder_id);
     }
 
-    public function getFileExtension($file_path_or_name)
+    public static function getFileExtension($file_path_or_name)
     {
         $path_parts = pathinfo($file_path_or_name);
 
         return $path_parts['extension'];
     }
 
-    public function getFileBasename($file_path_or_name)
+    public static function getFileBasename($file_path_or_name)
     {
         $path_parts = pathinfo($file_path_or_name);
 
         return $path_parts['basename'];
     }
 
-    public function getFileName($file_path_or_name)
+    public static function getFileName($file_path_or_name)
     {
         $path_parts = pathinfo($file_path_or_name);
 
         return $path_parts['filename'];
     }
 
-    public function isImage($file)
+    public static function isImage($file)
     {
         $type = mime_content_type($file);
         $types = ['image/jpg', 'image/jpeg', 'image/bmp', 'image/gif', 'image/tiff', 'application/pdf', 'image/png'];
