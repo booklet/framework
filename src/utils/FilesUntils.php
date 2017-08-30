@@ -73,4 +73,12 @@ class FilesUntils
 
         return $path_parts['filename'];
     }
+
+    public function isImage($file)
+    {
+        $type = mime_content_type($file);
+        $types = ['image/jpg', 'image/jpeg', 'image/bmp', 'image/gif', 'image/tiff', 'application/pdf', 'image/png'];
+
+        return in_array($type, $types);
+    }
 }
