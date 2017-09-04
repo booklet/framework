@@ -26,10 +26,6 @@ class Authorize
     */
     public function auth($obj = null)
     {
-        if (!($this->current_user instanceof User)) {
-            return false;
-        }
-
         $police = new $this->auth_class($this->current_user, $obj);
         return $police->{$this->auth_action}();
     }
