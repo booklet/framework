@@ -10,7 +10,9 @@ class CLITask
         $this->action_param = $args[2] ?? null;
         $this->options = $options;
         // run tests if no action (parmas)
-        if (!$this->action) { $this->testRunAll(); }
+        if (!$this->action) {
+            $this->testRunAll();
+        }
     }
 
     public function dbMigrate()
@@ -101,11 +103,7 @@ class CLITask
         echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
     }
 
-    // private
-
-    /**
-    * Run all not migrated migrations
-    */
+    // Run all not migrated migrations
     private function runMigrations()
     {
         $db_setup = 'db_' . Config::get('env');
@@ -116,7 +114,7 @@ class CLITask
         $migrations_path = MigrationTools::migrationsPath();
 
         $runs_migrations_arr = [];
-        foreach (glob($migrations_path . "/*.php") as $file) {
+        foreach (glob($migrations_path . '/*.php') as $file) {
             $version = MigrationTools::getVersionFromFilename($file);
             $is_migrated = MigrationTools::isMigratedMigration($version);
 
@@ -125,7 +123,7 @@ class CLITask
                 include_once $file;
 
                 $migration_class_name = MigrationTools::getClassNameFromFilename($file);
-                $query = (new $migration_class_name)->up();
+                $query = (new $migration_class_name())->up();
 
                 if (isset($options['engine']) and $options['engine'] == 'memory') {
                     $query = $this->convertQueryToMysqlEngineMemory($query);
@@ -138,12 +136,12 @@ class CLITask
 
                 // TODO improve this code
                 try {
-                    if (method_exists((new $migration_class_name), 'runAfterMigrationUp')) {
-                        (new $migration_class_name)->runAfterMigrationUp();
+                    if (method_exists((new $migration_class_name()), 'runAfterMigrationUp')) {
+                        (new $migration_class_name())->runAfterMigrationUp();
                     }
                 } catch (Exception $e) {
                     // rollback migration
-                    $query = (new $migration_class_name)->down();
+                    $query = (new $migration_class_name())->down();
                     $result = mysqli_query(MyDB::db(), $query);
                     if ($result == false) {
                         die(CLIUntils::colorizeConsoleOutput("\nCan't rollback migration after run code after migration fail: $file\n\n", 'FAILURE'));
@@ -160,9 +158,6 @@ class CLITask
         return $runs_migrations_arr;
     }
 
-    /**
-    *
-    */
     private function runRollback()
     {
         $db_setup = 'db_' . Config::get('env');
@@ -185,13 +180,14 @@ class CLITask
         include_once $migration_filepath;
         $migration_class_name = MigrationTools::getClassNameFromFilename($migration_filepath);
         // get rollbck sql query
-        $query = (new $migration_class_name)->down();
+        $query = (new $migration_class_name())->down();
         $result = mysqli_query(MyDB::db(), $query);
 
         if ($result == false) {
             return ['message' => "Migrate rollback error: $migration_filepath", 'status' => 'FAILURE'];
         } else {
             MigrationTools::removeVersion($version);
+
             return ['message' => $migration_filepath, 'status' => 'SUCCESS'];
         }
     }
@@ -203,8 +199,8 @@ class CLITask
         $db_setup = 'db_' . Config::get('env');
         MyDB::connect(Config::get($db_setup));
         MyDB::db()->query('SET foreign_key_checks = 0');
-        if ($result = MyDB::db()->query("SHOW TABLES")) {
-            while($row = $result->fetch_array(MYSQLI_NUM)) {
+        if ($result = MyDB::db()->query('SHOW TABLES')) {
+            while ($row = $result->fetch_array(MYSQLI_NUM)) {
                 MyDB::db()->query('DROP TABLE IF EXISTS ' . $row[0]);
             }
         }
@@ -214,8 +210,8 @@ class CLITask
 
     private function convertQueryToMysqlEngineMemory($query)
     {
-        $query = str_replace("` text ", '` varchar(65535) ', $query); // 65535 max varchar allowed length in mysql engine memory
-        $query = str_replace("` MEDIUMTEXT ", '` varchar(65535) ', $query);
+        $query = str_replace('` text ', '` varchar(65535) ', $query); // 65535 max varchar allowed length in mysql engine memory
+        $query = str_replace('` MEDIUMTEXT ', '` varchar(65535) ', $query);
         if (strpos($query, 'CREATE TABLE') !== false) {
             $query = $query . ' ENGINE = MEMORY';
         }

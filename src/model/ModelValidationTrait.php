@@ -34,6 +34,8 @@ trait ModelValidationTrait
     // Extact validation rules form fields array.
     public function validationRules()
     {
+        // return ValidationRules::getRulesFromModel($this);
+
         $rules = [];
         $fields = $this->fields();
         foreach ($fields as $key => $value) {
