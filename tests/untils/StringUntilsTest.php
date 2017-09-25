@@ -146,4 +146,20 @@ class StringUntilsTest extends TesterCase
         $sanitize = StringUntils::sanitizeFileName('Pł\\ik $ź_pÓł\'śki/mi-"&-(Żnąk*^ąmi)_.02?.pdf');
         Assert::expect($sanitize)->to_equal('Plik_z_pOlskimi_Znakami_.02.pdf');
     }
+
+    public function testStartsWith()
+    {
+        Assert::expect(StringUntils::areStartsWith('ItemsPush', 'Push'))->to_equal(false);
+        Assert::expect(StringUntils::areStartsWith('ItemsPush', 'Items'))->to_equal(true);
+        Assert::expect(StringUntils::areStartsWith('ItemsPush', 'ItemsPush'))->to_equal(true);
+        Assert::expect(StringUntils::areStartsWith('ItemsPush', 'ItemsPushPush'))->to_equal(false);
+    }
+
+    public function testEndsWith()
+    {
+        Assert::expect(StringUntils::areEndsWith('ItemsPush', 'Push'))->to_equal(true);
+        Assert::expect(StringUntils::areEndsWith('ItemsPush', 'Items'))->to_equal(false);
+        Assert::expect(StringUntils::areEndsWith('ItemsPush', 'ItemsPush'))->to_equal(true);
+        Assert::expect(StringUntils::areEndsWith('ItemsPush', 'ItemsPushPush'))->to_equal(false);
+    }
 }
