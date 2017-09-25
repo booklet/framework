@@ -14,8 +14,8 @@ class FilesUntils
     }
 
     /**
-    * Filter array of files paths to grab only test files
-    */
+     * Filter array of files paths to grab only test files.
+     */
     public static function getTestsFiles(array $files_paths)
     {
         $files = [];
@@ -42,14 +42,16 @@ class FilesUntils
     {
         return array_filter(glob($directory . '/*'), 'is_file');
     }
+
     /**
-    * To resolve problem with to many files in one folder
-    * we group files in wrappers folders 000, 001, 002 by 1000 items
-    * Folder base on item id, 0-999 => 000, 1000-1999 => 001
-    */
+     * To resolve problem with to many files in one folder
+     * we group files in wrappers folders 000, 001, 002 by 1000 items
+     * Folder base on item id, 0-999 => 000, 1000-1999 => 001.
+     */
     public static function getWrapperFolderById($id)
     {
         $wrapper_folder_id = floor($id / 1000);
+
         return sprintf('%03d', $wrapper_folder_id);
     }
 
