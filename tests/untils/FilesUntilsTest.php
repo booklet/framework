@@ -1,11 +1,11 @@
 <?php
 class FilesUntilsTest extends TesterCase
 {
-    public function testGetFileExtension()
+    public function testGetPathDirname()
     {
-        $base_name = FilesUntils::getFileExtension('path/to/file.pdf');
+        $base_name = FilesUntils::getPathDirname('path/to/file.pdf');
 
-        Assert::expect($base_name)->to_equal('pdf');
+        Assert::expect($base_name)->to_equal('path/to');
     }
 
     public function testGetFileBasename()
@@ -13,6 +13,13 @@ class FilesUntilsTest extends TesterCase
         $base_name = FilesUntils::getFileBasename('path/to/file.pdf');
 
         Assert::expect($base_name)->to_equal('file.pdf');
+    }
+
+    public function testGetFileExtension()
+    {
+        $base_name = FilesUntils::getFileExtension('path/to/file.pdf');
+
+        Assert::expect($base_name)->to_equal('pdf');
     }
 
     public function testGetFileName()
