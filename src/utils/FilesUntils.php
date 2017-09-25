@@ -55,6 +55,18 @@ class FilesUntils
         return sprintf('%03d', $wrapper_folder_id);
     }
 
+    // 12 => 000/000/012/
+    public static function objectIdToPath($object)
+    {
+        if (!isset($object->id)) {
+            throw new Exception('Object does not have id property.');
+        }
+
+        $id_str = str_pad($object->id, 9, '0', STR_PAD_LEFT);
+
+        return chunk_split($id_str, 3, '/');
+    }
+
     public static function getPathDirname($file_path)
     {
         return pathinfo($file_path)['dirname'];
