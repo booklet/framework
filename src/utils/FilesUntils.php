@@ -43,6 +43,25 @@ class FilesUntils
         return array_filter(glob($directory . '/*'), 'is_file');
     }
 
+    // USE WITH CAUTION!
+    public static function deleteAllRecursiveInDirectory($directory)
+    {
+        if (is_dir($directory)) {
+            $objects = scandir($directory);
+            foreach ($objects as $object) {
+                if ($object != '.' && $object != '..') {
+                    if (filetype($directory . '/' . $object) == 'dir') {
+                        self::deleteAllRecursiveInDirectory($directory . '/' . $object);
+                    } else {
+                        unlink($directory . '/' . $object);
+                    }
+                }
+            }
+            reset($objects);
+            rmdir($directory);
+        }
+    }
+
     /**
      * To resolve problem with to many files in one folder
      * we group files in wrappers folders 000, 001, 002 by 1000 items
