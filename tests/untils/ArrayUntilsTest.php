@@ -123,4 +123,53 @@ class ArrayUntilsTest extends TesterCase
         $normalize_array = ArrayUntils::normalizeFilesArray($files);
         Assert::expect($normalize_array)->to_equal($normalize_files);
     }
+
+    public function testNormalizeFilesArrayWithCorrectArray()
+    {
+        // images[files][]
+        $files = [
+            'images' => [
+                'files' => [
+                    [
+                        'name' => 'test1.jpg',
+                        'type' => 'image/jpeg',
+                        'tmp_name' => '/tmp/nsl54Gs',
+                        'error' => 0,
+                        'size' => 1715,
+                    ],
+                    [
+                        'name' => 'test2.jpg',
+                        'type' => 'image/jpeg',
+                        'tmp_name' => '/tmp/1sl54GC',
+                        'error' => 0,
+                        'size' => 5368,
+                    ],
+                ],
+            ],
+        ];
+
+        $normalize_files = [
+            'images' => [
+                'files' => [
+                    [
+                        'name' => 'test1.jpg',
+                        'type' => 'image/jpeg',
+                        'tmp_name' => '/tmp/nsl54Gs',
+                        'error' => 0,
+                        'size' => 1715,
+                    ],
+                    [
+                        'name' => 'test2.jpg',
+                        'type' => 'image/jpeg',
+                        'tmp_name' => '/tmp/1sl54GC',
+                        'error' => 0,
+                        'size' => 5368,
+                    ],
+                ],
+            ],
+        ];
+
+        $normalize_array = ArrayUntils::normalizeFilesArray($files);
+        Assert::expect($normalize_array)->to_equal($normalize_files);
+    }
 }
