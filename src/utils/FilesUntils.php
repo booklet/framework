@@ -44,14 +44,14 @@ class FilesUntils
     }
 
     // USE WITH CAUTION!
-    public static function deleteAllRecursiveInDirectory($directory)
+    public static function deleteDirectoryAndEverythingIn($directory)
     {
         if (is_dir($directory)) {
             $objects = scandir($directory);
             foreach ($objects as $object) {
                 if ($object != '.' && $object != '..') {
                     if (filetype($directory . '/' . $object) == 'dir') {
-                        self::deleteAllRecursiveInDirectory($directory . '/' . $object);
+                        self::deleteDirectoryAndEverythingIn($directory . '/' . $object);
                     } else {
                         unlink($directory . '/' . $object);
                     }
