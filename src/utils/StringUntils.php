@@ -149,4 +149,12 @@ class StringUntils
 
         return $randomString;
     }
+
+    public static function removeWordsShorterThan($string, $min_word_lenght = 3)
+    {
+        $string = preg_replace('/\b\w{1,' . $min_word_lenght . '}\b/u', '', $string);
+        $string = trim($string);
+
+        return preg_replace('/\s+/', ' ', $string);
+    }
 }

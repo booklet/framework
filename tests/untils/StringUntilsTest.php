@@ -162,4 +162,11 @@ class StringUntilsTest extends TesterCase
         Assert::expect(StringUntils::areEndsWith('ItemsPush', 'ItemsPush'))->to_equal(true);
         Assert::expect(StringUntils::areEndsWith('ItemsPush', 'ItemsPushPush'))->to_equal(false);
     }
+
+    public function testRemoveWordsShorterThan()
+    {
+        Assert::expect(StringUntils::removeWordsShorterThan('Naklejki na słoiki'))->to_equal('Naklejki słoiki');
+        Assert::expect(StringUntils::removeWordsShorterThan('Co to za naklejki na słoiki hmm'))->to_equal('naklejki słoiki');
+        Assert::expect(StringUntils::removeWordsShorterThan('1 a aa aaa 99 aaaa aaa aaaaa aaa aa a 0'))->to_equal('aaaa aaaaa');
+    }
 }

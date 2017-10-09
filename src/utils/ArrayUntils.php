@@ -17,7 +17,7 @@ class ArrayUntils
     {
         $output = [];
         foreach ($files as $base_key => $file) {
-            if (is_array($file['name'])) {
+            if (isset($file['name']) and is_array($file['name'])) {
                 $file_keys = array_keys($file['name']);
                 foreach ($file_keys as $file_key) {
                     if (is_array($file['name'][$file_key])) {
