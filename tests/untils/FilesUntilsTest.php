@@ -46,4 +46,25 @@ class FilesUntilsTest extends TesterCase
 
         Assert::expect($file_name)->to_equal('file');
     }
+
+    public function testHumanFilesize()
+    {
+        $file_size = FilesUntils::humanFilesize(0);
+        Assert::expect($file_size)->to_equal('0 B');
+
+        $file_size = FilesUntils::humanFilesize(681);
+        Assert::expect($file_size)->to_equal('681 B');
+
+        $file_size = FilesUntils::humanFilesize(1024);
+        Assert::expect($file_size)->to_equal('1 KB');
+
+        $file_size = FilesUntils::humanFilesize(2097152);
+        Assert::expect($file_size)->to_equal('2 MB');
+
+        $file_size = FilesUntils::humanFilesize(2197152, 0);
+        Assert::expect($file_size)->to_equal('2 MB');
+
+        $file_size = FilesUntils::humanFilesize(4718592000);
+        Assert::expect($file_size)->to_equal('4.39 GB');
+    }
 }
