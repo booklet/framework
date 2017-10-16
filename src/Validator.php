@@ -33,7 +33,10 @@ class Validator
         if (method_exists($this->obj, 'customValidation')) {
             $custom_validation_errors = $this->obj->customValidation();
             foreach ($custom_validation_errors as $key => $value) {
-                $this->addError($key, $value);
+                $errors = (array) $value; // convert string to array or array to array
+                foreach ($errors as $error) {
+                    $this->addError($key, $error);
+                }
             }
         }
 
