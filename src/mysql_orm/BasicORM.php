@@ -2,9 +2,10 @@
 trait BasicORM
 {
     /**
-    * Get all records from database
-    * @return array of objects
-    */
+     * Get all records from database.
+     *
+     * @return array of objects
+     */
     public static function all(array $params = [])
     {
         // na podstawie modelu wygeneruj zapytanie sql
@@ -16,10 +17,12 @@ trait BasicORM
     }
 
     /**
-    * Get record from database base on id
-    * @param Integer $id
-    * @return object
-    */
+     * Get record from database base on id.
+     *
+     * @param int $id
+     *
+     * @return object
+     */
     public static function find($id, array $params = [])
     {
         $params['limit'] = 1;
@@ -28,18 +31,20 @@ trait BasicORM
         $results = $orm->where('id = ?', ['id' => $id], $params);
 
         if (empty($results)) {
-            throw new Exception('Couldn\'t find '.get_called_class().' with id='.$id, 404);
+            throw new Exception('Couldn\'t find ' . get_called_class() . ' with id=' . $id, 404);
         } else {
             return $results[0]; // return single object, not array of one object
         }
     }
 
     /**
-    * Get record by field
-    * @param String $attribute
-    * @param String $value
-    * @return Array of objects
-    */
+     * Get record by field.
+     *
+     * @param string $attribute
+     * @param string $value
+     *
+     * @return array of objects
+     */
     public static function findBy($attribute, $value, array $params = [])
     {
         $params['limit'] = 1;
@@ -55,11 +60,13 @@ trait BasicORM
     }
 
     /**
-    * Get record by field
-    * @param String $query
-    * @param Array $fileds
-    * @return Array of objects
-    */
+     * Get record by field.
+     *
+     * @param string $query
+     * @param array  $fileds
+     *
+     * @return array of objects
+     */
     public static function where($query, array $fileds = [], array $params = [])
     {
         $orm = new MysqlORM(MyDB::db(), self::getModelInstance());
@@ -69,11 +76,13 @@ trait BasicORM
     }
 
     /**
-    * Get first record
-    * @param Array $params
-    * @return object
-    */
-    public static function first(Array $params = [])
+     * Get first record.
+     *
+     * @param array $params
+     *
+     * @return object
+     */
+    public static function first(array $params = [])
     {
         $params['limit'] = 1;
 
@@ -88,10 +97,12 @@ trait BasicORM
     }
 
     /**
-    * Get last record
-    * @param Array $params
-    * @return object
-    */
+     * Get last record.
+     *
+     * @param array $params
+     *
+     * @return object
+     */
     public static function last(array $params = [])
     {
         $params['limit'] = 1;
@@ -108,15 +119,17 @@ trait BasicORM
     }
 
     /**
-    * Qustom sql query
-    * @param Array $params
-    * @return object
-    */
+     * Qustom sql query.
+     *
+     * @param array $params
+     *
+     * @return object
+     */
     public static function sql($query, array $fileds, array $params = [])
     {
         $extra_params = self::extra_params($params);
         self::$class = get_called_class();
-        $class_pluralize_name = (new self::$class)->pluralizeClassName();
+        $class_pluralize_name = (new self::$class())->pluralizeClassName();
         self::$table = StringUntils::camelCaseToUnderscore($class_pluralize_name);
 
         self::$query = MyDB::db()->prepare($sql);
@@ -127,8 +140,8 @@ trait BasicORM
     }
 
     /**
-    * Save model in database
-    */
+     * Save model in database.
+     */
     public function save(array $params = [])
     {
         $orm = new MysqlORM(MyDB::db(), $this);
@@ -137,22 +150,22 @@ trait BasicORM
     }
 
     /**
-    * Update database record
-    */
-    public function update(array $attributes)
+     * Update database record.
+     */
+    public function update(array $attributes, array $params = [])
     {
         // actualize object with new params
         foreach ($attributes as $key => $value) {
             $this->$key = $value;
-            # $this->assignAttribute($key, $value);
+            // $this->assignAttribute($key, $value);
         }
 
-        return $this->save();
+        return $this->save($params);
     }
 
     /**
-    * Destroy database record
-    */
+     * Destroy database record.
+     */
     public function destroy()
     {
         $orm = new MysqlORM(MyDB::db(), $this);
@@ -161,8 +174,8 @@ trait BasicORM
     }
 
     /**
-    * Create
-    */
+     * Create.
+     */
     public static function create(array $attributes)
     {
         $object = self::getModelInstance();
@@ -175,12 +188,12 @@ trait BasicORM
     }
 
     /**
-    * Get current model instance
-    */
+     * Get current model instance.
+     */
     private static function getModelInstance()
     {
         $model_class = get_called_class();
 
-        return new $model_class;
+        return new $model_class();
     }
 }
