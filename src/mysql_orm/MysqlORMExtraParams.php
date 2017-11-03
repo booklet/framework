@@ -2,8 +2,8 @@
 class MysqlORMExtraParams
 {
     /**
-    * Generate params to sql query
-    */
+     * Generate params to sql query.
+     */
     public static function extraParams(array $params)
     {
         $sql = '';
@@ -15,8 +15,13 @@ class MysqlORMExtraParams
 
         // LIMIT ['limit'=>10, 'page'=>2]
         if (isset($params['limit'])) {
-            $page = (int)($params['page'] ?? 1);
+            $page = (int) ($params['page'] ?? 1);
             $limit = $params['limit'];
+            $startpoint = ($page * $limit) - $limit;
+            $sql .= ' LIMIT ' . $startpoint . ', ' . $limit;
+        } elseif (isset($params['paginate'])) {
+            $page = (int) ($params['paginate'] ?? 1);
+            $limit = $params['per_page'] ?? 25;
             $startpoint = ($page * $limit) - $limit;
             $sql .= ' LIMIT ' . $startpoint . ', ' . $limit;
         }
