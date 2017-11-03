@@ -120,7 +120,7 @@ class CLITask
 
             // if not migrated, execute migration
             if ($is_migrated == false) {
-                include_once $file;
+                require_once $file;
 
                 $migration_class_name = MigrationTools::getClassNameFromFilename($file);
                 $query = (new $migration_class_name())->up();
@@ -177,7 +177,7 @@ class CLITask
             $migration_filepath = $migration_filepath_arr[0];
         }
 
-        include_once $migration_filepath;
+        require_once $migration_filepath;
         $migration_class_name = MigrationTools::getClassNameFromFilename($migration_filepath);
         // get rollbck sql query
         $query = (new $migration_class_name())->down();

@@ -1,20 +1,18 @@
 <?php
-include_once 'tests/fixtures/support/ParentChildGrandsonMysqlTables.php';
+require_once 'tests/fixtures/validator/TesterParentModel.php';
+require_once 'tests/fixtures/validator/TesterChildModel.php';
+require_once 'tests/fixtures/validator/TesterGrandsonModel.php';
 
 class MysqlORMNestedAttributesTest extends TesterCase
 {
-    use ParentChildGrandsonMysqlTables;
-
     public function testSaveObjectWithNestedAttributes()
     {
-        $this->createParentChildGrandsonMysqlTables();
-
         $data = [
-            'name'=>'Parent name',
+            'name' => 'Parent name',
             'childs_attributes' => [
                 ['address' => 'email1@test.com'],
                 ['address' => 'email2@test.com'],
-            ]
+            ],
         ];
 
         $parent = new TesterParentModel($data);
@@ -32,15 +30,13 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
     public function testSaveObjectWithWrongNestedAttributes()
     {
-        $this->createParentChildGrandsonMysqlTables();
-
         $data = [
-            'name'=>'Parent name',
+            'name' => 'Parent name',
             'childs_attributes' => [
                 ['address' => 'email1@test.com'],
                 ['address' => ''],
                 ['address' => 'email1@test.com'],
-            ]
+            ],
         ];
 
         $parent = new TesterParentModel($data);
@@ -52,8 +48,6 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
     public function testAddChildsToExistObjects()
     {
-        $this->createParentChildGrandsonMysqlTables();
-
         $parent = new TesterParentModel(['name' => 'Parent name']);
         $parent->save();
 
@@ -65,12 +59,12 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
         $data = [
             'id' => $parent->id,
-            'name'=>'Parent name',
+            'name' => 'Parent name',
             'childs_attributes' => [
                 ['id' => $child1->id, 'address' => 'email1@test.com'],
                 ['id' => $child2->id, 'address' => 'email2@test.com'],
                 ['address' => 'email3@test.com'],
-            ]
+            ],
         ];
 
         $parent->update($data);
@@ -84,8 +78,6 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
     public function testDeleteFormNestedObjects()
     {
-        $this->createParentChildGrandsonMysqlTables();
-
         $parent = new TesterParentModel(['name' => 'Parent name']);
         $parent->save();
 
@@ -97,11 +89,11 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
         $data = [
             'id' => $parent->id,
-            'name'=>'Parent name',
+            'name' => 'Parent name',
             'childs_attributes' => [
                 ['id' => $child1->id, 'address' => 'email1@test.com'],
                 ['id' => $child2->id, 'address' => 'email2@test.com', '_destroy' => '1'],
-            ]
+            ],
         ];
 
         $parent->update($data);
@@ -115,8 +107,6 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
     public function testUpdateNestedObjects()
     {
-        $this->createParentChildGrandsonMysqlTables();
-
         $parent = new TesterParentModel(['name' => 'Parent name']);
         $parent->save();
 
@@ -128,11 +118,11 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
         $data = [
             'id' => $parent->id,
-            'name'=>'Parent name',
+            'name' => 'Parent name',
             'childs_attributes' => [
                 ['id' => $child1->id, 'address' => 'email1@test.com'],
                 ['id' => $child2->id, 'address' => 'new_email2@test.com'],
-            ]
+            ],
         ];
 
         $parent->update($data);
@@ -143,22 +133,18 @@ class MysqlORMNestedAttributesTest extends TesterCase
         $childs = TesterChildModel::where('tester_parent_model_id = ?', ['tester_parent_model_id' => 1]);
         Assert::expect(count($childs))->to_equal(2);
 
-        Assert::expect( $childs[1]->address)->to_equal('new_email2@test.com');
-
-        $this->dropDownParentChildGrandsonMysqlTables();
+        Assert::expect($childs[1]->address)->to_equal('new_email2@test.com');
     }
 
     public function testRemoveNestedAttributesWhenSaveObject()
     {
-        $this->createParentChildGrandsonMysqlTables();
-
         $data = [
             'tester_parent_model_id' => 1,
             'address' => 'test1@test.com',
             'grandsons_attributes' => [
                 ['description' => 'wartosc 1'],
                 ['description' => 'wartosc 2'],
-            ]
+            ],
         ];
 
         $parent = new TesterChildModel($data);

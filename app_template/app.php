@@ -2,8 +2,8 @@
 <?php
 // Autoloader basic load
 // =============================================================================
-include_once 'config/autoload.php';
-include_once 'config/application.php';
+require_once 'config/autoload.php';
+require_once 'config/application.php';
 
 $task = new CLITask($argv);
 
@@ -16,26 +16,38 @@ $task = new CLITask($argv);
 // =============================================================================
 // migrate database (works for development and production database)
 // $ app db:migrate
-if ($task->action == 'db:migrate') { $task->dbMigrate(); }
+if ($task->action == 'db:migrate') {
+    $task->dbMigrate();
+}
 
 // undo last database migration (works for development and production database)
 // $ app db:rollback
-if ($task->action == 'db:rollback') { $task->dbRollback(); }
+if ($task->action == 'db:rollback') {
+    $task->dbRollback();
+}
 
 // seed data in dev database
 // $ app db:seed
-if ($task->action == 'db:seed') { $task->dbSeed(); }
+if ($task->action == 'db:seed') {
+    $task->dbSeed();
+}
 
 // recreate test database
 // $ app db:prepare
-if ($task->action == 'db:prepare') { $task->dbPrepare(); }
+if ($task->action == 'db:prepare') {
+    $task->dbPrepare();
+}
 
 // Tests tasks
 // =============================================================================
 // run all tests
 // $ app test:all
-if ($task->action == 'test:all') { $task->testRunAll(); }
+if ($task->action == 'test:all') {
+    $task->testRunAll();
+}
 
 // run specific test
 // $ app test:single OrdersRequestsTest:testIndex
-if ($task->action == 'test:single') { $task->testRunSingle(); }
+if ($task->action == 'test:single') {
+    $task->testRunSingle();
+}

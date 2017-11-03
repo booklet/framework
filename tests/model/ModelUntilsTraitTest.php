@@ -1,5 +1,5 @@
 <?php
-include_once 'tests/fixtures/models/FWTestModelUser.php';
+require_once 'tests/fixtures/models/FWTestModelUser.php';
 
 class ModelUntilsTraitTest extends TesterCase
 {

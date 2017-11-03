@@ -1,6 +1,6 @@
 <?php
-include_once 'tests/fixtures/models/FWTestModelUser.php';
-include_once 'tests/fixtures/models/FWTestCustomModel.php';
+require_once 'tests/fixtures/models/FWTestModelUser.php';
+require_once 'tests/fixtures/models/FWTestCustomModel.php';
 
 class ValidatorTest extends TesterCase
 {

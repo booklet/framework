@@ -1,16 +1,16 @@
 <?php
 // Autoloader
 // =============================================================================
-include_once 'config/autoload.php';
+require_once 'config/autoload.php';
 
 try {
     // Application setup
     // =========================================================================
-    include_once 'config/application.php';
+    require_once 'config/application.php';
 
     // Routing
     // =========================================================================
-    include_once 'config/routing.php';
+    require_once 'config/routing.php';
 
     if (!$match) {
         echo Response::raiseError(404, ['Resource not found.']);

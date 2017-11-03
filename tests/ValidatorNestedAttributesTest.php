@@ -1,15 +1,10 @@
 <?php
-include_once 'tests/fixtures/support/ParentChildGrandsonMysqlTables.php';
-
 class ValidatorNestedAttributesTest extends TesterCase
 {
-    use ParentChildGrandsonMysqlTables;
-
-//    // create new object with first level nested resources
+    //    // create new object with first level nested resources
 //    public function testValidObjectWithNestedAttributes()
 //    {
 //        $this->pending();
-//        $this->createParentChildGrandsonMysqlTables();
 //        $data = [
 //            'name'=>'Parent name',
 //            'childs_attributes' => [
@@ -28,7 +23,6 @@ class ValidatorNestedAttributesTest extends TesterCase
 //    public function testValidObjectWithNestedAttributesWithRequiredError()
 //    {
 //        $this->pending();
-//        $this->createParentChildGrandsonMysqlTables();
 //        $data = [
 //            'name'=>'Parent name',
 //            'childs_attributes' => [
@@ -55,7 +49,6 @@ class ValidatorNestedAttributesTest extends TesterCase
 //    public function testWithOneSaveObject()
 //    {
 //        $this->pending();
-//        $this->createParentChildGrandsonMysqlTables();
 //        $child = new TesterChildModel(['address' => 'email@test.com', 'tester_parent_model_id' => 0]);
 //        $child->save();
 //
@@ -81,7 +74,6 @@ class ValidatorNestedAttributesTest extends TesterCase
 //    public function testNotValidParentObject()
 //    {
 //        $this->pending();
-//        $this->createParentChildGrandsonMysqlTables();
 //        $data = [
 //            'name'=>'',
 //            'childs_attributes' => [
@@ -105,7 +97,6 @@ class ValidatorNestedAttributesTest extends TesterCase
 //    public function testWithThreeLevelSave()
 //    {
 //        $this->pending();
-//        $this->createParentChildGrandsonMysqlTables();
 //        $data = [
 //            'name'=>'Parent name',
 //            'childs_attributes' => [
@@ -127,7 +118,6 @@ class ValidatorNestedAttributesTest extends TesterCase
 //    public function testSaveWithManipulateParentId()
 //    {
 //        $this->pending();
-//        $this->createParentChildGrandsonMysqlTables();
 //
 //        $parent = new TesterParentModel(['name' => 'Parent name']);
 //        $parent->save();
@@ -159,7 +149,6 @@ class ValidatorNestedAttributesTest extends TesterCase
 //    public function testWithThreeLevelSaveGrandsonError()
 //    {
 //        $this->pending();
-//        $this->createParentChildGrandsonMysqlTables();
 //        $data = [
 //            'name'=>'Parent name',
 //            'childs_attributes' => [
@@ -183,7 +172,6 @@ class ValidatorNestedAttributesTest extends TesterCase
 //    public function testWithThreeLevelSaveDubleError()
 //    {
 //        $this->pending();
-//        $this->createParentChildGrandsonMysqlTables();
 //        $data = [
 //            'name'=>'Parent name',
 //            'childs_attributes' => [
@@ -215,7 +203,6 @@ class ValidatorNestedAttributesTest extends TesterCase
 //    public function testUpdateObjectsAndAddNew()
 //    {
 //        $this->pending();
-//        $this->createParentChildGrandsonMysqlTables();
 //
 //        $child1 = new TesterChildModel(['address' => 'email1@test.com', 'tester_parent_model_id' => 1]);
 //        $child1->save();
@@ -269,6 +256,5 @@ class ValidatorNestedAttributesTest extends TesterCase
 //        Assert::expect($parent->errors['childs[2].address'][0])->to_equal('is required.');
 //        Assert::expect($parent->errors['childs[2].address'][1])->to_equal('email is not valid.');
 //
-//        # $this->dropDownParentChildGrandsonMysqlTables();
 //    }
 }
