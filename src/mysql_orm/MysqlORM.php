@@ -6,7 +6,7 @@ class MysqlORM
     private $model_class_name;
     private $table_name;
 
-    function __construct($db_connection, $model_obj)
+    public function __construct($db_connection, $model_obj)
     {
         $this->db_connection = $db_connection;
         $this->model_obj = $model_obj;
@@ -15,8 +15,8 @@ class MysqlORM
     }
 
     /**
-    * Buildit query statement and return objects
-    */
+     * Buildit query statement and return objects.
+     */
     public function where($query, array $fileds = [], array $params = [])
     {
         $query_string = MysqlORMQueryString::where($this->table_name, $query, $params);
@@ -29,17 +29,18 @@ class MysqlORM
     }
 
     /**
-    * Save/update model in database
-    */
+     * Save/update model in database.
+     */
     public function save(array $params = [])
     {
         // Exit if not valid model
-        if (!$this->model_obj->isValid()) {
+        $validate = $params['validate'] ?? true;
+        if ($validate and !$this->model_obj->isValid()) {
             return false;
         }
 
         $db_obj = MysqlORMObjectCreator::createDbObject($this->model_obj);
-        $db_obj = MysqlORMTime::setTimestamps($this->model_obj ,$db_obj);
+        $db_obj = MysqlORMTime::setTimestamps($this->model_obj, $db_obj);
 
         // Buildit query
         if ($this->model_obj->isNewRecord()) {
@@ -49,7 +50,8 @@ class MysqlORM
         }
 
         // Callback before save
-        if (method_exists($this->model_obj, 'beforeSave')) {
+        $callbacks = $params['callbacks'] ?? true;
+        if ($callbacks and method_exists($this->model_obj, 'beforeSave')) {
             $this->model_obj->beforeSave();
         }
 
@@ -67,7 +69,7 @@ class MysqlORM
                     // add this to solve use update() after save(), witout get form database
                     $this->model_obj->oryginal_record = [];
 
-                    foreach ((new $this->model_class_name)->fields() as $key => $value) {
+                    foreach ((new $this->model_class_name())->fields() as $key => $value) {
                         $this->model_obj->oryginal_record[$key] = $this->model_obj->$key;
                     }
 
@@ -85,15 +87,14 @@ class MysqlORM
             $this->saveHABTMIdsObjects();
 
             // callback after save
-            if (method_exists($this->model_obj, 'afterSave')) { $this->model_obj->afterSave(); }
+            if ($callbacks and method_exists($this->model_obj, 'afterSave')) {
+                $this->model_obj->afterSave();
+            }
 
             return true;
         }
     }
 
-    /**
-    *
-    */
     private function runQueryGetResultsObjects($query_statement, $params = [])
     {
         $query_statement->execute();
@@ -112,23 +113,23 @@ class MysqlORM
     }
 
     /**
-    * Create and execute delete query
-    */
+     * Create and execute delete query.
+     */
     public function destroy()
     {
-      if (!isset($this->model_obj->id)) {
-          throw new Exception("The object was not saved in the database, so you can not delete it.");
-      }
+        if (!isset($this->model_obj->id)) {
+            throw new Exception('The object was not saved in the database, so you can not delete it.');
+        }
 
-      $query = $this->prepareStatement("DELETE FROM `" . $this->table_name . "` WHERE `id` = ?");
-      $query->bind_param("i", $this->model_obj->id);
+        $query = $this->prepareStatement('DELETE FROM `' . $this->table_name . '` WHERE `id` = ?');
+        $query->bind_param('i', $this->model_obj->id);
 
-      return $query->execute() ? true : false;
+        return $query->execute() ? true : false;
     }
 
     /**
-    * Get model database table name
-    */
+     * Get model database table name.
+     */
     private function tableName($model_obj)
     {
         $class_pluralize_name = $model_obj->pluralizeClassName();
@@ -137,8 +138,8 @@ class MysqlORM
     }
 
     /**
-    * Create sql query for new record
-    */
+     * Create sql query for new record.
+     */
     private function builditNewRecordQuery($db_obj)
     {
         // obj => "`name`, `name_search`, `created_at`, `updated_at`"
@@ -146,14 +147,14 @@ class MysqlORM
         // obj => "?, ?, ?, ..."
         $parameters_values_placeholder = ObjectUntils::mysqlParametersValuesPlaceholder($db_obj);
 
-        $query = $this->prepareStatement("INSERT INTO `" . $this->table_name . "` (" . $parameters . ") VALUES (" . $parameters_values_placeholder . ")");
+        $query = $this->prepareStatement('INSERT INTO `' . $this->table_name . '` (' . $parameters . ') VALUES (' . $parameters_values_placeholder . ')');
 
         return $query;
     }
 
     /**
-    * Create sql query for update record
-    */
+     * Create sql query for update record.
+     */
     private function builditUpdateRecordQuery($db_obj)
     {
         // "UPDATE MyGuests SET lastname='Doe' WHERE id=2"
@@ -174,12 +175,9 @@ class MysqlORM
 
         // loop current object nested atributes
         foreach ($nested_objects_params as $nested_object_param) {
-
             foreach ($this->model_obj->{$nested_object_param['wrapper_name']} as $index => $item) {
-
                 // if object has id, then update/delete
                 if (isset($item['id'])) {
-
                     // find element to update
                     $nested_obj = $nested_object_param['objects_class_name']::find($item['id']);
 
@@ -222,7 +220,9 @@ class MysqlORM
 
     private function saveHABTMIdsObjects()
     {
-        if (!method_exists($this->model_obj, 'relations')) { return; }
+        if (!method_exists($this->model_obj, 'relations')) {
+            return;
+        }
 
         $habtm_relations = MysqlORMHABTM::getAllHabtmRelationsFromModelObject($this->model_obj);
 
@@ -230,8 +230,7 @@ class MysqlORM
             $current_ids = MysqlORMHABTM::getCurrentIdsForHabtmRelation($this->model_obj, $relation_key);
             $passed_ids = MysqlORMHABTM::getPassedIdsForHabtmRelation($this->model_obj, $relation_key);
 
-          #  MysqlORMHABTM::addItemsToObject($this->model_obj, $relation_key, $current_ids, $passed_ids);
-
+            //  MysqlORMHABTM::addItemsToObject($this->model_obj, $relation_key, $current_ids, $passed_ids);
 
             // add items
             $ids_to_add = array_diff($passed_ids, $current_ids);

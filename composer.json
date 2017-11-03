@@ -23,8 +23,11 @@
     "boooklet/tester": "dev-master"
   },
   "autoload": {
-      "classmap": [
-          "src", "lib"
-      ]
+    "classmap": [
+        "src", "lib"
+    ],
+    "files": [
+        "src/global_functions.php"
+    ]
   }
 }

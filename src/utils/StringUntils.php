@@ -125,6 +125,20 @@ class StringUntils
         return $string;
     }
 
+    public static function areStartsWith($haystack, $needle)
+    {
+        $length = strlen($needle);
+
+        return substr($haystack, 0, $length) === $needle;
+    }
+
+    public static function areEndsWith($haystack, $needle)
+    {
+        $length = strlen($needle);
+
+        return $length === 0 || (substr($haystack, -$length) === $needle);
+    }
+
     private static function generateRandom($length = 10, $characters)
     {
         $charactersLength = strlen($characters);
@@ -134,5 +148,13 @@ class StringUntils
         }
 
         return $randomString;
+    }
+
+    public static function removeWordsShorterThan($string, $min_word_lenght = 3)
+    {
+        $string = preg_replace('/\b\w{1,' . $min_word_lenght . '}\b/u', '', $string);
+        $string = trim($string);
+
+        return preg_replace('/\s+/', ' ', $string);
     }
 }

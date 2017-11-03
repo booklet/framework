@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "68f900625e6397b9436a18cabadf3cdf",
+    "hash": "0d0e359419a0f5b76fc693d08847554c",
     "content-hash": "cbf91f74876cf13fcb06694c14c76d2f",
     "packages": [
         {
@@ -13,7 +13,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/boooklet/tester.git",
-                "reference": "6ec41434ac44439999b585aad817d3cfc122bab6"
+                "reference": "02e158320f3fcb0124500bd2fd891405f60e0014"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -26,7 +26,7 @@
                 ]
             },
             "description": "Test library",
-            "time": "2017-07-19 10:19:49"
+            "time": "2017-10-04 12:08:00"
         }
     ],
     "packages-dev": [],

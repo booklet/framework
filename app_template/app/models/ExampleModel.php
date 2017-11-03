@@ -4,12 +4,12 @@ class ExampleModel extends Model
     public function fields()
     {
         return [
-            'id'              => ['type' => 'integer'],
-            'name'            => ['type' => 'string', 'validations' => ['required', 'max_length:190']],
-            'name_search'     => ['type' => 'string', 'validations' => ['required', 'max_length:190']],
-            'status'          => ['type' => 'datetime', 'default' => 'new'],
-            'created_at'      => ['type' => 'datetime'],
-            'updated_at'      => ['type' => 'datetime'],
+            'id' => ['type' => 'integer'],
+            'name' => ['type' => 'string', 'validations' => ['required', 'max_length:190']],
+            'name_search' => ['type' => 'string', 'validations' => ['required', 'max_length:190']],
+            'status' => ['type' => 'datetime', 'default' => 'new'],
+            'created_at' => ['type' => 'datetime'],
+            'updated_at' => ['type' => 'datetime'],
         ];
     }
 
@@ -31,10 +31,10 @@ class ExampleModel extends Model
     public static function relations()
     {
         return [
-            'contacts'        => ['relation' => 'has_many', 'class' => 'Contact'],
-            'emails'          => ['relation' => 'has_many', 'class' => 'ClientEmail'],
-            'client'          => ['relation' => 'belongs_to', 'class' => 'Client']
-            'categories'      => ['relation' => 'has_and_belongs_to_many', 'class' => 'ClientCategory'],
+            'contacts' => ['relation' => 'has_many', 'class' => 'Contact'],
+            'emails' => ['relation' => 'has_many', 'class' => 'ClientEmail'],
+            'client' => ['relation' => 'belongs_to', 'class' => 'Client'],
+            'categories' => ['relation' => 'has_and_belongs_to_many', 'class' => 'ClientCategory'],
         ];
     }
 
