@@ -22,11 +22,11 @@ class AssetHtmlTag
 
     private function jsTag($file_path)
     {
-        return '<script type="text/javascript" src="/' . $file_path . '"></script>' . "\n\r";
+        return '<script type="text/javascript" src="/' . $file_path . '"></script>' . "\n";
     }
 
     private function cssTag($file_path)
     {
-        return '<link rel="stylesheet" media="all" href="/' . $file_path . '" />' . "\n\r";
+        return '<link rel="stylesheet" media="all" href="/' . $file_path . '" />' . "\n";
     }
 }
