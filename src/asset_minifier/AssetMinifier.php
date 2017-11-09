@@ -10,6 +10,9 @@ trait AssetMinifier
     {
         $this->output_path = $params['output_path'];
         $this->output_file_name_prefix = $params['output_file_name_prefix'];
+
+        $this->output_url_prefix = $params['output_url_prefix'] ?? '';
+
         $this->input_files = $params['input_files'];
         $this->environment = $params['environment'] ?? 'production';
 
@@ -21,6 +24,11 @@ trait AssetMinifier
         return $this->output_path . '/' . $this->output_file_name_prefix . '-' . $this->getStamp() . self::MINIFY_FILE_EXTENSION;
     }
 
+    public function getMinifierUrlPath()
+    {
+        return $this->output_url_prefix . $this->getMinifierFilePath();
+    }
+
     public function getHtmlTag()
     {
         $tags = new AssetHtmlTag($this->getFilePaths(), self::MINIFY_TYPE);
@@ -30,7 +38,7 @@ trait AssetMinifier
 
     private function getFilePaths()
     {
-        $files = $this->isDevelopmentEnvironment() ? $this->input_files : $this->getMinifierFilePath();
+        $files = $this->isDevelopmentEnvironment() ? $this->input_files : $this->getMinifierUrlPath();
 
         return (array) $files;
     }
