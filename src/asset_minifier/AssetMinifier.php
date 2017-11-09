@@ -1,18 +1,17 @@
 <?php
 trait AssetMinifier
 {
-    private $output_path;
+    private $output_file_path;
     private $output_file_name_prefix;
     private $input_files;
     private $environment;
 
     public function __construct($params)
     {
-        $this->output_path = $params['output_path'];
+        $this->output_file_path = $params['output_file_path'];
         $this->output_file_name_prefix = $params['output_file_name_prefix'];
-
+        $this->output_file_url = $params['output_file_url'] ?? $this->output_file_path;
         $this->output_url_prefix = $params['output_url_prefix'] ?? '';
-
         $this->input_files = $params['input_files'];
         $this->environment = $params['environment'] ?? 'production';
 
@@ -21,24 +20,39 @@ trait AssetMinifier
 
     public function getMinifierFilePath()
     {
-        return $this->output_path . '/' . $this->output_file_name_prefix . '-' . $this->getStamp() . self::MINIFY_FILE_EXTENSION;
+        return $this->output_file_path . '/' . $this->getFileName();
     }
 
     public function getMinifierUrlPath()
     {
-        return $this->output_url_prefix . $this->getMinifierFilePath();
+        return $this->output_url_prefix . $this->output_file_url . '/' . $this->getFileName();
     }
 
     public function getHtmlTag()
     {
-        $tags = new AssetHtmlTag($this->getFilePaths(), self::MINIFY_TYPE);
+        $tags = new AssetHtmlTag($this->getFilesUrls(), self::MINIFY_TYPE);
 
         return $tags->getHtmlTags();
     }
 
-    private function getFilePaths()
+    private function getFileName()
     {
-        $files = $this->isDevelopmentEnvironment() ? $this->input_files : $this->getMinifierUrlPath();
+        return $this->output_file_name_prefix . '-' . $this->getStamp() . self::MINIFY_FILE_EXTENSION;
+    }
+
+    private function getFilesPaths()
+    {
+        $files = $this->isDevelopmentEnvironment() ? $this->input_files : $this->getMinifierFilePath();
+
+        return (array) $files;
+    }
+
+    private function getFilesUrls()
+    {
+        foreach ($this->input_files as $file_path) {
+            $input_files[] = $this->output_url_prefix . $file_path;
+        }
+        $files = $this->isDevelopmentEnvironment() ? $input_files : $this->getMinifierUrlPath();
 
         return (array) $files;
     }
