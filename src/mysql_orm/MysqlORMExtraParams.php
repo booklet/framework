@@ -21,7 +21,7 @@ class MysqlORMExtraParams
             $sql .= ' LIMIT ' . $startpoint . ', ' . $limit;
         } elseif (isset($params['paginate'])) {
             $page = (int) ($params['paginate'] ?? 1);
-            $limit = $params['per_page'] ?? 25;
+            $limit = $params['per_page'] ?? BKTPaginate::PAGINATION_PER_PAGE_DEFAULT;
             $startpoint = ($page * $limit) - $limit;
             $sql .= ' LIMIT ' . $startpoint . ', ' . $limit;
         }

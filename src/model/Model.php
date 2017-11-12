@@ -7,6 +7,7 @@ abstract class Model
     use ModelAttributesTrait;
     use ModelValidationTrait;
     use ModelUntilsTrait;
+    use ModelPaginateTrait;
 
     // Catch relations methods
     public function __call($name, $args)
