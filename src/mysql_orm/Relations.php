@@ -61,34 +61,39 @@ class Relations
                     $habtm_table_name = $this->getHABTMTableName($relation_params);
 
                     // buildit query
-                    if (isset($params['count'])) {
-                        $query_string = 'SELECT COUNT(*) AS `count` FROM `' . $habtm_table_name . '`.* FROM `' . $habtm_table_name . '` WHERE `' . $this_table_id_key . '` = ' . $this->obj->id;
-                    } elseif (isset($params['paginate'])) {
-                        $query_string = 'SELECT `' . $habtm_table_name . '`.* FROM `' . $habtm_table_name . '` WHERE `' . $this_table_id_key . '` = ' . $this->obj->id . ' LIMIT ' . $params['paginate'] . ', ' . $params['per_page'];
-                    } else {
-                        $query_string = 'SELECT `' . $habtm_table_name . '`.* FROM `' . $habtm_table_name . '` WHERE `' . $this_table_id_key . '` = ' . $this->obj->id;
-                    }
-
+                    $query_string = 'SELECT `' . $habtm_table_name . '`.* FROM `' . $habtm_table_name . '` WHERE `' . $this_table_id_key . '` = ' . $this->obj->id;
                     $result = mysqli_query(MyDB::db(), $query_string);
 
-                    if (isset($params['count'])) {
-                        return 'ffff';
-                    } elseif (isset($params['paginate'])) {
-                        return 'sdfdsfdsfdsf';
-                    } else {
-                        // collect ids
-                        $relation_objects_ids = [];
-                        while ($row = $result->fetch_assoc()) {
-                            $relation_objects_ids[] = $row[$target_table_id_key];
-                        }
+                    // collect ids
+                    $relation_objects_ids = [];
+                    while ($row = $result->fetch_assoc()) {
+                        $relation_objects_ids[] = $row[$target_table_id_key];
                     }
 
                     if (!empty($relation_objects_ids)) {
                         $relation_objects_ids_str = join(',', $relation_objects_ids);
 
-                        return $relation_params['class']::where('id IN (' . $relation_objects_ids_str . ')', []);
+                        $where_params = [];
+                        if (isset($params[0])) {
+                            $where_params = $params[0];
+                        }
+
+                        if (isset($params[1]) and isset($params[1]['paginate_data'])) {
+                            list($results, $paginate_data) = $relation_params['class']::whereWithPaginate('id IN (' . $relation_objects_ids_str . ')', [], $where_params, $params[1]);
+
+                            return [$results, $paginate_data];
+                        } else {
+                            return $relation_params['class']::where('id IN (' . $relation_objects_ids_str . ')', [], $where_params);
+                        }
                     } else {
-                        return [];
+                        if (isset($params[1]) and isset($params[1]['paginate_data'])) {
+                            // return empty, we need paginate_data
+                            list($results, $paginate_data) = $relation_params['class']::whereWithPaginate('id IN (0)', [], [], $params[1]);
+
+                            return [$results, $paginate_data];
+                        } else {
+                            return [];
+                        }
                     }
                 }
             }

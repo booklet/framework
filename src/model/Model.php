@@ -28,11 +28,11 @@ abstract class Model
         } elseif (StringUntils::isInclude($name, 'WithPaginate')) {
             $name = str_replace('WithPaginate', '', $name);
             $relation = new Relations($this, $name, $args);
-            $paginate = new BKTPaginate(get_class($this), $args[1]);
-            $results = $relation->getRelationsObjects($paginate->updateParamsForResults($args[0]));
-            $results_count = $relation->getRelationsObjects($paginate->updateParamsForCount($args[0]));
+            $args[1] = array_merge($args[1], ['paginate_data' => true]);
 
-            return [$results, $paginate->getDataForPagination($results_count)];
+            list($results, $paginate_data) = $relation->getRelationsObjects($args);
+
+            return [$results, $paginate_data];
 
             // Dynamic generate relations methods => $client->categories();
         } elseif (Relations::isRelationMethod($this, $name)) {
