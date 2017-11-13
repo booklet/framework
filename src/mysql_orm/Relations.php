@@ -26,18 +26,31 @@ class Relations
                 return true;
             }
         }
+
         return false;
     }
 
-    public function getRelationsObjects()
+    public function getRelationsObjects(array $params = [])
     {
         foreach ($this->obj_class_name::relations() as $relation_fn_name => $relation_params) {
             if ($relation_fn_name == $this->fn_name) {
                 if ($relation_params['relation'] == 'has_many') {
-                    return $relation_params['class']::where($this->sqlQuery(), $this->sqlParams());
+                    // TODO wywalic paginacje
+                    if (isset($params['paginate'])) {
+                        $paginate = new BKTPaginate($this->obj_class_name, $params);
+
+                        return $relation_params['class']::where($this->sqlQuery(), $this->sqlParams(), $paginate->updateParamsForResults($params));
+                    } elseif (isset($params['count'])) {
+                        $paginate = new BKTPaginate($this->obj_class_name, $params);
+
+                        return $relation_params['class']::where($this->sqlQuery(), $this->sqlParams(), $paginate->updateParamsForCount($params));
+                    } else {
+                        return $relation_params['class']::where($this->sqlQuery(), $this->sqlParams());
+                    }
                 }
                 if ($relation_params['relation'] == 'belongs_to') {
                     $parent_table_name = $this->fn_name . '_id';
+
                     return $relation_params['class']::find($this->obj->$parent_table_name);
                 }
                 if ($relation_params['relation'] == 'has_and_belongs_to_many') {
@@ -48,17 +61,31 @@ class Relations
                     $habtm_table_name = $this->getHABTMTableName($relation_params);
 
                     // buildit query
-                    $query_string = "SELECT `" . $habtm_table_name . "`.* FROM `" . $habtm_table_name . "` WHERE `" . $this_table_id_key . "` = " . $this->obj->id;
+                    if (isset($params['count'])) {
+                        $query_string = 'SELECT COUNT(*) AS `count` FROM `' . $habtm_table_name . '`.* FROM `' . $habtm_table_name . '` WHERE `' . $this_table_id_key . '` = ' . $this->obj->id;
+                    } elseif (isset($params['paginate'])) {
+                        $query_string = 'SELECT `' . $habtm_table_name . '`.* FROM `' . $habtm_table_name . '` WHERE `' . $this_table_id_key . '` = ' . $this->obj->id . ' LIMIT ' . $params['paginate'] . ', ' . $params['per_page'];
+                    } else {
+                        $query_string = 'SELECT `' . $habtm_table_name . '`.* FROM `' . $habtm_table_name . '` WHERE `' . $this_table_id_key . '` = ' . $this->obj->id;
+                    }
+
                     $result = mysqli_query(MyDB::db(), $query_string);
 
-                    // collect ids
-                    $relation_objects_ids = [];
-                    while ($row = $result->fetch_assoc()) {
-                        $relation_objects_ids[] = $row[$target_table_id_key];
+                    if (isset($params['count'])) {
+                        return 'ffff';
+                    } elseif (isset($params['paginate'])) {
+                        return 'sdfdsfdsfdsf';
+                    } else {
+                        // collect ids
+                        $relation_objects_ids = [];
+                        while ($row = $result->fetch_assoc()) {
+                            $relation_objects_ids[] = $row[$target_table_id_key];
+                        }
                     }
 
                     if (!empty($relation_objects_ids)) {
                         $relation_objects_ids_str = join(',', $relation_objects_ids);
+
                         return $relation_params['class']::where('id IN (' . $relation_objects_ids_str . ')', []);
                     } else {
                         return [];
@@ -76,6 +103,7 @@ class Relations
             if ($relation_fn_name == $this->fn_name) {
                 if ($relation_params['relation'] == 'has_many') {
                     $underscore_class_name = StringUntils::camelCaseToUnderscore($this->obj_class_name);
+
                     return $underscore_class_name . '_id = ?';
                 }
                 if ($relation_params['relation'] == 'belongs_to') {
@@ -89,20 +117,22 @@ class Relations
 
     public function sqlParams()
     {
-      foreach ($this->obj_class_name::relations() as $relation_fn_name => $relation_params) {
-          if ($relation_fn_name == $this->fn_name) {
-              if ($relation_params['relation'] == 'has_many') {
-                  $underscore_class_name = StringUntils::camelCaseToUnderscore($this->obj_class_name);
-                  return [$underscore_class_name . '_id' => $this->obj->id];
-              }
-              if ($relation_params['relation'] == 'belongs_to') {
-                  $parent_table_name = $this->fn_name . '_id';
-                  return ['id' => $this->obj->$parent_table_name];
-              }
-          }
-      }
+        foreach ($this->obj_class_name::relations() as $relation_fn_name => $relation_params) {
+            if ($relation_fn_name == $this->fn_name) {
+                if ($relation_params['relation'] == 'has_many') {
+                    $underscore_class_name = StringUntils::camelCaseToUnderscore($this->obj_class_name);
 
-      return false;
+                    return [$underscore_class_name . '_id' => $this->obj->id];
+                }
+                if ($relation_params['relation'] == 'belongs_to') {
+                    $parent_table_name = $this->fn_name . '_id';
+
+                    return ['id' => $this->obj->$parent_table_name];
+                }
+            }
+        }
+
+        return false;
     }
 
     public function sqlModel()
@@ -126,11 +156,13 @@ class Relations
 
         // $this->fn_name = categoriesPush
         foreach ($this->obj_class_name::relations() as $relation_fn_name => $relation_params) {
-            if ($relation_fn_name == str_replace('Push', '', $this->fn_name) ) {
+            if ($relation_fn_name == str_replace('Push', '', $this->fn_name)) {
                 $model_relation_params = $relation_params;
             }
         }
-        if (!isset($model_relation_params)) { throw new Exception('Not found relation'); }
+        if (!isset($model_relation_params)) {
+            throw new Exception('Not found relation');
+        }
 
         // check if passed items type is allowed
         foreach ($items as $item) {
@@ -173,17 +205,19 @@ class Relations
 
         // $this->fn_name = categoriesPush
         foreach ($this->obj_class_name::relations() as $relation_fn_name => $relation_params) {
-            if ($relation_fn_name == str_replace("Delete", '', $this->fn_name) ) {
+            if ($relation_fn_name == str_replace('Delete', '', $this->fn_name)) {
                 $model_relation_params = $relation_params;
             }
         }
 
-        if (!isset($model_relation_params)) { throw new Exception("Not found relation"); }
+        if (!isset($model_relation_params)) {
+            throw new Exception('Not found relation');
+        }
 
         // check if passed items type is allowed
         foreach ($items as $item) {
             if ($model_relation_params['class'] != get_class($item)) {
-                throw new Exception("Wrong delete object class, expect " . $model_relation_params['class'] . " got " . get_class($item));
+                throw new Exception('Wrong delete object class, expect ' . $model_relation_params['class'] . ' got ' . get_class($item));
             }
         }
 
@@ -196,12 +230,12 @@ class Relations
         foreach ($items as $item) {
             // check if exist
             // buildit query
-            $query_string = "SELECT `" . $habtm_table_name . "`.* FROM `" . $habtm_table_name . "` WHERE `" . $this_table_id_key . "` = " . $this->obj->id . " AND `" . $target_table_id_key . "` = " . $item->id;
+            $query_string = 'SELECT `' . $habtm_table_name . '`.* FROM `' . $habtm_table_name . '` WHERE `' . $this_table_id_key . '` = ' . $this->obj->id . ' AND `' . $target_table_id_key . '` = ' . $item->id;
             $result = mysqli_query(MyDB::db(), $query_string);
 
             if ($result->num_rows > 0) {
                 // delete relations
-                $query_string = "DELETE `" . $habtm_table_name . "`.* FROM `" . $habtm_table_name . "` WHERE `" . $this_table_id_key . "` = " . $this->obj->id . " AND `" . $target_table_id_key . "` = " . $item->id;
+                $query_string = 'DELETE `' . $habtm_table_name . '`.* FROM `' . $habtm_table_name . '` WHERE `' . $this_table_id_key . '` = ' . $this->obj->id . ' AND `' . $target_table_id_key . '` = ' . $item->id;
                 $result = mysqli_query(MyDB::db(), $query_string);
             } else {
                 // do nothing
@@ -218,7 +252,7 @@ class Relations
     {
         $habtm_model_name_arr = [];
         $habtm_model_name_arr[] = StringUntils::camelCaseToUnderscore($this->obj->pluralizeClassName());
-        $habtm_model_name_arr[] = StringUntils::camelCaseToUnderscore((new $relation_params['class'])->pluralizeClassName());
+        $habtm_model_name_arr[] = StringUntils::camelCaseToUnderscore((new $relation_params['class']())->pluralizeClassName());
         sort($habtm_model_name_arr);
 
         return join('_', $habtm_model_name_arr);

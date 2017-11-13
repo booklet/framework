@@ -24,6 +24,16 @@ abstract class Model
 
             return $relation->habtmDeleteObjects();
 
+            // Relation with paginate
+        } elseif (StringUntils::isInclude($name, 'WithPaginate')) {
+            $name = str_replace('WithPaginate', '', $name);
+            $relation = new Relations($this, $name, $args);
+            $paginate = new BKTPaginate(get_class($this), $args[1]);
+            $results = $relation->getRelationsObjects($paginate->updateParamsForResults($args[0]));
+            $results_count = $relation->getRelationsObjects($paginate->updateParamsForCount($args[0]));
+
+            return [$results, $paginate->getDataForPagination($results_count)];
+
             // Dynamic generate relations methods => $client->categories();
         } elseif (Relations::isRelationMethod($this, $name)) {
             $relation = new Relations($this, $name, $args);

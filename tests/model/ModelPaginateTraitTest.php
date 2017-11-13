@@ -1,5 +1,7 @@
 <?php
 require_once 'tests/fixtures/models/FWTestModelUser.php';
+require_once 'tests/fixtures/validator/TesterParentModel.php';
+require_once 'tests/fixtures/validator/TesterChildModel.php';
 
 class ModelPaginateTraitTest extends TesterCase
 {
@@ -104,6 +106,36 @@ class ModelPaginateTraitTest extends TesterCase
             'current_page' => 1,
             'total_items' => 0,
             'items_per_page' => 30,
+        ]);
+    }
+
+    public function testRelationPagination()
+    {
+        $parent = new TesterParentModel(['name' => 'parent item']);
+        $parent->save();
+
+        for ($i = 1; $i < 101; ++$i) {
+            $child = new TesterChildModel([
+                'tester_parent_model_id' => $parent->id,
+                'address' => 'user' . $i . '@booklet.pl',
+            ]);
+            $child->save();
+        }
+        $all_childs = TesterChildModel::all();
+
+        Assert::expect(count($all_childs))->to_equal(100);
+        Assert::expect(count($parent->childs()))->to_equal(100);
+
+        $params = ['page' => 1];
+
+        list($childs, $paginate_data) = $parent->childsWithPaginate(['order' => 'id DESC'], $params);
+
+        Assert::expect(count($childs))->to_equal(25);
+        Assert::expect($paginate_data)->to_equal([
+            'total_pages' => 4,
+            'current_page' => 1,
+            'total_items' => 100,
+            'items_per_page' => 25,
         ]);
     }
 }
