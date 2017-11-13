@@ -9,7 +9,7 @@ class AssetHtmlTagTest extends TesterCase
         ], 'js');
 
         $html = $tag->getHtmlTags();
-        Assert::expect($html)->to_equal("<script type=\"text/javascript\" src=\"/tests/fixtures/asset_minifier/file1.js\"></script>\n\r<script type=\"text/javascript\" src=\"/tests/fixtures/asset_minifier/file2.js\"></script>\n\r");
+        Assert::expect($html)->to_equal("<script type=\"text/javascript\" src=\"/tests/fixtures/asset_minifier/file1.js\"></script>\n<script type=\"text/javascript\" src=\"/tests/fixtures/asset_minifier/file2.js\"></script>\n");
     }
 
     public function testGetHtmlTagsCss()
@@ -20,6 +20,6 @@ class AssetHtmlTagTest extends TesterCase
         ], 'css');
 
         $html = $tag->getHtmlTags();
-        Assert::expect($html)->to_equal("<link rel=\"stylesheet\" media=\"all\" href=\"/tests/fixtures/asset_minifier/file1.css\" />\n\r<link rel=\"stylesheet\" media=\"all\" href=\"/tests/fixtures/asset_minifier/file2.css\" />\n\r");
+        Assert::expect($html)->to_equal("<link rel=\"stylesheet\" media=\"all\" href=\"/tests/fixtures/asset_minifier/file1.css\" />\n<link rel=\"stylesheet\" media=\"all\" href=\"/tests/fixtures/asset_minifier/file2.css\" />\n");
     }
 }

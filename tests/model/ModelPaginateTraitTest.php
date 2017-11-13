@@ -1,4 +1,6 @@
 <?php
+require_once 'tests/fixtures/models/FWTestModelUser.php';
+
 class ModelPaginateTraitTest extends TesterCase
 {
     public function populateUserTable()
