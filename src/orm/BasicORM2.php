@@ -13,9 +13,10 @@ trait BasicORM2
     private static $instance = null;
 
     /**
-    * Get all records from database
-    * @return array of objects
-    */
+     * Get all records from database.
+     *
+     * @return array of objects
+     */
     public static function orm2_all(array $params = [])
     {
         self::initialize();
@@ -53,32 +54,31 @@ trait BasicORM2
         return self::$instance;
     }
 
+    //    public static function first()
+    //    {
+    //
+    //    }
+    //
+    //    public static function last()
+    //    {
+    //
+    //    }
+    //
+    //    public static function count()
+    //    {
+    //
+    //    }
 
-#    public static function first()
-#    {
-#
-#    }
-#
-#    public static function last()
-#    {
-#
-#    }
-#
-#    public static function count()
-#    {
-#
-#    }
-
-#    public static function offset()
-#    {
-#
-#    }
-#
-#    public static function limit()
-#    {
-#
-#    }
-#
+    //    public static function offset()
+    //    {
+    //
+    //    }
+    //
+    //    public static function limit()
+    //    {
+    //
+    //    }
+    //
     public static function orderBy($column, $direction)
     {
         self::$builder->orderBy($column, $direction);
@@ -86,28 +86,26 @@ trait BasicORM2
         return self::$instance;
     }
 
-
-#    public static function insert()
-#    {
-#
-#    }
-#
-#    public static function update()
-#    {
-#
-#    }
-#
-#
-#    public static function delete()
-#    {
-#
-#    }
-#
-#    public static function touch()
-#    {
-#
-#    }
-
+    //    public static function insert()
+    //    {
+    //
+    //    }
+    //
+    //    public static function update()
+    //    {
+    //
+    //    }
+    //
+    //
+    //    public static function delete()
+    //    {
+    //
+    //    }
+    //
+    //    public static function touch()
+    //    {
+    //
+    //    }
 
     public static function get()
     {
@@ -118,13 +116,6 @@ trait BasicORM2
     {
         return self::$builder->toSql();
     }
-
-
-
-
-
-
-
 
     private static function initialize()
     {
