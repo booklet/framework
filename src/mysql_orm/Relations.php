@@ -36,14 +36,15 @@ class Relations
             if ($relation_fn_name == $this->fn_name) {
                 if ($relation_params['relation'] == 'has_many') {
                     // TODO wywalic paginacje
-                    if (isset($params['paginate'])) {
-                        $paginate = new BKTPaginate($this->obj_class_name, $params);
+                    if (isset($params[1]) and isset($params[1]['paginate_data'])) {
+                        $where_params = [];
+                        if (isset($params[0])) {
+                            $where_params = $params[0];
+                        }
 
-                        return $relation_params['class']::where($this->sqlQuery(), $this->sqlParams(), $paginate->updateParamsForResults($params));
-                    } elseif (isset($params['count'])) {
-                        $paginate = new BKTPaginate($this->obj_class_name, $params);
+                        list($results, $paginate_data) = $relation_params['class']::whereWithPaginate($this->sqlQuery(), $this->sqlParams(), $where_params, $params[1]);
 
-                        return $relation_params['class']::where($this->sqlQuery(), $this->sqlParams(), $paginate->updateParamsForCount($params));
+                        return [$results, $paginate_data];
                     } else {
                         return $relation_params['class']::where($this->sqlQuery(), $this->sqlParams());
                     }
