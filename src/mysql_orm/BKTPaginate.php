@@ -46,6 +46,10 @@ class BKTPaginate
 
     private function getCurrentPage()
     {
-        return intval($this->paginate_params['page'] ?? 1);
+        if (!empty($this->paginate_params['page'])) {
+            return intval($this->paginate_params['page']);
+        }
+
+        return 1;
     }
 }
