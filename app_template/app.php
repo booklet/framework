@@ -38,6 +38,14 @@ if ($task->action == 'db:prepare') {
     $task->dbPrepare();
 }
 
+// Assets tasks
+// =============================================================================
+// compile assets (scss to css) to production files
+// $ app assets:compile
+if ($task->action == 'assets:compile') {
+    $task->assetsCompile();
+}
+
 // Tests tasks
 // =============================================================================
 // run all tests

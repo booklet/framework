@@ -103,6 +103,17 @@ class CLITask
         echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
     }
 
+    // Zakladamy ze w aplikacji bedzie klasa AssetsCompiler z metoda compile
+    // ktora obsluzy przygotowanie assetsow
+    public function assetsCompile()
+    {
+        echo "\nRun compile assets\n";
+        $time_start = microtime(true);
+        $assets = new AssetsCompiler();
+        $assets->compile();
+        echo "\nCompiled in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
+    }
+
     // Run all not migrated migrations
     private function runMigrations()
     {
