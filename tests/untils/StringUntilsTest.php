@@ -62,6 +62,15 @@ class StringUntilsTest extends TesterCase
         Assert::expect($is_contains_numbers)->to_equal(true);
     }
 
+    public function testIsContainsLetters()
+    {
+        $is_contains_letters = StringUntils::isContainsLetters('1234 $%^ () 09');
+        Assert::expect($is_contains_letters)->to_equal(false);
+
+        $is_contains_letters = StringUntils::isContainsLetters('123 text With letters');
+        Assert::expect($is_contains_letters)->to_equal(true);
+    }
+
     public function testFnTransliterate()
     {
         $testdata = [

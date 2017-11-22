@@ -63,6 +63,11 @@ class StringUntils
         return preg_match('/\\d/', $string) > 0;
     }
 
+    public static function isContainsLetters($string)
+    {
+        return preg_match('/[A-Za-z]/', $string) > 0;
+    }
+
     /**
      * @param string „UTASZ-SPEED” Sp. z o.o.
      *
