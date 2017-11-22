@@ -58,6 +58,11 @@ class StringUntils
         }
     }
 
+    public static function isContainsNumbers($string)
+    {
+        return preg_match('/\\d/', $string) > 0;
+    }
+
     /**
      * @param string „UTASZ-SPEED” Sp. z o.o.
      *

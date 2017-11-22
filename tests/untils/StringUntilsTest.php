@@ -53,6 +53,15 @@ class StringUntilsTest extends TesterCase
         Assert::expect($is_include)->to_equal(false);
     }
 
+    public function testIsContainsNumbers()
+    {
+        $is_contains_numbers = StringUntils::isContainsNumbers('no # numbers text % ]');
+        Assert::expect($is_contains_numbers)->to_equal(false);
+
+        $is_contains_numbers = StringUntils::isContainsNumbers('text with 123 digits');
+        Assert::expect($is_contains_numbers)->to_equal(true);
+    }
+
     public function testFnTransliterate()
     {
         $testdata = [
