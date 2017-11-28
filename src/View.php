@@ -16,14 +16,29 @@ class View
             // example: 'app/views/session/login.php'
             $this->path = $options['path'];
         } else {
-            $folder = StringUntils::camelCaseToUnderscore(str_replace('Controller', '', $params['controller']));
-            $file = strtolower($params['action']) . '.php';
+            if (!empty($params['controller'])) {
+                $folder = str_replace('Controller', '', $params['controller']);
+            } else {
+                $folder = str_replace('Mailer', '', $params['mailer']);
+            }
+
+            $folder = StringUntils::camelCaseToUnderscore($folder);
+            $file = StringUntils::camelCaseToUnderscore($params['action']) . '.php';
 
             // Check first module view folder, then default view folder
-            $module_name = $this->getModuleNameBaseOnControllerName($params['controller']);
-            $module_file_path = 'app/modules/' . $module_name. '/views/' . $folder . '/' . $file;
+            if (!empty($params['controller'])) {
+                $module_name = $this->getModuleNameBaseOnControllerName($params['controller']);
+            } else {
+                $module_name = $this->getModuleNameBaseOnControllerName($params['mailer']);
+            }
+
+            $module_file_path = 'app/modules/' . $module_name . '/views/' . $folder . '/' . $file;
+            $mailer_module_file_path = 'app/modules/' . $module_name . '/views/mailers/' . $folder . '/' . $file;
+
             if (file_exists($module_file_path)) {
                 $this->path = $module_file_path;
+            } elseif (file_exists($mailer_module_file_path)) {
+                $this->path = $mailer_module_file_path;
             } else {
                 $this->path = 'app/views/' . $folder . '/' . $file;
             }
@@ -32,7 +47,7 @@ class View
         if (isset($options['helpers'])) {
             foreach ($options['helpers'] as $helper_name) {
                 $helper_class_name = $helper_name . 'Helper';
-                $this->{$helper_name} = new $helper_class_name;
+                $this->{$helper_name} = new $helper_class_name();
             }
         }
     }
@@ -64,7 +79,7 @@ class View
 
         // "/Users/admin/Sites/api.booklet.pl/app/modules/client/controllers" => "client"
         $path_elements = explode('/', $path_to_class_file_name);
-        $module_name = $path_elements[count($path_elements)-2];
+        $module_name = $path_elements[count($path_elements) - 2];
 
         return $module_name;
     }
