@@ -32,6 +32,10 @@ class Autoloader
         return strpos($class_name, '\\') !== false and strpos($this->directory, 'app/modules') !== false;
     }
 
+    // TODO Add support to sub-namespaces
+    // Order/Order
+    // Order/Order/Item
+    // Order/Order/Item/Element
     private function isClassNamespaceEqualCurrentModuleDirectory($class_name)
     {
         list($module_name, $file_class_name) = explode('\\', $class_name);
