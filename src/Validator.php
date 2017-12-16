@@ -25,7 +25,11 @@ class Validator
                     $params = null;
                 }
 
-                $this->{$method}($attribute, $params);
+                // Skip if value are null and pased allow_null param
+                if (is_null($this->obj->$attribute) and in_array('allow_null', $parts)) {
+                } else {
+                    $this->{$method}($attribute, $params);
+                }
             }
         }
 

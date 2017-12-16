@@ -37,6 +37,52 @@ class ValidatorTest extends TesterCase
         Assert::expect($valid->errors()['name'][0])->to_equal('is required.'); // TODO nie $valid a obiekt
     }
 
+    public function testValidAllowNull()
+    {
+        $obj = new stdClass();
+        $obj->quanity = null;
+        $rules = ['quanity' => ['greater_than_or_equal_to:2:allow_null']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(true);
+
+        $obj->quanity = 10;
+        $rules = ['quanity' => ['greater_than_or_equal_to:2:allow_null']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(true);
+
+        $obj->quanity = 1;
+        $rules = ['quanity' => ['greater_than_or_equal_to:2:allow_null']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(false);
+
+        $obj->quanity = '';
+        $rules = ['quanity' => ['greater_than_or_equal_to:2:allow_null']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(false);
+
+        $obj->quanity = null;
+        $rules = ['quanity' => ['greater_than_or_equal_to:2:allow_null']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(true);
+
+        $obj->quanity = 0;
+        $rules = ['quanity' => ['greater_than_or_equal_to:0:allow_null']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(true);
+
+        $obj->quanity = 0;
+        $rules = ['quanity' => ['greater_than_or_equal_to:1:allow_null']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(false);
+    }
+
     public function testValidTypeStringText()
     {
         $obj = new stdClass();
