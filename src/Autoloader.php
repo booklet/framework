@@ -29,7 +29,8 @@ class Autoloader
 
     private function isClassNamespaceFromModulesDriectory($class_name)
     {
-        return strpos($class_name, '\\') !== false and strpos($this->directory, 'app/modules') !== false;
+        return strpos($class_name, '\\') !== false and
+              (strpos($this->directory, 'app/modules/') !== false or strpos($this->directory, 'tests/modules/') !== false);
     }
 
     private function isClassNamespaceEqualCurrentModuleDirectory($class_name)
@@ -37,7 +38,13 @@ class Autoloader
         list($module_name, $file_class_name) = explode('\\', $class_name);
         $module_name = strtolower($module_name);
 
-        return strpos($this->directory, "app/modules/$module_name") !== false;
+        if (strpos($this->directory, 'app/modules/') !== false) {
+            $path = "app/modules/$module_name";
+        } else {
+            $path = "tests/modules/$module_name";
+        }
+
+        return strpos($this->directory, $path) !== false;
     }
 
     private function getFileClassNameFormNamespaceClassName($class_name)
