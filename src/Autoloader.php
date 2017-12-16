@@ -24,7 +24,8 @@ class Autoloader
             return false;
         }
 
-        include $file_path;
+        // include cause problem with namespaces classes, need to investigate
+        require_once $file_path;
     }
 
     private function isClassNamespaceFromModulesDriectory($class_name)
