@@ -75,15 +75,20 @@ class FilesUntils
     }
 
     // 12 => 000/000/012/
+    public static function idToPath($id)
+    {
+        $id_str = str_pad($id, 9, '0', STR_PAD_LEFT);
+
+        return chunk_split($id_str, 3, '/');
+    }
+
     public static function objectIdToPath($object)
     {
         if (!isset($object->id)) {
             throw new Exception('Object does not have id property.');
         }
 
-        $id_str = str_pad($object->id, 9, '0', STR_PAD_LEFT);
-
-        return chunk_split($id_str, 3, '/');
+        return self::idToPath($object->id);
     }
 
     public static function getPathDirname($file_path)

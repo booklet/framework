@@ -1,6 +1,12 @@
 <?php
 class FilesUntilsTest extends TesterCase
 {
+    public function testIdToPath()
+    {
+        Assert::expect(FilesUntils::idToPath(0))->to_equal('000/000/000/');
+        Assert::expect(FilesUntils::idToPath(1234))->to_equal('000/001/234/');
+    }
+
     public function testObjectIdToPath()
     {
         $object = (object) ['id' => 0];

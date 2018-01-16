@@ -13,7 +13,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/boooklet/tester.git",
-                "reference": "f4396ffaeb12a70f1bd46a3a7dffb0bc4dafcec0"
+                "reference": "588ea84d494ef917642bc9ad0726c438a85a45fe"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -26,7 +26,7 @@
                 ]
             },
             "description": "Test library",
-            "time": "2017-12-15 21:05:25"
+            "time": "2018-01-08 09:04:22"
         },
         {
             "name": "matthiasmullie/minify",
