@@ -126,4 +126,9 @@ class FilesUntils
 
         return round($size, $precision) . ' ' . $units[$i];
     }
+
+    public static function makeDirectory($dir_path, $mode = 0777)
+    {
+        return is_dir($dir_path) || mkdir($dir_path, $mode, true);
+    }
 }
