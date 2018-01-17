@@ -149,8 +149,8 @@ class StringUntilsTest extends TesterCase
 
     public function testRemoveAccentsAndDiacritics()
     {
-        $normalize = StringUntils::removeAccentsAndDiacritics('Śtręët ņąmę Ćity ńąmę Čómpąńy ńąmę Ċõntaçt ňamê');
-        Assert::expect($normalize)->to_equal('Street name City name Company name Contact name');
+        $normalize = StringUntils::removeAccentsAndDiacritics('Śtręët ņąmę Ćity, ńąmę Čómpąńy-ńąmę Ċõntaçt/ňamê Γεια σου κόσμε');
+        Assert::expect($normalize)->to_equal('Street name City, name Company-name Contact/name Geia sou kosme');
     }
 
     public function testSlug()

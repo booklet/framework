@@ -107,7 +107,9 @@ class StringUntils
 
     public static function removeAccentsAndDiacritics($string)
     {
-        $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: [:Punctuation:] Remove;');
+        // Earlier version ':: Any-Latin; :: Latin-ASCII; :: [:Punctuation:] Remove;'
+        // remove characters like ,-/ , but we want only remove diacritics
+        $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII;');
 
         return $transliterator->transliterate($string);
     }
