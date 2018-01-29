@@ -41,7 +41,7 @@ class Autoloader
     private function isClassNamespaceEqualCurrentModuleDirectory($class_name)
     {
         list($module_name, $file_class_name) = explode('\\', $class_name);
-        $module_name = strtolower($module_name);
+        $module_name = StringUntils::camelCaseToUnderscore($module_name);
 
         if (strpos($this->directory, 'app/modules/') !== false) {
             $path = "app/modules/$module_name";
