@@ -18,22 +18,27 @@ class ArrayUntilsTest extends TesterCase
                 'name' => [
                     'test1.jpg',
                     'test2.jpg',
+                    null,
                 ],
                 'type' => [
                     'image/jpeg',
                     'image/jpeg',
+                    null,
                 ],
                 'tmp_name' => [
                     '/tmp/nsl54Gs',
                     '/tmp/1sl54GC',
+                    null,
                 ],
                 'error' => [
                     0,
                     0,
+                    4,
                 ],
                 'size' => [
                     1715,
                     5368,
+                    0,
                 ],
             ],
         ];
@@ -70,30 +75,35 @@ class ArrayUntilsTest extends TesterCase
                     'files' => [
                         'test1.jpg',
                         'test2.jpg',
+                        null,
                     ],
                 ],
                 'type' => [
                     'files' => [
                         'image/jpeg',
                         'image/jpeg',
+                        null,
                     ],
                 ],
                 'tmp_name' => [
                     'files' => [
                         '/tmp/nsl54Gs',
                         '/tmp/1sl54GC',
+                        null,
                     ],
                 ],
                 'error' => [
                     'files' => [
                         0,
                         0,
+                        4,
                     ],
                 ],
                 'size' => [
                     'files' => [
                         1715,
                         5368,
+                        0,
                     ],
                 ],
             ],
