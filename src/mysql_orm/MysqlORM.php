@@ -124,7 +124,19 @@ class MysqlORM
         $query = $this->prepareStatement('DELETE FROM `' . $this->table_name . '` WHERE `id` = ?');
         $query->bind_param('i', $this->model_obj->id);
 
-        return $query->execute() ? true : false;
+        // callback before destroy
+        if (method_exists($this->model_obj, 'beforeDestroy')) {
+            $this->model_obj->beforeDestroy();
+        }
+
+        $is_destroy = $query->execute() ? true : false;
+
+        // callback after destroy
+        if ($is_destroy and method_exists($this->model_obj, 'afterDestroy')) {
+            $this->model_obj->afterDestroy();
+        }
+
+        return $is_destroy;
     }
 
     /**
