@@ -71,8 +71,15 @@ class FileMeasurementPDF
 
     public function setPagesSizes()
     {
+        // When run tests in framework we need this path
+        // but when we run this in system (api, fotobum) we need full path
+        $toolbin_pdf_info_path = 'lib/ghost_script/toolbin_pdf_info.ps';
+        if (!file_exists($toolbin_pdf_info_path)) {
+            $toolbin_pdf_info_path = 'vendor/boooklet/framework/lib/ghost_script/toolbin_pdf_info.ps';
+        }
+
         $pdf_info_data = shell_exec('gs -dNODISPLAY -q -sFile="' . $this->file_path . '"' .
-            ' -dDumpMediaSizes lib/ghost_script/toolbin_pdf_info.ps');
+            ' -dDumpMediaSizes ' . $toolbin_pdf_info_path);
         $gs_parser = new GhostScriptDumpMediaSizesParser($pdf_info_data);
 
         $this->pages_sizes = $gs_parser->parse();
