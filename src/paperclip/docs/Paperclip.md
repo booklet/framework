@@ -2,31 +2,40 @@
 
 ## Instalacja
 
-W modelu w ktorym chcemy użyc dodajemy trait
+### Config:
+
+- domeny która będzie używana przy generowaniu pełnych urli
+`Config::set('paperclip_host', 'http://booklet.pl');`
+
+- jeśli ścieżka do narzędzia `identify` jest inna niż domyślna to należy ja podać:
+`Config::set('custom_identify_bin_path', '/usr/local/bin/identify');`
+
+### Model
+
+W modelu w którym chcemy użyć dodajemy trait
 
 `use NewPaperClipTrait;`
 
-Dodaje on do meodelu dynamiczne metody takie jak (przykład dla preview):
+dodaje on do modelu dynamiczne metody takie jak (przykład dla preview):
 
 `$this->preview()`
-Zwraca tablcie danych o zalaczniku
-preview_file_name, preview_file_size, preview_content_type, preview_updated_at
+Zwraca tablicę danych o załączniku:
+`preview_file_name`, `preview_file_size`, `preview_content_type`, `preview_updated_at`
 
 `$this->previewPath(), $this->previewPath('style_name')`
-Zwraca sciezkę do pliku (parametr opcjonalny to nazwa stylu dla ktorego chcemy sciezkę, domyslnie original)
+Zwraca ścieżkę do pliku (parametr opcjonalny to nazwa stylu dla którego chcemy ścieżkę, domyślnie original)
 
 `$this->previewUrl(), $this->previewUrl('style_name')`
-Zwraca pełny URL do pliku (parametr opcjonalny to nazwa stylu dla ktorego chcemy sciezkę, domyslnie original)
+Zwraca pełny URL do pliku (parametr opcjonalny to nazwa stylu dla którego chcemy ścieżkę, domyślnie original)
 
 `$this->previewSave(array $file) or (string $file_path) without validation!`
-Metoda wykorzystywana przy zapisywaniu nie korzystac z niej, uzywac save() na modelu
+Metoda wykorzystywana przy zapisywaniu, nie korzystać z niej, używać save() na modelu
 
 `$this->previewReprocess()`
-Przetworzenie plikow (np. po zmianie wielkosci styli)
+Przetworzenie plików (np. po zmianie wielkości styli)
 
 `$this->previewDestroy()`
-Skasowanie załacznika, docelowo bedzie podpiete pod $model->destroy();
-
+Skasowanie załącznika, docelowo będzie podpięte pod $model->destroy();
 
 oraz
 
@@ -54,29 +63,28 @@ public function hasAttachedFile()
     ];
 }`
 
-`60x60` - skaluje proporcjonalnie do zadanego wymiaru (zaden z bokow nie bedzie dluzsy niz 60px)
-`60x60>` - to samo co powyzej ale tylko jesli grafika jest wieksza, mniejsze nie zostana powiekszone
+`60x60` - skaluje proporcjonalnie do zadanego wymiaru (żaden z boków nie będzie dłuższy niż 60px)
+`60x60>` - to samo co powyżej, ale tylko jeśli grafika jest większa, mniejsze nie zostaną powiększone
 `60x60#` - kropowanie grafiki centralnie
 
-oraz dodajemy specjalny atrybut o nazwie załaczniki (attachment)
+oraz dodajemy specjalny atrybut o nazwie załączniki (attachment)
 
 `public function specialPropertis()
 {
     return ['file'];
 }`
 
-
-## Uzycie
+## Użycie
 
 `$model_item = new ExampleModel();
 $model_item->file = $file;
 $model_item->save();
 `
 
-Jako zmienna $file mozemy przekazac:
-- tablice `$_FILES` (jesli tabela zawiera wiecej niz jeden plik, zostanie uzyty tylko pierwszy)
-- tablice files w postaci znormalizowanej, (jesli tabela zawiera wiecej niz jeden plik, zostanie
-  uzyty tylko pierwszy) przyklad:
+Jako zmienną $file możemy przekazać:
+- tablice `$_FILES` (jeśli tabela zawiera więcej niż jeden plik, zostanie użyty tylko pierwszy)
+- tablice files w postaci znormalizowanej, (jeśli tabela zawiera więcej niż jeden plik, zostanie
+użyty tylko pierwszy) przykład:
 
   `$normalize_files = [
       [
@@ -95,4 +103,4 @@ Jako zmienna $file mozemy przekazac:
       ],
   ];
   `
-- sciezkę do pliku
+- ścieżkę do pliku
