@@ -21,7 +21,14 @@ class NewPaperClipSave
 
         if (is_array($params['file'])) {
             $this->is_uploaded_file = true;
-            $this->file = $params['file'];
+
+            if (isset($params['file']['tmp_name'])) {
+                // if file array
+                $this->file = $params['file'];
+            } else {
+                // if array of arrays
+                $this->file = $params['file'][0];
+            }
         } else {
             $this->file = $params['file'];
         }
