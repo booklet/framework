@@ -16,7 +16,7 @@ class DateTimeUntils
 
     public static function monthBeginningDate($year, $month)
     {
-        $m = sprintf("%02d", $month);
+        $m = sprintf('%02d', $month);
 
         return "{$year}-{$m}-01 00:00:00";
     }
@@ -24,8 +24,20 @@ class DateTimeUntils
     public static function monthEndDate($year, $month)
     {
         $days_in_month = self::daysInMonth($year, $month);
-        $m = sprintf("%02d", $month);
+        $m = sprintf('%02d', $month);
 
         return "{$year}-{$m}-{$days_in_month} 23:59:59";
+    }
+
+    // Days from 1800-12-28
+    // clarionDate('2001-12-31');
+    // clarionDate('-10 days');
+    public static function clarionDate($date_time_string = 'now')
+    {
+        $d1 = new DateTime('1800-12-28');
+        $d2 = new DateTime($date_time_string);
+        $interval = $d1->diff($d2);
+
+        return $interval->format('%a');
     }
 }

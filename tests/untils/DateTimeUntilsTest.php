@@ -22,4 +22,15 @@ class DateTimeUntilsTest extends TesterCase
 
         Assert::expect($month_beginning_date)->to_equal('2017-02-28 23:59:59');
     }
+
+    public function testClarionDate()
+    {
+        $clarion_date = DateTimeUntils::clarionDate('2005-03-16');
+
+        Assert::expect($clarion_date)->to_equal('74588');
+
+        $clarion_date = DateTimeUntils::clarionDate('2018-03-04');
+
+        Assert::expect($clarion_date)->to_equal('79324');
+    }
 }
