@@ -187,4 +187,11 @@ class StringUntilsTest extends TesterCase
         Assert::expect(StringUntils::removeWordsShorterThan('Co to za naklejki na słoiki hmm'))->to_equal('naklejki słoiki');
         Assert::expect(StringUntils::removeWordsShorterThan('1 a aa aaa 99 aaaa aaa aaaaa aaa aa a 0'))->to_equal('aaaa aaaaa');
     }
+
+    public function testTruncate()
+    {
+        Assert::expect(StringUntils::truncate('Co to za naklejki na słoiki hmm', 19, ''))->to_equal('Co to za naklejki');
+        Assert::expect(StringUntils::truncate('Co to za naklejki', 20))->to_equal('Co to za naklejki');
+        Assert::expect(StringUntils::truncate('Limiting or Truncating strings using PHP', 37))->to_equal('Limiting or Truncating strings using...');
+    }
 }

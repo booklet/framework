@@ -169,4 +169,14 @@ class StringUntils
 
         return preg_replace('/\s+/', ' ', $string);
     }
+
+    public static function truncate($text, $length, $pad = '...')
+    {
+        $length = abs((int) $length);
+        if (mb_strlen($text) > $length) {
+            $text = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1' . $pad, $text);
+        }
+
+        return $text;
+    }
 }
