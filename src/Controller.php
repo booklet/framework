@@ -3,7 +3,7 @@ abstract class Controller
 {
     public $params;
 
-    function __construct($params)
+    public function __construct($params)
     {
         $this->params = $params;
     }
@@ -12,6 +12,7 @@ abstract class Controller
     public function auth($data, $user)
     {
         $authorizator = new Authorize($this->getControllerAndAction(), $user);
+
         return $authorizator->auth($data);
     }
 
@@ -39,7 +40,7 @@ abstract class Controller
 
         // handle nested attributes errors
         if (isset($data->errors)) {
-          $error['errors'] = $data->errors;
+            $error['errors'] = $data->errors;
         }
 
         return $this->customDataResponse($error, $status);
@@ -50,6 +51,7 @@ abstract class Controller
     public function errorResponseWithObject($data, $status = 422)
     {
         $data = $this->renderToJson($data, $this->getControllerAndAction());
+
         return Response::bulid($status, $data);
     }
 
@@ -64,6 +66,14 @@ abstract class Controller
     // Render html
     public function render(array $params = [], array $options = [])
     {
+        if (isset($this->layout)) {
+            $options['layout'] = $this->layout;
+        }
+
+        if (isset(Config::get('router'))) {
+            $options['router'] = Config::get('router');
+        }
+
         return (new View($this->params, $params, $options))->render();
     }
 

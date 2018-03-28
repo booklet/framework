@@ -17,7 +17,9 @@ class View
             $this->path = $options['path'];
         } else {
             if (!empty($params['controller'])) {
-                $folder = str_replace('Controller', '', $params['controller']);
+                // Namespace support
+                $parts = explode('\\', $params['controller']);
+                $folder = str_replace('Controller', '', end($parts));
             } else {
                 $folder = str_replace('Mailer', '', $params['mailer']);
             }
@@ -49,6 +51,10 @@ class View
                 $helper_class_name = $helper_name . 'Helper';
                 $this->{$helper_name} = new $helper_class_name();
             }
+        }
+
+        if (isset($options['router'])) {
+            $this->router = $options['router'];
         }
     }
 
