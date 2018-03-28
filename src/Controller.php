@@ -70,7 +70,7 @@ abstract class Controller
             $options['layout'] = $this->layout;
         }
 
-        if (isset(Config::get('router'))) {
+        if (class_exists('Config') and Config::get('router') !== null) {
             $options['router'] = Config::get('router');
         }
 
