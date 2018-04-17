@@ -13,4 +13,9 @@ class NumbersUntils
 
         return $fmt->formatCurrency($value, $currency);
     }
+
+    public static function isNumberBetween($value, $min, $max)
+    {
+        return $value >= $min && $value <= $max;
+    }
 }
