@@ -125,7 +125,7 @@ class CLITask
         $migrations_path = MigrationTools::migrationsPath();
 
         $runs_migrations_arr = [];
-        foreach (glob($migrations_path . '/*.php') as $file) {
+        foreach (glob($migrations_path . '/' . MigrationTools::MIGRATION_FILE_PATTERN) as $file) {
             $version = MigrationTools::getVersionFromFilename($file);
             $is_migrated = MigrationTools::isMigratedMigration($version);
 

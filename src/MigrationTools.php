@@ -1,19 +1,24 @@
 <?php
 class MigrationTools
 {
+    // migration files with pattern 20dddddddddd_*.php
+    const MIGRATION_FILE_PATTERN = '20[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]_*.php';
+
     /**
-    * @param string db/migrate/201607061958_CreateUsersTable.php
-    * @return string 201607061958
-    */
+     * @param string db/migrate/201607061958_CreateUsersTable.php
+     *
+     * @return string 201607061958
+     */
     public static function getVersionFromFilename($file_name)
     {
         preg_match("/\d{12}/", $file_name, $output_array);
+
         return $output_array[0];
     }
 
     /**
-    * @return string 201607061958
-    */
+     * @return string 201607061958
+     */
     public static function getLastMigrationVersion()
     {
         $query = 'SELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `version` DESC LIMIT 1';
@@ -28,9 +33,10 @@ class MigrationTools
     }
 
     /**
-    * @param string db/migrate/201607061958_CreateUsersTable.php
-    * @return string CreateUsersTable
-    */
+     * @param string db/migrate/201607061958_CreateUsersTable.php
+     *
+     * @return string CreateUsersTable
+     */
     public static function getClassNameFromFilename($file_name)
     {
         $file_name = pathinfo($file_name)['filename'];
@@ -39,8 +45,8 @@ class MigrationTools
     }
 
     /**
-    * Before first migration create schema_migrations table if not exist
-    */
+     * Before first migration create schema_migrations table if not exist.
+     */
     public static function createSchemaMigrationsTable()
     {
         $query = 'SELECT version FROM schema_migrations';
@@ -56,8 +62,8 @@ class MigrationTools
     }
 
     /**
-    * Check if that migration has been migrated
-    */
+     * Check if that migration has been migrated.
+     */
     public static function isMigratedMigration($version)
     {
         $query = "SELECT * FROM schema_migrations WHERE version='" . $version . "'";
@@ -67,8 +73,8 @@ class MigrationTools
     }
 
     /**
-    * Insert new migration version to schema_migrations table
-    */
+     * Insert new migration version to schema_migrations table.
+     */
     public static function incrementSchemaVersionIfSuccess($result, $version)
     {
         if (!empty($result)) {
@@ -82,9 +88,9 @@ class MigrationTools
         // get last migration version
         $migrations_path = self::migrationsPath();
 
-        $migrations_paths = glob($migrations_path . '/*.php');
+        $migrations_paths = glob($migrations_path . '/' . self::MIGRATION_FILE_PATTERN);
         $last_migration_path = array_pop($migrations_paths);
-        $last_migration_to_migrate_version = MigrationTools::getVersionFromFilename($last_migration_path);
+        $last_migration_to_migrate_version = self::getVersionFromFilename($last_migration_path);
 
         // get last migration version from database
         $query = 'SELECT version FROM schema_migrations ORDER BY version DESC LIMIT 1';
@@ -99,8 +105,8 @@ class MigrationTools
     }
 
     /**
-    * Remove passed version
-    */
+     * Remove passed version.
+     */
     public static function removeVersion($version)
     {
         $query = "DELETE FROM schema_migrations WHERE version='" . $version . "'";
