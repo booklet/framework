@@ -234,6 +234,26 @@ class ValidatorTest extends TesterCase
 
         Assert::expect($valid->isValid())->to_equal(false);
         Assert::expect($valid->errors()['quanity'][0])->to_equal('is low value (min 5).');
+
+        $obj->quanity = 0.05;
+        $rules = ['quanity' => ['greater_than_or_equal_to:0.01']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(true);
+
+        $obj->quanity = 0.001;
+        $rules = ['quanity' => ['greater_than_or_equal_to:0.01']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(false);
+        Assert::expect($valid->errors()['quanity'][0])->to_equal('is low value (min 0.01).');
+
+        $obj->quanity = 0;
+        $rules = ['quanity' => ['greater_than_or_equal_to:0.01']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(false);
+        Assert::expect($valid->errors()['quanity'][0])->to_equal('is low value (min 0.01).');
     }
 
     public function testValidLessThanOrEqualTo()

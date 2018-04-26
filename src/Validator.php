@@ -133,7 +133,7 @@ class Validator
      */
     private function greater_than_or_equal_to($attr, $params)
     {
-        $min = intval($params[0]);
+        $min = floatval($params[0]);
 
         if ($this->obj->$attr < $min) {
             $this->addError($attr, 'is low value (min ' . (string) $min . ').');
