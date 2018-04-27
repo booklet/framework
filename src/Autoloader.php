@@ -1,6 +1,11 @@
 <?php
 class Autoloader
 {
+    /**
+     * Path to class files.
+     *
+     * @var string
+     */
     private $directory;
 
     public function __construct($directory)
@@ -11,6 +16,8 @@ class Autoloader
     public function autoload($class_name)
     {
         $filename = $class_name;
+
+        // \Foo\Bar\Qux\QuuxTest;
 
         // Support to load classes form app/modules directory who used namespaces
         if ($this->isClassNamespaceFromModulesDriectory($class_name) and
@@ -24,7 +31,6 @@ class Autoloader
             return false;
         }
 
-        // include cause problem with namespaces classes, need to investigate
         require_once $file_path;
     }
 

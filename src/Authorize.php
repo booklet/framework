@@ -1,11 +1,31 @@
 <?php
 class Authorize
 {
-    public $auth_class;
-    public $auth_action;
-    public $current_user;
+    /**
+     * The name of the authorize policies class.
+     *
+     * @var string
+     */
+    private $auth_class;
 
-    // $method => 'UserController::index'
+    /**
+     * The name of the authorize policies action.
+     *
+     * @var string
+     */
+    private $auth_action;
+
+    /**
+     * User object in system.
+     *
+     * @var object
+     */
+    private $current_user;
+
+    /**
+     * @param string $method 'UserController::index'
+     * @param object $user
+     */
     public function __construct(string $method, $user, array $params = [])
     {
         // 'UserController::index' => 'UserPolicies'
@@ -16,11 +36,15 @@ class Authorize
         $this->current_user = $user;
     }
 
-    // Load related police class
+    /**
+     * Load related police class and execute action.
+     *
+     * @return bool
+     */
     public function auth($obj = null)
     {
-        $police = new $this->auth_class($this->current_user, $obj);
+        $police_class_instance = new $this->auth_class($this->current_user, $obj);
 
-        return $police->{$this->auth_action}();
+        return $police_class_instance->{$this->auth_action}();
     }
 }

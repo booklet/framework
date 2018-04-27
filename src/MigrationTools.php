@@ -83,16 +83,19 @@ class MigrationTools
         }
     }
 
+    /**
+     * Check if all migrations are made.
+     */
     public static function isAllMigrationsMade()
     {
-        // get last migration version
+        // Get last migration version
         $migrations_path = self::migrationsPath();
 
         $migrations_paths = glob($migrations_path . '/' . self::MIGRATION_FILE_PATTERN);
         $last_migration_path = array_pop($migrations_paths);
         $last_migration_to_migrate_version = self::getVersionFromFilename($last_migration_path);
 
-        // get last migration version from database
+        // Get last migration version from database
         $query = 'SELECT version FROM schema_migrations ORDER BY version DESC LIMIT 1';
         $result = mysqli_query(MyDB::db(), $query);
         $last_database_migration_version = mysqli_fetch_assoc($result)['version'];
@@ -105,7 +108,7 @@ class MigrationTools
     }
 
     /**
-     * Remove passed version.
+     * Remove passed version. Uses in rollback.
      */
     public static function removeVersion($version)
     {
@@ -113,6 +116,9 @@ class MigrationTools
         $result = mysqli_query(MyDB::db(), $query);
     }
 
+    /**
+     * Get migration files path from config or get default.
+     */
     public static function migrationsPath()
     {
         return Config::get('migrations_path') ?? 'db/migrate';
