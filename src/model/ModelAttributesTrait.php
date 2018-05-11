@@ -6,7 +6,7 @@ trait ModelAttributesTrait
 
     // Flag whether or not this model's attributes have been modified since
     // it will either be null or an array of column_names that have been modified.
-    private $__dirty = null;
+    // private $__dirty = null;
 
     public function __construct(array $attributes = [])
     {
@@ -159,7 +159,7 @@ trait ModelAttributesTrait
     public function assignAttribute($name, $value)
     {
         $this->attributes[$name] = $value;
-        $this->flagDirty($name);
+        // $this->flagDirty($name);
 
         return $value;
     }
