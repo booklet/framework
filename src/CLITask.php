@@ -66,7 +66,8 @@ class CLITask
 
         echo "\nRun all tests\n";
         $time_start = microtime(true);
-        $tests = new Tester(['db_connection' => $db, 'tests_paths' => ['tests'], 'migrations_path' => MigrationTools::migrationsPath()]);
+        $tests_paths = $this->options['tests_paths'] ?? ['tests'];
+        $tests = new Tester(['db_connection' => $db, 'tests_paths' => $tests_paths, 'migrations_path' => MigrationTools::migrationsPath()]);
         $tests->run();
         echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
     }
@@ -85,7 +86,8 @@ class CLITask
         echo "\nRun module tests\n";
         $time_start = microtime(true);
         $module_path = 'tests/modules/' . $this->action_param;
-        $tests = new Tester(['db_connection' => $db, 'tests_paths' => [$module_path], 'migrations_path' => MigrationTools::migrationsPath()]);
+        $module_app_path = 'app/modules/' . $this->action_param;
+        $tests = new Tester(['db_connection' => $db, 'tests_paths' => [$module_path, $module_app_path], 'migrations_path' => MigrationTools::migrationsPath()]);
         $tests->run();
         echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
     }
@@ -98,7 +100,8 @@ class CLITask
 
         echo "\nRun single test\n";
         $time_start = microtime(true);
-        $tests = new Tester(['db_connection' => MyDB::db(), 'tests_paths' => ['tests'], 'single_test_to_run' => $this->action_param, 'migrations_path' => MigrationTools::migrationsPath()]);
+        $tests_paths = $this->options['tests_paths'] ?? ['tests'];
+        $tests = new Tester(['db_connection' => MyDB::db(), 'tests_paths' => $tests_paths, 'single_test_to_run' => $this->action_param, 'migrations_path' => MigrationTools::migrationsPath()]);
         $tests->run();
         echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
     }
