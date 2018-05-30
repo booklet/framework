@@ -85,9 +85,12 @@ class CLITask
 
         echo "\nRun module tests\n";
         $time_start = microtime(true);
-        $module_path = 'tests/modules/' . $this->action_param;
-        $module_app_path = 'app/modules/' . $this->action_param;
-        $tests = new Tester(['db_connection' => $db, 'tests_paths' => [$module_path, $module_app_path], 'migrations_path' => MigrationTools::migrationsPath()]);
+        $tests_paths = [];
+        $tests_paths[] = 'app/modules/' . $this->action_param;
+        if (file_exists('tests/modules/' . $this->action_param)) {
+            $tests_paths[] = 'tests/modules/' . $this->action_param;
+        }
+        $tests = new Tester(['db_connection' => $db, 'tests_paths' => $tests_paths, 'migrations_path' => MigrationTools::migrationsPath()]);
         $tests->run();
         echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
     }
