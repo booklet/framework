@@ -70,7 +70,12 @@ class View
         if ($this->layout === false) {
             include $path;
         } else {
-            include 'app/views/layout/' . $this->layout . '.php';
+            // TEMP add support to new layouts directory
+            if (file_exists('app/framework/views/layout/' . $this->layout . '.php')) {
+                include 'app/framework/views/layout/' . $this->layout . '.php';
+            } else {
+                include 'app/views/layout/' . $this->layout . '.php';
+            }
         }
         $rendered_view = ob_get_clean();
 
