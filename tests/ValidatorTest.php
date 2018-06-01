@@ -405,6 +405,32 @@ class ValidatorTest extends TesterCase
         Assert::expect(strlen($user->password_digest))->to_equal(40);
     }
 
+    public function testValidZipCode()
+    {
+        $obj = new stdClass();
+        $obj->zip = '00-123';
+        $rules = ['zip' => ['zip_code']];
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(true);
+
+        $obj->zip = '00123';
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(true);
+
+        $obj->zip = '000';
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(false);
+        Assert::expect($valid->errors()['zip'][0])->to_equal('is not zip code.');
+
+        $obj->zip = 12345;
+        $valid = new Validator($obj, $rules);
+
+        Assert::expect($valid->isValid())->to_equal(true);
+    }
+
     public function testValidTypeBoolean()
     {
         $obj = new stdClass();

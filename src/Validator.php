@@ -242,7 +242,7 @@ class Validator
     private function zip_code($attr)
     {
         $is_valid = false;
-        $zip_codes = ['[0-9]{2}-[0-9]{3}'];
+        $zip_codes = ['[0-9]{2}-[0-9]{3}', '[0-9]{5}'];
 
         foreach ($zip_codes as $zip_code) {
             if (preg_match('/^' . $zip_code . '$/', $this->obj->$attr)) {
