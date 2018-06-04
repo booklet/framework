@@ -108,9 +108,13 @@ class Relations
         foreach ($this->obj_class_name::relations() as $relation_fn_name => $relation_params) {
             if ($relation_fn_name == $this->fn_name) {
                 if ($relation_params['relation'] == 'has_many') {
-                    $underscore_class_name = StringUntils::camelCaseToUnderscore($this->obj_class_name);
+                    if (isset($relation_params['foreign_key'])) {
+                        return $relation_params['foreign_key'] . ' = ?';
+                    } else {
+                        $underscore_class_name = StringUntils::camelCaseToUnderscore($this->obj_class_name);
 
-                    return $underscore_class_name . '_id = ?';
+                        return $underscore_class_name . '_id = ?';
+                    }
                 }
                 if ($relation_params['relation'] == 'belongs_to') {
                     return 'id = ?';
@@ -126,9 +130,13 @@ class Relations
         foreach ($this->obj_class_name::relations() as $relation_fn_name => $relation_params) {
             if ($relation_fn_name == $this->fn_name) {
                 if ($relation_params['relation'] == 'has_many') {
-                    $underscore_class_name = StringUntils::camelCaseToUnderscore($this->obj_class_name);
+                    if (isset($relation_params['foreign_key'])) {
+                        return [$relation_params['foreign_key'] => $this->obj->id];
+                    } else {
+                        $underscore_class_name = StringUntils::camelCaseToUnderscore($this->obj_class_name);
 
-                    return [$underscore_class_name . '_id' => $this->obj->id];
+                        return [$underscore_class_name . '_id' => $this->obj->id];
+                    }
                 }
                 if ($relation_params['relation'] == 'belongs_to') {
                     $parent_table_name = $this->fn_name . '_id';
