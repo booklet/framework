@@ -95,6 +95,30 @@ class CLITask
         echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
     }
 
+    // TODO refactoring this, merge with RunModule
+    public function testRunPlugin()
+    {
+        if (isset($this->options['use_database']) and $this->options['use_database'] == false) {
+            $db = null;
+        } else {
+            Config::set('env', 'test');
+            $db_setup = 'db_' . Config::get('env');
+            MyDB::connect(Config::get($db_setup));
+            $db = MyDB::db();
+        }
+
+        echo "\nRun plugin tests\n";
+        $time_start = microtime(true);
+        $tests_paths = [];
+        $tests_paths[] = 'app/plugins/' . $this->action_param;
+        if (file_exists('tests/plugins/' . $this->action_param)) {
+            $tests_paths[] = 'tests/plugins/' . $this->action_param;
+        }
+        $tests = new Tester(['db_connection' => $db, 'tests_paths' => $tests_paths, 'migrations_path' => MigrationTools::migrationsPath()]);
+        $tests->run();
+        echo "\nFinished in " . number_format((microtime(true) - $time_start), 2) . " seconds.\n\n";
+    }
+
     public function testRunSingle()
     {
         Config::set('env', 'test');
