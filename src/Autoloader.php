@@ -25,6 +25,12 @@ class Autoloader
             $filename = $this->getFileClassNameFormNamespaceClassName($class_name);
         }
 
+        // Support to load classes form app/plugins directory who used namespaces
+        if ($this->isClassNamespaceFromPluginsDriectory($class_name) and
+            $this->isClassNamespaceEqualCurrentPluginDirectory($class_name)) {
+            $filename = $this->getFileClassNameFormNamespaceClassName($class_name);
+        }
+
         $file_path = $this->directory . '/' . $filename . '.php';
 
         if (file_exists($file_path) == false) {
@@ -63,5 +69,25 @@ class Autoloader
         $arr = explode('\\', $class_name);
 
         return end($arr);
+    }
+
+    private function isClassNamespaceFromPluginsDriectory($class_name)
+    {
+        return strpos($class_name, '\\') !== false and
+              (strpos($this->directory, 'app/plugins/') !== false or strpos($this->directory, 'tests/plugins/') !== false);
+    }
+
+    private function isClassNamespaceEqualCurrentPluginDirectory($class_name)
+    {
+        list($plugin_name, $file_class_name) = explode('\\', $class_name);
+        $plugin_name = StringUntils::camelCaseToUnderscore($plugin_name);
+
+        if (strpos($this->directory, 'app/plugins/') !== false) {
+            $path = "app/plugins/$plugin_name";
+        } else {
+            $path = "tests/plugins/$plugin_name";
+        }
+
+        return strpos($this->directory, $path) !== false;
     }
 }
