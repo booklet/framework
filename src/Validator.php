@@ -1,4 +1,7 @@
 <?php
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\RFCValidation;
+
 class Validator
 {
     private $errors = [];
@@ -157,7 +160,9 @@ class Validator
      */
     private function email($attr)
     {
-        if (ValidateEmail::valid($this->obj->$attr)) {
+        $validator = new EmailValidator();
+
+        if ($validator->isValid($this->obj->$attr, new RFCValidation())) {
             // OK
         } else {
             $this->addError($attr, 'email is not valid.');

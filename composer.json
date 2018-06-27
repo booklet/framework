@@ -21,7 +21,8 @@
   ],
   "require": {
     "boooklet/tester": "dev-master",
-    "matthiasmullie/minify": "1.3.46"
+    "matthiasmullie/minify": "1.3.46",
+    "egulias/email-validator": "~2.1"
   },
   "autoload": {
     "classmap": [
