@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c73ad44bd2e415c5eb6ba926a00bc38f",
-    "content-hash": "e748ad41230cc1ff08ae5b1c23a54084",
+    "hash": "c7ed68b507508ba7f040970d1d0dc6b6",
+    "content-hash": "c82cf6b85c2e62d6ece88fac3940d802",
     "packages": [
         {
             "name": "boooklet/tester",
@@ -27,6 +27,25 @@
             },
             "description": "Test library",
             "time": "2018-06-07 12:34:21"
+        },
+        {
+            "name": "boooklet/utils",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/boooklet/utils.git",
+                "reference": "de67d2e8f06ba27a62ad3e4b4c68f493b919ec4f"
+            },
+            "require": {
+                "boooklet/tester": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "time": "2018-07-12 13:50:35"
         },
         {
             "name": "doctrine/lexer",
@@ -253,7 +272,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "boooklet/tester": 20
+        "boooklet/tester": 20,
+        "boooklet/utils": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
