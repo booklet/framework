@@ -4,9 +4,29 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c7ed68b507508ba7f040970d1d0dc6b6",
-    "content-hash": "c82cf6b85c2e62d6ece88fac3940d802",
+    "hash": "0f8bb43f724ba05c68ad91e924ca6855",
+    "content-hash": "8b767e0a7a1ed2aa1ccaa7f5fdb45e01",
     "packages": [
+        {
+            "name": "boooklet/graphics-tools",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/boooklet/graphics-tools.git",
+                "reference": "0ce2fbed7ee8ac251a265a79fe50b60923f148b4"
+            },
+            "require": {
+                "boooklet/tester": "dev-master",
+                "boooklet/utils": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "time": "2018-07-13 15:21:57"
+        },
         {
             "name": "boooklet/tester",
             "version": "dev-master",
@@ -274,7 +294,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "boooklet/tester": 20,
-        "boooklet/utils": 20
+        "boooklet/utils": 20,
+        "boooklet/graphics-tools": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
