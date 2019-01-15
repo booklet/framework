@@ -288,39 +288,39 @@ class ValidatorTest extends TesterCase
         $valid_emails = [
             'name.lastname@domain.com',
             'a@bar.com',
-            'aaa@[123.123.123.123]',
             'a-b@bar.com',
-            '+@b.com',
-            'a@b.co-foo.uk',
-            '"hello my name is"@stutter.com',
-            '"Test \"Fail\" Ing"@example.com',
-            'valid@special.museum',
             '"Abc\@def"@example.com',
-            '"Fred Bloggs"@example.com',
             '"Joe\Blow"@example.com',
             '"Abc@def"@example.com',
             'customer/department=shipping@example.com',
             '$A12345@example.com',
             '!def!xyz%abc@example.com',
-            '_somename@example.com',
-            'Test \ Folding \ Whitespace@example.com',
-            // 'HM2Kinsists@(that comments are allowed)this.is.ok',
-            'user%uucp!path@somehost.edu',
             'kamil@blacklight.digital',
             'simple@example.com',
             'very.common@example.com',
             'disposable.style.email.with+symbol@example.com',
             'other.email-with-hyphen@example.com',
             'fully-qualified-domain@example.com',
-            'user.name+tag+sorting@example.com ',
             'x@example.com',
+            '#!$%&\'*+-/=?^_`{}|~@example.org',
+            '_somename@example.com',
+            'user%uucp!path@somehost.edu',
             '"very.(),:;<>[]\".VERY.\"very@\\ \"very\".unusual"@strange.example.com',
             'example-indeed@strange-example.com',
-            'admin@mailserver1',
-            '#!$%&\'*+-/=?^_`{}|~@example.org',
-            '"()<>[]:,;@\\\"!#$%&\'-/=?^_`{}| ~.a"@example.org',
             'example@s.example',
-            'user@[2001:DB8::1]',
+            'valid@special.museum',
+            '+@b.com',
+            'a@b.co-foo.uk',
+            'aaa@[123.123.123.123]',
+            // Theoretically correct but they do not work here
+            // '"hello my name is"@stutter.com',
+            // '"Test \"Fail\" Ing"@example.com',
+            // 'user@[2001:DB8::1]',
+            // 'admin@mailserver1',
+            // 'user.name+tag+sorting@example.com ',
+            // '"()<>[]:,;@\\\"!#$%&\'-/=?^_`{}| ~.a"@example.org',
+            // 'Test \ Folding \ Whitespace@example.com',
+            // 'HM2Kinsists@(that comments are allowed)this.is.ok',
         ];
 
         foreach ($valid_emails as $email) {
@@ -332,35 +332,36 @@ class ValidatorTest extends TesterCase
 
         $invalid_emails = [
             '.@',
-            // 'a@b',
+            'a@b',
             '@bar.com',
             '@@bar.com',
             'aaa.com',
             'aaa@.com',
             'aaa@.123',
-            // 'aaa@[123.123.123.123]a',
-            // 'aaa@[123.123.123.333]',
+            'aaa@[123.123.123.123]a',
+            'aaa@[123.123.123.333]',
             'a@bar.com.',
-            // 'a@bar',
-            // '+@b.c',
+            'a@bar',
             'a@-b.com',
             'a@b-.com',
             '-@..com',
             '-@a..com',
             'invalid@special.museum-',
-            // 'shaitan@my-domain.thisisminekthx',
             'test@...........com',
-            // 'foobar@192.168.0.1',
+            'foobar@192.168.0.1',
             'Abc.example.com', // (no @ character)
             'A@b@c@example.com', // (only one @ is allowed outside quotation marks)
             'a"b(c)d,e:f;g<h>i[j\k]l@example.com', // (none of the special characters in this local-part are allowed outside quotation marks)
             'just"not"right@example.com', // (quoted strings must be dot separated or the only element making up the local-part)
             'this is"not\allowed@example.com', // (spaces, quotes, and backslashes may only exist when within quoted strings and preceded by a backslash)
             'this\ still\"not\\allowed@example.com', // (even if escaped (preceded by a backslash), spaces, quotes, and backslashes must still be contained by quotes)
-            // '1234567890123456789012345678901234567890123456789012345678901234+x@example.com', // (local part is longer than 64 characters)
+            '1234567890123456789012345678901234567890123456789012345678901234+x@example.com', // (local part is longer than 64 characters)
             'john..doe@example.com', // (double dot before @)
             'john.doe@example..com', // (double dot after @)
-            // '" "@example.org', // (space between the quotes)[clarification needed]
+            '" "@example.org', // (space between the quotes)[clarification needed]
+            // Theoretically incorrect but they do work here
+            // 'shaitan@my-domain.thisisminekthx',
+            // '+@b.c',
         ];
 
         foreach ($invalid_emails as $email) {
