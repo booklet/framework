@@ -16,10 +16,6 @@
     },
     {
       "type": "git",
-      "url": "https://github.com/boooklet/tester.git"
-    },
-    {
-      "type": "git",
       "url": "https://github.com/boooklet/utils.git"
     },
     {
@@ -28,10 +24,11 @@
     }
   ],
   "require": {
-    "boooklet/tester": "dev-master",
     "boooklet/utils": "dev-master",
     "boooklet/graphics-tools": "dev-master",
-    "matthiasmullie/minify": "1.3.46",
+    "matthiasmullie/minify": "1.3.46"
+  },
+  "require-dev": {
     "phpunit/phpunit": "^6"
   },
   "autoload": {

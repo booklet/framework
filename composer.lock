@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d68f3b8c7ff9dd7f65334ad3f8842aac",
-    "content-hash": "27ca1670c50299d8c11e2322404ab680",
+    "hash": "cdccb8acc386120370eb39da30108c3b",
+    "content-hash": "2c8b9dc1082ed8cc4622ba081296754a",
     "packages": [
         {
             "name": "boooklet/graphics-tools",
@@ -13,11 +13,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/boooklet/graphics-tools.git",
-                "reference": "9393b93816fd08223e75b1fb3dbc2ae962013c01"
+                "reference": "1b9ace9846bc6657593b4984af5f236d6022340e"
             },
             "require": {
-                "boooklet/tester": "dev-master",
                 "boooklet/utils": "dev-master"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6"
             },
             "type": "library",
             "autoload": {
@@ -25,28 +27,7 @@
                     "": "src/"
                 }
             },
-            "time": "2018-07-16 11:37:29"
-        },
-        {
-            "name": "boooklet/tester",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/boooklet/tester.git",
-                "reference": "3356cae98a13e4738b000835ad00f3bea2695c25"
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src",
-                    "src/concerns"
-                ]
-            },
-            "description": "Test library",
-            "time": "2018-07-13 10:28:25"
+            "time": "2019-02-11 11:01:40"
         },
         {
             "name": "boooklet/utils",
@@ -54,10 +35,10 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/boooklet/utils.git",
-                "reference": "6f2e771afd05696ab04348786ce67eb70aa49940"
+                "reference": "0882a2f95452dbaf768b36003b3a767a73bae559"
             },
-            "require": {
-                "boooklet/tester": "dev-master"
+            "require-dev": {
+                "phpunit/phpunit": "^6"
             },
             "type": "library",
             "autoload": {
@@ -66,61 +47,7 @@
                     "Utils\\": "src/utils"
                 }
             },
-            "time": "2019-01-22 10:19:40"
-        },
-        {
-            "name": "doctrine/instantiator",
-            "version": "1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8e884e78f9f0eb1329e445619e04456e64d8051d",
-                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3,<8.0-DEV"
-            },
-            "require-dev": {
-                "athletic/athletic": "~0.1.8",
-                "ext-pdo": "*",
-                "ext-phar": "*",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "http://ocramius.github.com/"
-                }
-            ],
-            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
-            "homepage": "https://github.com/doctrine/instantiator",
-            "keywords": [
-                "constructor",
-                "instantiate"
-            ],
-            "time": "2015-06-14 21:17:01"
+            "time": "2019-02-11 10:53:31"
         },
         {
             "name": "matthiasmullie/minify",
@@ -230,6 +157,62 @@
                 "relative"
             ],
             "time": "2018-10-25 15:19:41"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "doctrine/instantiator",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/instantiator.git",
+                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8e884e78f9f0eb1329e445619e04456e64d8051d",
+                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3,<8.0-DEV"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "ext-pdo": "*",
+                "ext-phar": "*",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://ocramius.github.com/"
+                }
+            ],
+            "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
+            "homepage": "https://github.com/doctrine/instantiator",
+            "keywords": [
+                "constructor",
+                "instantiate"
+            ],
+            "time": "2015-06-14 21:17:01"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1694,11 +1677,9 @@
             "time": "2018-12-25 11:19:39"
         }
     ],
-    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "boooklet/tester": 20,
         "boooklet/utils": 20,
         "boooklet/graphics-tools": 20
     },
