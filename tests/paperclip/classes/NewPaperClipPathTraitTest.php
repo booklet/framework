@@ -1,7 +1,7 @@
 <?php
 include_once 'tests/fixtures/paperclip/NewPaperClipTestingClass.php';
 
-class NewPaperClipPathTraitTest extends TesterCase
+class NewPaperClipPathTraitTest extends \CustomPHPUnitTestCase
 {
     public $skip_database_clear_before = ['all'];
 
@@ -13,11 +13,11 @@ class NewPaperClipPathTraitTest extends TesterCase
         $paper_clip = new NewPaperClip($paper_clip_testing_class);
         $get_file = $paper_clip->attachmentDirectory('preview', 'medium');
 
-        Assert::expect($get_file)->to_equal('system/files/new_paper_clip_testing_class/preview/000/001/234/medium');
+        $this->assertEquals($get_file, 'system/files/new_paper_clip_testing_class/preview/000/001/234/medium');
 
         $get_file = $paper_clip->attachmentDirectory('preview');
 
-        Assert::expect($get_file)->to_equal('system/files/new_paper_clip_testing_class/preview/000/001/234/original');
+        $this->assertEquals($get_file, 'system/files/new_paper_clip_testing_class/preview/000/001/234/original');
     }
 
     public function testAttachmentPath()
@@ -28,14 +28,14 @@ class NewPaperClipPathTraitTest extends TesterCase
         $paper_clip = new NewPaperClip($paper_clip_testing_class);
         $get_file = $paper_clip->attachmentPath('preview', 'medium');
 
-        Assert::expect($get_file)->to_equal(null);
+        $this->assertEquals($get_file, null);
 
         $paper_clip_testing_class->preview_file_name = 'test.pdf';
 
         $paper_clip = new NewPaperClip($paper_clip_testing_class);
         $get_file = $paper_clip->attachmentPath('preview', 'medium');
 
-        Assert::expect($get_file)->to_equal('system/files/new_paper_clip_testing_class/preview/000/001/234/medium/test.jpg');
+        $this->assertEquals($get_file, 'system/files/new_paper_clip_testing_class/preview/000/001/234/medium/test.jpg');
     }
 
     public function testAttachmentUrl()
@@ -48,8 +48,8 @@ class NewPaperClipPathTraitTest extends TesterCase
 
         $paper_clip = new NewPaperClip($paper_clip_testing_class);
 
-        Assert::expect($paper_clip->attachmentUrl('preview'))->to_equal('http://api.booklet.dev/system/files/new_paper_clip_testing_class/preview/000/001/234/original/test.pdf');
-        Assert::expect($paper_clip->attachmentUrl('preview', 'medium'))->to_equal('http://api.booklet.dev/system/files/new_paper_clip_testing_class/preview/000/001/234/medium/test.jpg');
+        $this->assertEquals($paper_clip->attachmentUrl('preview'), 'http://api.booklet.dev/system/files/new_paper_clip_testing_class/preview/000/001/234/original/test.pdf');
+        $this->assertEquals($paper_clip->attachmentUrl('preview', 'medium'), 'http://api.booklet.dev/system/files/new_paper_clip_testing_class/preview/000/001/234/medium/test.jpg');
     }
 
     public function testAttachmentName()
@@ -60,8 +60,8 @@ class NewPaperClipPathTraitTest extends TesterCase
 
         $paper_clip = new NewPaperClip($paper_clip_testing_class);
 
-        Assert::expect($paper_clip->attachmentName('preview'))->to_equal('test.pdf');
-        Assert::expect($paper_clip->attachmentName('preview', 'medium'))->to_equal('test.jpg');
+        $this->assertEquals($paper_clip->attachmentName('preview'), 'test.pdf');
+        $this->assertEquals($paper_clip->attachmentName('preview', 'medium'), 'test.jpg');
     }
 
     public function testAttachmentPaths()
@@ -78,7 +78,7 @@ class NewPaperClipPathTraitTest extends TesterCase
             'thumbnail' => 'system/files/new_paper_clip_testing_class/preview/000/001/234/thumbnail/test.jpg',
         ];
 
-        Assert::expect($paper_clip->attachmentPaths('preview'))->to_equal($expect_results);
+        $this->assertEquals($paper_clip->attachmentPaths('preview'), $expect_results);
     }
 
     public function testAttachmentUrls()
@@ -97,6 +97,6 @@ class NewPaperClipPathTraitTest extends TesterCase
             'thumbnail' => 'http://api.booklet.dev/system/files/new_paper_clip_testing_class/preview/000/001/234/thumbnail/test.jpg',
         ];
 
-        Assert::expect($paper_clip->attachmentUrls('preview'))->to_equal($expect_results);
+        $this->assertEquals($paper_clip->attachmentUrls('preview'), $expect_results);
     }
 }

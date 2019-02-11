@@ -1,7 +1,7 @@
 <?php
 include_once 'tests/fixtures/paperclip/NewPaperClipTestingClass.php';
 
-class NewPaperClipValidatorTest extends TesterCase
+class NewPaperClipValidatorTest extends \CustomPHPUnitTestCase
 {
     public $skip_database_clear_before = ['all'];
 
@@ -14,11 +14,11 @@ class NewPaperClipValidatorTest extends TesterCase
         $paper_clip_testing_class = new NewPaperClipTestingClass();
 
         $validator = new NewPaperClipValidator($paper_clip_testing_class, 'preview', $pdf_type_file);
-        Assert::expect($validator->valid())->to_equal(true);
+        $this->assertEquals($validator->valid(), true);
 
         $validator = new NewPaperClipValidator($paper_clip_testing_class, 'preview', $png_type_file);
-        Assert::expect($validator->valid())->to_equal(false);
-        Assert::expect($validator->errors())->to_equal(['preview' => ['has an illegal type (image/png).']]);
+        $this->assertEquals($validator->valid(), false);
+        $this->assertEquals($validator->errors(), ['preview' => ['has an illegal type (image/png).']]);
     }
 
     public function testValidContentTypeFromFilesArray()
@@ -33,7 +33,7 @@ class NewPaperClipValidatorTest extends TesterCase
         $paper_clip_testing_class = new NewPaperClipTestingClass();
 
         $validator = new NewPaperClipValidator($paper_clip_testing_class, 'preview', $file);
-        Assert::expect($validator->valid())->to_equal(true);
+        $this->assertEquals($validator->valid(), true);
 
         $file = [
             'name' => 'client-test-file',
@@ -43,8 +43,8 @@ class NewPaperClipValidatorTest extends TesterCase
         ];
 
         $validator = new NewPaperClipValidator($paper_clip_testing_class, 'preview', $file);
-        Assert::expect($validator->valid())->to_equal(false);
-        Assert::expect($validator->errors())->to_equal(['preview' => ['has an illegal type (image/png).']]);
+        $this->assertEquals($validator->valid(), false);
+        $this->assertEquals($validator->errors(), ['preview' => ['has an illegal type (image/png).']]);
     }
 
     public function testValidFileSize()
@@ -55,11 +55,11 @@ class NewPaperClipValidatorTest extends TesterCase
         $paper_clip_testing_class = new NewPaperClipTestingClass();
 
         $validator = new NewPaperClipValidator($paper_clip_testing_class, 'preview', $below_2mb);
-        Assert::expect($validator->valid())->to_equal(true);
+        $this->assertEquals($validator->valid(), true);
 
         $validator = new NewPaperClipValidator($paper_clip_testing_class, 'preview', $over_2mb);
-        Assert::expect($validator->valid())->to_equal(false);
-        Assert::expect($validator->errors())->to_equal(['preview' => ['is too big (max 2 MB).']]);
+        $this->assertEquals($validator->valid(), false);
+        $this->assertEquals($validator->errors(), ['preview' => ['is too big (max 2 MB).']]);
     }
 
     public function testValidFileSizeFromFilesArray()
@@ -74,7 +74,7 @@ class NewPaperClipValidatorTest extends TesterCase
         $paper_clip_testing_class = new NewPaperClipTestingClass();
 
         $validator = new NewPaperClipValidator($paper_clip_testing_class, 'preview', $file);
-        Assert::expect($validator->valid())->to_equal(true);
+        $this->assertEquals($validator->valid(), true);
 
         $file = [
             'name' => 'client-test-file',
@@ -85,7 +85,7 @@ class NewPaperClipValidatorTest extends TesterCase
 
         $validator = new NewPaperClipValidator($paper_clip_testing_class, 'preview', $file);
 
-        Assert::expect($validator->valid())->to_equal(false);
-        Assert::expect($validator->errors())->to_equal(['preview' => ['is too big (max 2 MB).']]);
+        $this->assertEquals($validator->valid(), false);
+        $this->assertEquals($validator->errors(), ['preview' => ['is too big (max 2 MB).']]);
     }
 }

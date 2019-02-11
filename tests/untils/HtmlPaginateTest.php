@@ -1,5 +1,5 @@
 <?php
-class HtmlPaginateTest extends TesterCase
+class HtmlPaginateTest extends \CustomPHPUnitTestCase
 {
     public function testPaginateGetPages()
     {
@@ -17,7 +17,7 @@ class HtmlPaginateTest extends TesterCase
             ['num' => 4, 'url' => '/resource?page=4', 'is_current' => false],
         ];
 
-        Assert::expect($paginate->getPages())->to_equal($expect);
+        $this->assertEquals($paginate->getPages(), $expect);
 
         $paginate = new HtmlPaginate([
             'total_items' => 330,
@@ -40,7 +40,7 @@ class HtmlPaginateTest extends TesterCase
             ['num' => 14, 'url' => '/resource?page=14', 'is_current' => false],
         ];
 
-        Assert::expect($paginate->getPages())->to_equal($expect);
+        $this->assertEquals($paginate->getPages(), $expect);
     }
 
     public function testPaginateHtml()
@@ -60,7 +60,7 @@ class HtmlPaginateTest extends TesterCase
             <li><a href="/resource?page=2">Następna &raquo;</a></li>
         </ul>');
 
-        Assert::expect($paginate->toHtml())->to_equal($expect);
+        $this->assertEquals($paginate->toHtml(), $expect);
 
         $paginate = new HtmlPaginate([
             'total_items' => 100,
@@ -77,7 +77,7 @@ class HtmlPaginateTest extends TesterCase
             <li class="active"><a href="/resource?page=4">4</a></li>
         </ul>');
 
-        Assert::expect($paginate->toHtml())->to_equal($expect);
+        $this->assertEquals($paginate->toHtml(), $expect);
 
         $paginate = new HtmlPaginate([
             'total_items' => 5000,
@@ -103,6 +103,6 @@ class HtmlPaginateTest extends TesterCase
             <li><a href="/resource?page=16">Następna &raquo;</a></li>
         </ul>');
 
-        Assert::expect($paginate->toHtml())->to_equal($expect);
+        $this->assertEquals($paginate->toHtml(), $expect);
     }
 }

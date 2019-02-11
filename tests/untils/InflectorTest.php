@@ -1,12 +1,12 @@
 <?php
-class InflectorTest extends TesterCase
+class InflectorTest extends \CustomPHPUnitTestCase
 {
     public function testPluralize()
     {
         $word = Inflector::pluralize('Client');
-        Assert::expect($word)->to_equal('Clients');
+        $this->assertEquals($word, 'Clients');
 
         $word = Inflector::pluralize('ClientCategory');
-        Assert::expect($word)->to_equal('ClientCategories');
+        $this->assertEquals($word, 'ClientCategories');
     }
 }

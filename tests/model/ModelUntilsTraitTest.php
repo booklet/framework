@@ -1,7 +1,7 @@
 <?php
 require_once 'tests/fixtures/models/FWTestModelUser.php';
 
-class ModelUntilsTraitTest extends TesterCase
+class ModelUntilsTraitTest extends \CustomPHPUnitTestCase
 {
     public function testIsNewRecord()
     {
@@ -13,11 +13,11 @@ class ModelUntilsTraitTest extends TesterCase
             'password_confirmation' => 'password1',
         ]);
 
-        Assert::expect($user->isNewRecord())->to_equal(true);
+        $this->assertEquals($user->isNewRecord(), true);
 
         $user->save();
 
-        Assert::expect($user->isNewRecord())->to_equal(false);
+        $this->assertEquals($user->isNewRecord(), false);
     }
 
     public function testPluralizeClassName()
@@ -30,6 +30,6 @@ class ModelUntilsTraitTest extends TesterCase
             'password_confirmation' => 'password1',
         ]);
 
-        Assert::expect($user->PluralizeClassName())->to_equal('FWTestModelUsers');
+        $this->assertEquals($user->PluralizeClassName(), 'FWTestModelUsers');
     }
 }

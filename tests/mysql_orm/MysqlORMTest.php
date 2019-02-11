@@ -1,5 +1,8 @@
 <?php
-class MysqlORMTest extends TesterCase
+class MysqlORMTest extends \CustomPHPUnitTestCase
 {
-
+    public function test()
+    {
+        $this->markTestSkipped();
+    }
 }

@@ -2,7 +2,7 @@
 require_once 'tests/fixtures/models/FWTestModelUser.php';
 require_once 'tests/fixtures/models/FWTestCustomModel.php';
 
-class PaginationTest extends TesterCase
+class PaginationTest extends \CustomPHPUnitTestCase
 {
     public function testPagination()
     {
@@ -18,18 +18,18 @@ class PaginationTest extends TesterCase
         }
 
         $users = FWTestModelUser::all(['paginate' => 2]);
-        Assert::expect(count($users))->to_equal(25);
-        Assert::expect($users[0]->id)->to_equal(26);
+        $this->assertEquals(count($users), 25);
+        $this->assertEquals($users[0]->id, 26);
 
         $users = FWTestModelUser::all(['paginate' => 2, 'per_page' => 50]);
-        Assert::expect(count($users))->to_equal(50);
-        Assert::expect($users[0]->id)->to_equal(51);
+        $this->assertEquals(count($users), 50);
+        $this->assertEquals($users[0]->id, 51);
 
         $users = FWTestModelUser::all(['paginate' => 3, 'per_page' => 100]);
-        Assert::expect(count($users))->to_equal(50);
-        Assert::expect($users[0]->id)->to_equal(201);
+        $this->assertEquals(count($users), 50);
+        $this->assertEquals($users[0]->id, 201);
 
         $users = FWTestModelUser::all(['paginate' => 33, 'per_page' => 100]);
-        Assert::expect(count($users))->to_equal(0);
+        $this->assertEquals(count($users), 0);
     }
 }

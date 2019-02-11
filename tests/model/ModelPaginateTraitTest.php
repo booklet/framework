@@ -3,7 +3,7 @@ require_once 'tests/fixtures/models/FWTestModelUser.php';
 require_once 'tests/fixtures/validator/TesterParentModel.php';
 require_once 'tests/fixtures/validator/TesterChildModel.php';
 
-class ModelPaginateTraitTest extends TesterCase
+class ModelPaginateTraitTest extends \CustomPHPUnitTestCase
 {
     public function populateUserTable()
     {
@@ -25,13 +25,13 @@ class ModelPaginateTraitTest extends TesterCase
         $this->populateUserTable();
         $all_users = FWTestModelUser::all();
 
-        Assert::expect(count($all_users))->to_equal(100);
+        $this->assertEquals(count($all_users), 100);
 
         $params = ['page' => 3];
         list($users, $paginate_data) = FWTestModelUser::allWithPaginate(['order' => 'id DESC'], $params);
 
-        Assert::expect(count($users))->to_equal(30);
-        Assert::expect($paginate_data)->to_equal([
+        $this->assertEquals(count($users), 30);
+        $this->assertEquals($paginate_data, [
             'total_pages' => 4,
             'current_page' => 3,
             'total_items' => 100,
@@ -41,8 +41,8 @@ class ModelPaginateTraitTest extends TesterCase
         $params = ['page' => 4];
         list($users, $paginate_data) = FWTestModelUser::allWithPaginate(['order' => 'id DESC'], $params);
 
-        Assert::expect(count($users))->to_equal(10);
-        Assert::expect($paginate_data)->to_equal([
+        $this->assertEquals(count($users), 10);
+        $this->assertEquals($paginate_data, [
             'total_pages' => 4,
             'current_page' => 4,
             'total_items' => 100,
@@ -52,8 +52,8 @@ class ModelPaginateTraitTest extends TesterCase
         $params = ['page' => 99];
         list($users, $paginate_data) = FWTestModelUser::allWithPaginate(['order' => 'id DESC'], $params);
 
-        Assert::expect(count($users))->to_equal(0);
-        Assert::expect($paginate_data)->to_equal([
+        $this->assertEquals(count($users), 0);
+        $this->assertEquals($paginate_data, [
             'total_pages' => 4,
             'current_page' => 99,
             'total_items' => 100,
@@ -66,13 +66,13 @@ class ModelPaginateTraitTest extends TesterCase
         $this->populateUserTable();
         $all_users = FWTestModelUser::all(['order' => 'id DESC']);
 
-        Assert::expect(count($all_users))->to_equal(100);
+        $this->assertEquals(count($all_users), 100);
 
         $params = ['page' => 2];
         list($users, $paginate_data) = FWTestModelUser::whereWithPaginate('role = ?', ['role' => 'admin'], [], $params);
 
-        Assert::expect(count($users))->to_equal(20);
-        Assert::expect($paginate_data)->to_equal([
+        $this->assertEquals(count($users), 20);
+        $this->assertEquals($paginate_data, [
             'total_pages' => 2,
             'current_page' => 2,
             'total_items' => 50,
@@ -82,8 +82,8 @@ class ModelPaginateTraitTest extends TesterCase
         $params = ['page' => 99];
         list($users, $paginate_data) = FWTestModelUser::whereWithPaginate('role = ?', ['role' => 'admin'], [], $params);
 
-        Assert::expect(count($users))->to_equal(0);
-        Assert::expect($paginate_data)->to_equal([
+        $this->assertEquals(count($users), 0);
+        $this->assertEquals($paginate_data, [
             'total_pages' => 2,
             'current_page' => 99,
             'total_items' => 50,
@@ -95,13 +95,13 @@ class ModelPaginateTraitTest extends TesterCase
     {
         $all_users = FWTestModelUser::all();
 
-        Assert::expect(count($all_users))->to_equal(0);
+        $this->assertEquals(count($all_users), 0);
 
         $params = ['page' => 1];
         list($users, $paginate_data) = FWTestModelUser::allWithPaginate(['order' => 'id DESC'], $params);
 
-        Assert::expect(count($users))->to_equal(0);
-        Assert::expect($paginate_data)->to_equal([
+        $this->assertEquals(count($users), 0);
+        $this->assertEquals($paginate_data, [
             'total_pages' => 0,
             'current_page' => 1,
             'total_items' => 0,
@@ -123,15 +123,15 @@ class ModelPaginateTraitTest extends TesterCase
         }
         $all_childs = TesterChildModel::all();
 
-        Assert::expect(count($all_childs))->to_equal(100);
-        Assert::expect(count($parent->childs()))->to_equal(100);
+        $this->assertEquals(count($all_childs), 100);
+        $this->assertEquals(count($parent->childs()), 100);
 
         $params = ['page' => 1];
 
         list($childs, $paginate_data) = $parent->childsWithPaginate(['order' => 'id DESC'], $params);
 
-        Assert::expect(count($childs))->to_equal(25);
-        Assert::expect($paginate_data)->to_equal([
+        $this->assertEquals(count($childs), 25);
+        $this->assertEquals($paginate_data, [
             'total_pages' => 4,
             'current_page' => 1,
             'total_items' => 100,

@@ -1,7 +1,7 @@
 <?php
 include_once 'tests/fixtures/paperclip/NewPaperClipTestingClass.php';
 
-class NewPaperClipSaveTest extends TesterCase
+class NewPaperClipSaveTest extends \CustomPHPUnitTestCase
 {
     public $skip_database_clear_before = ['all'];
 
@@ -21,11 +21,11 @@ class NewPaperClipSaveTest extends TesterCase
         ]);
         $saver->saveOriginalFile();
 
-        Assert::expect($paper_clip_testing_class->preview_file_name)->to_equal('animal.jpg');
-        Assert::expect($paper_clip_testing_class->preview_file_size)->to_equal(1000);
-        Assert::expect($paper_clip_testing_class->preview_content_type)->to_equal('image/jpeg');
-        Assert::expect($paper_clip_testing_class->preview_updated_at)->toNotBeNull();
-        Assert::expect(file_exists('system/files/new_paper_clip_testing_class/preview/000/001/234/original/animal.jpg'))->to_equal(true);
+        $this->assertEquals($paper_clip_testing_class->preview_file_name, 'animal.jpg');
+        $this->assertEquals($paper_clip_testing_class->preview_file_size, 1000);
+        $this->assertEquals($paper_clip_testing_class->preview_content_type, 'image/jpeg');
+        $this->assertNotNull($paper_clip_testing_class->preview_updated_at);
+        $this->assertEquals(file_exists('system/files/new_paper_clip_testing_class/preview/000/001/234/original/animal.jpg'), true);
 
         FilesUntils::deleteDirectoryAndEverythingIn('system/files/new_paper_clip_testing_class');
     }
@@ -44,11 +44,11 @@ class NewPaperClipSaveTest extends TesterCase
         ]);
         $saver->saveOriginalFile();
 
-        Assert::expect($paper_clip_testing_class->preview_file_name)->to_equal('animal.jpg');
-        Assert::expect($paper_clip_testing_class->preview_file_size)->to_equal(47851);
-        Assert::expect($paper_clip_testing_class->preview_content_type)->to_equal('image/jpeg');
-        Assert::expect($paper_clip_testing_class->preview_updated_at)->toNotBeNull();
-        Assert::expect(file_exists('system/files/new_paper_clip_testing_class/preview/000/001/234/original/animal.jpg'))->to_equal(true);
+        $this->assertEquals($paper_clip_testing_class->preview_file_name, 'animal.jpg');
+        $this->assertEquals($paper_clip_testing_class->preview_file_size, 47851);
+        $this->assertEquals($paper_clip_testing_class->preview_content_type, 'image/jpeg');
+        $this->assertNotNull($paper_clip_testing_class->preview_updated_at);
+        $this->assertEquals(file_exists('system/files/new_paper_clip_testing_class/preview/000/001/234/original/animal.jpg'), true);
 
         FilesUntils::deleteDirectoryAndEverythingIn('system/files/new_paper_clip_testing_class');
     }

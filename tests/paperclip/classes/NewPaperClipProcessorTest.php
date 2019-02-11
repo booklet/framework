@@ -1,7 +1,7 @@
 <?php
 include_once 'tests/fixtures/paperclip/NewPaperClipTestingClass.php';
 
-class NewPaperClipProcessorTest extends TesterCase
+class NewPaperClipProcessorTest extends \CustomPHPUnitTestCase
 {
     public $skip_database_clear_before = ['all'];
 
@@ -12,6 +12,6 @@ class NewPaperClipProcessorTest extends TesterCase
         $processor = new NewPaperClipProcessor('tests/fixtures/paperclip/tmp/client-test-file-01.pdf');
         $processor->processFileAndSave('1000x1000#', 'tests/fixtures/paperclip/tmp/client-test-file-01-300x300.jpg');
 
-        Assert::expect(file_exists('tests/fixtures/paperclip/tmp/client-test-file-01-300x300.jpg'))->to_equal(true);
+        $this->assertEquals(file_exists('tests/fixtures/paperclip/tmp/client-test-file-01-300x300.jpg'), true);
     }
 }

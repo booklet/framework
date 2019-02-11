@@ -3,7 +3,7 @@ require_once 'tests/fixtures/validator/TesterParentModel.php';
 require_once 'tests/fixtures/validator/TesterChildModel.php';
 require_once 'tests/fixtures/validator/TesterGrandsonModel.php';
 
-class MysqlORMNestedAttributesTest extends TesterCase
+class MysqlORMNestedAttributesTest extends \CustomPHPUnitTestCase
 {
     public function testSaveObjectWithNestedAttributes()
     {
@@ -18,14 +18,14 @@ class MysqlORMNestedAttributesTest extends TesterCase
         $parent = new TesterParentModel($data);
         $parent->save();
 
-        Assert::expect($parent->id)->to_equal(1);
-        Assert::expect(count($parent->childs()))->to_equal(2);
+        $this->assertEquals($parent->id, 1);
+        $this->assertEquals(count($parent->childs()), 2);
 
         $parent = TesterParentModel::find($parent->id);
-        Assert::expect(count($parent->childs()))->to_equal(2);
+        $this->assertEquals(count($parent->childs()), 2);
 
         $childs = TesterChildModel::where('tester_parent_model_id = ?', ['tester_parent_model_id' => 1]);
-        Assert::expect(count($childs))->to_equal(2);
+        $this->assertEquals(count($childs), 2);
     }
 
     public function testSaveObjectWithWrongNestedAttributes()
@@ -42,8 +42,8 @@ class MysqlORMNestedAttributesTest extends TesterCase
         $parent = new TesterParentModel($data);
         $parent->save();
 
-        Assert::expect($parent->id)->to_equal(null);
-        Assert::expect(count($parent->errors))->to_equal(3);
+        $this->assertEquals($parent->id, null);
+        $this->assertEquals(count($parent->errors), 3);
     }
 
     public function testAddChildsToExistObjects()
@@ -69,11 +69,11 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
         $parent->update($data);
 
-        Assert::expect($parent->id)->to_equal(1);
-        Assert::expect(count($parent->childs()))->to_equal(3);
+        $this->assertEquals($parent->id, 1);
+        $this->assertEquals(count($parent->childs()), 3);
 
         $childs = TesterChildModel::where('tester_parent_model_id = ?', ['tester_parent_model_id' => 1]);
-        Assert::expect(count($childs))->to_equal(3);
+        $this->assertEquals(count($childs), 3);
     }
 
     public function testDeleteFormNestedObjects()
@@ -98,11 +98,11 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
         $parent->update($data);
 
-        Assert::expect($parent->id)->to_equal(1);
-        Assert::expect(count($parent->childs()))->to_equal(1);
+        $this->assertEquals($parent->id, 1);
+        $this->assertEquals(count($parent->childs()), 1);
 
         $childs = TesterChildModel::where('tester_parent_model_id = ?', ['tester_parent_model_id' => 1]);
-        Assert::expect(count($childs))->to_equal(1);
+        $this->assertEquals(count($childs), 1);
     }
 
     public function testUpdateNestedObjects()
@@ -127,13 +127,13 @@ class MysqlORMNestedAttributesTest extends TesterCase
 
         $parent->update($data);
 
-        Assert::expect($parent->id)->to_equal(1);
-        Assert::expect(count($parent->childs()))->to_equal(2);
+        $this->assertEquals($parent->id, 1);
+        $this->assertEquals(count($parent->childs()), 2);
 
         $childs = TesterChildModel::where('tester_parent_model_id = ?', ['tester_parent_model_id' => 1]);
-        Assert::expect(count($childs))->to_equal(2);
+        $this->assertEquals(count($childs), 2);
 
-        Assert::expect($childs[1]->address)->to_equal('new_email2@test.com');
+        $this->assertEquals($childs[1]->address, 'new_email2@test.com');
     }
 
     public function testRemoveNestedAttributesWhenSaveObject()
@@ -150,14 +150,14 @@ class MysqlORMNestedAttributesTest extends TesterCase
         $parent = new TesterChildModel($data);
         $parent->save();
 
-        Assert::expect($parent->id)->to_equal(1);
-        Assert::expect(count($parent->grandsons()))->to_equal(2);
+        $this->assertEquals($parent->id, 1);
+        $this->assertEquals(count($parent->grandsons()), 2);
 
         $parent->update(['address' => 'test2@test.com']);
-        Assert::expect($parent->id)->to_equal(1);
-        Assert::expect(count($parent->grandsons()))->to_equal(2);
+        $this->assertEquals($parent->id, 1);
+        $this->assertEquals(count($parent->grandsons()), 2);
 
         $parent = TesterChildModel::find($parent->id);
-        Assert::expect(count($parent->grandsons()))->to_equal(2);
+        $this->assertEquals(count($parent->grandsons()), 2);
     }
 }

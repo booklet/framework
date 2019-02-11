@@ -1,7 +1,7 @@
 <?php
 include_once 'tests/fixtures/paperclip/NewPaperClipTestingClass.php';
 
-class NewPaperClipSaveFilesTest extends TesterCase
+class NewPaperClipSaveFilesTest extends \CustomPHPUnitTestCase
 {
     public $skip_database_clear_before = ['all'];
     private $paper_clip;
@@ -33,8 +33,8 @@ class NewPaperClipSaveFilesTest extends TesterCase
     public function check($path, $file_name, $width, $height, $files_count)
     {
         $image = new Imagick($path . $file_name);
-        Assert::expect($image->getImageGeometry())->to_equal(['width' => $width, 'height' => $height]);
-        Assert::expect(count(FilesUntils::getFilesFromDirectory($path)))->to_equal($files_count);
+        $this->assertEquals($image->getImageGeometry(), ['width' => $width, 'height' => $height]);
+        $this->assertEquals(count(FilesUntils::getFilesFromDirectory($path)), $files_count);
     }
 
     public function testSaveJpg()

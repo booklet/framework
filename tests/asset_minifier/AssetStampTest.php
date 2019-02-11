@@ -1,5 +1,5 @@
 <?php
-class AssetStampTest extends TesterCase
+class AssetStampTest extends \CustomPHPUnitTestCase
 {
     public function testGetStamp()
     {
@@ -9,7 +9,7 @@ class AssetStampTest extends TesterCase
         ]);
 
         $stamp = $asset->getStamp();
-        Assert::expect(strlen($stamp))->to_equal(32);
-        Assert::expect($stamp)->to_be_not_equal('d41d8cd98f00b204e9800998ecf8427e'); // empty string hash
+        $this->assertEquals(strlen($stamp), 32);
+        $this->assertNotEquals($stamp, 'd41d8cd98f00b204e9800998ecf8427e'); // empty string hash
     }
 }

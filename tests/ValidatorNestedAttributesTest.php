@@ -1,6 +1,11 @@
 <?php
-class ValidatorNestedAttributesTest extends TesterCase
+class ValidatorNestedAttributesTest extends \CustomPHPUnitTestCase
 {
+    public function test()
+    {
+        $this->markTestSkipped();
+    }
+
     //    // create new object with first level nested resources
 //    public function testValidObjectWithNestedAttributes()
 //    {
@@ -16,7 +21,7 @@ class ValidatorNestedAttributesTest extends TesterCase
 //        $parent = new TesterParentModel($data);
 //        $valid = new Validator($parent, $parent->validationRules());
 //
-//        Assert::expect($valid->isValid())->to_equal(true);
+//        $this->assertEquals($valid->isValid(), true);
 //    }
 //
 //    // check vaidation for nested resources (address in unique, required and not blank allowed)
@@ -35,14 +40,14 @@ class ValidatorNestedAttributesTest extends TesterCase
 //
 //        $parent = new TesterParentModel($data);
 //
-//        Assert::expect($parent->isValid())->to_equal(false);
-//        Assert::expect(count($parent->errors))->to_equal(2);
-//        Assert::expect($parent->errors['childs[0].address'][0])->to_equal('is required.');
-//        Assert::expect($parent->errors['childs[0].address'][1])->to_equal('email is not valid.');
-//        Assert::expect($parent->errors['childs[0].address'][2])->to_equal('is not unique.');
-//        Assert::expect($parent->errors['childs[2].address'][0])->to_equal('is required.');
-//        Assert::expect($parent->errors['childs[2].address'][1])->to_equal('email is not valid.');
-//        Assert::expect($parent->errors['childs[2].address'][2])->to_equal('is not unique.');
+//        $this->assertEquals($parent->isValid(), false);
+//        $this->assertEquals(count($parent->errors), 2);
+//        $this->assertEquals($parent->errors['childs[0].address'][0], 'is required.');
+//        $this->assertEquals($parent->errors['childs[0].address'][1], 'email is not valid.');
+//        $this->assertEquals($parent->errors['childs[0].address'][2], 'is not unique.');
+//        $this->assertEquals($parent->errors['childs[2].address'][0], 'is required.');
+//        $this->assertEquals($parent->errors['childs[2].address'][1], 'email is not valid.');
+//        $this->assertEquals($parent->errors['childs[2].address'][2], 'is not unique.');
 //    }
 //
 //    // add childs to exist object
@@ -62,12 +67,12 @@ class ValidatorNestedAttributesTest extends TesterCase
 //        ];
 //        $parent = new TesterParentModel($data);
 //
-//        Assert::expect($parent->isValid())->to_equal(false);
-//        Assert::expect(count($parent->errors))->to_equal(3);
-//        Assert::expect($parent->errors['childs[0].address'][0])->to_equal('is required.');
-//        Assert::expect($parent->errors['childs[0].address'][1])->to_equal('email is not valid.');
-//        Assert::expect($parent->errors['childs[1].address'][0])->to_equal('is not unique.');
-//        Assert::expect($parent->errors['childs[2].address'][0])->to_equal('is not unique.');
+//        $this->assertEquals($parent->isValid(), false);
+//        $this->assertEquals(count($parent->errors), 3);
+//        $this->assertEquals($parent->errors['childs[0].address'][0], 'is required.');
+//        $this->assertEquals($parent->errors['childs[0].address'][1], 'email is not valid.');
+//        $this->assertEquals($parent->errors['childs[1].address'][0], 'is not unique.');
+//        $this->assertEquals($parent->errors['childs[2].address'][0], 'is not unique.');
 //    }
 //
 //    //
@@ -84,13 +89,13 @@ class ValidatorNestedAttributesTest extends TesterCase
 //
 //        $parent = new TesterParentModel($data);
 //
-//        Assert::expect($parent->isValid())->to_equal(false);
+//        $this->assertEquals($parent->isValid(), false);
 //
-//        Assert::expect(count($parent->errors))->to_equal(2);
-//        Assert::expect($parent->errors['name'][0])->to_equal('is required.');
+//        $this->assertEquals(count($parent->errors), 2);
+//        $this->assertEquals($parent->errors['name'][0], 'is required.');
 //
-//        Assert::expect($parent->errors['childs[0].address'][0])->to_equal('is required.');
-//        Assert::expect($parent->errors['childs[0].address'][1])->to_equal('email is not valid.');
+//        $this->assertEquals($parent->errors['childs[0].address'][0], 'is required.');
+//        $this->assertEquals($parent->errors['childs[0].address'][1], 'email is not valid.');
 //    }
 //
 //    // save with two level nested objects
@@ -111,7 +116,7 @@ class ValidatorNestedAttributesTest extends TesterCase
 //
 //        $parent = new TesterParentModel($data);
 //
-//        Assert::expect($parent->isValid())->to_equal(true);
+//        $this->assertEquals($parent->isValid(), true);
 //    }
 //
 //    // try to save object to not belongs to parent
@@ -140,9 +145,9 @@ class ValidatorNestedAttributesTest extends TesterCase
 //
 //        $parent->update($data);
 //
-//        Assert::expect($parent->isValid())->to_equal(false);
-//        Assert::expect(count($parent->errors))->to_equal(1);
-//        Assert::expect($parent->errors['childs[1].id'][0])->to_equal('Item not belongs to this parent.');
+//        $this->assertEquals($parent->isValid(), false);
+//        $this->assertEquals(count($parent->errors), 1);
+//        $this->assertEquals($parent->errors['childs[1].id'][0], 'Item not belongs to this parent.');
 //    }
 //
 //    // test validation on granson object (required description)
@@ -163,9 +168,9 @@ class ValidatorNestedAttributesTest extends TesterCase
 //
 //        $parent = new TesterParentModel($data);
 //
-//        Assert::expect($parent->isValid())->to_equal(false);
-//        Assert::expect(count($parent->errors))->to_equal(1);
-//        Assert::expect($parent->errors['childs[0].grandsons[0].description'][0])->to_equal('is required.');
+//        $this->assertEquals($parent->isValid(), false);
+//        $this->assertEquals(count($parent->errors), 1);
+//        $this->assertEquals($parent->errors['childs[0].grandsons[0].description'][0], 'is required.');
 //    }
 //
 //    // test childs validation with grandson
@@ -192,11 +197,11 @@ class ValidatorNestedAttributesTest extends TesterCase
 //
 //        $parent = new TesterParentModel($data);
 //
-//        Assert::expect($parent->isValid())->to_equal(false);
-//        Assert::expect(count($parent->errors))->to_equal(3);
-//        Assert::expect($parent->errors['childs[0].address'][0])->to_equal('is not unique.');
-//        Assert::expect($parent->errors['childs[0].grandsons[0].description'][0])->to_equal('is required.');
-//        Assert::expect($parent->errors['childs[1].address'][0])->to_equal('is not unique.');
+//        $this->assertEquals($parent->isValid(), false);
+//        $this->assertEquals(count($parent->errors), 3);
+//        $this->assertEquals($parent->errors['childs[0].address'][0], 'is not unique.');
+//        $this->assertEquals($parent->errors['childs[0].grandsons[0].description'][0], 'is required.');
+//        $this->assertEquals($parent->errors['childs[1].address'][0], 'is not unique.');
 //    }
 //
 //    // update childs and add new child object
@@ -227,10 +232,10 @@ class ValidatorNestedAttributesTest extends TesterCase
 //
 //        $parent = new TesterParentModel($data);
 //
-//        Assert::expect($parent->isValid())->to_equal(false);
-//        Assert::expect(count($parent->errors))->to_equal(1);
-//        Assert::expect($parent->errors['childs[2].address'][0])->to_equal('is required.');
-//        Assert::expect($parent->errors['childs[2].address'][1])->to_equal('email is not valid.');
+//        $this->assertEquals($parent->isValid(), false);
+//        $this->assertEquals(count($parent->errors), 1);
+//        $this->assertEquals($parent->errors['childs[2].address'][0], 'is required.');
+//        $this->assertEquals($parent->errors['childs[2].address'][1], 'email is not valid.');
 //    }
 //
 //    // test delete validation object
@@ -250,11 +255,11 @@ class ValidatorNestedAttributesTest extends TesterCase
 //        ];
 //
 //        $parent = new TesterParentModel($data);
-//        Assert::expect($parent->isValid())->to_equal(false);
+//        $this->assertEquals($parent->isValid(), false);
 //
-//        Assert::expect(count($parent->errors))->to_equal(1);
-//        Assert::expect($parent->errors['childs[2].address'][0])->to_equal('is required.');
-//        Assert::expect($parent->errors['childs[2].address'][1])->to_equal('email is not valid.');
+//        $this->assertEquals(count($parent->errors), 1);
+//        $this->assertEquals($parent->errors['childs[2].address'][0], 'is required.');
+//        $this->assertEquals($parent->errors['childs[2].address'][1], 'email is not valid.');
 //
 //    }
 }

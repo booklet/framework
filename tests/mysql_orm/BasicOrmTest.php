@@ -1,5 +1,5 @@
 <?php
-class BasicOrmTest extends TesterCase
+class BasicOrmTest extends \CustomPHPUnitTestCase
 {
     public function populateUserTable()
     {
@@ -19,30 +19,29 @@ class BasicOrmTest extends TesterCase
 
     public function testAll()
     {
-
         $this->populateUserTable();
         $users = FWTestModelUser::all();
 
-        Assert::expect(count($users))->to_equal(6);
-        Assert::expect($users[0]->username)->to_equal('Uzytkownik nr1');
+        $this->assertEquals(count($users), 6);
+        $this->assertEquals($users[0]->username, 'Uzytkownik nr1');
     }
 
     public function testAllByOrder()
     {
         $this->populateUserTable();
-        $users = FWTestModelUser::all(['order'=>'id DESC']);
+        $users = FWTestModelUser::all(['order' => 'id DESC']);
 
-        Assert::expect(count($users))->to_equal(6);
-        Assert::expect($users[0]->username)->to_equal('Uzytkownik nr6');
+        $this->assertEquals(count($users), 6);
+        $this->assertEquals($users[0]->username, 'Uzytkownik nr6');
     }
 
     public function testAllByLimitAndPage()
     {
         $this->populateUserTable();
-        $users = FWTestModelUser::all(['limit'=>'2', 'page'=>2]);
+        $users = FWTestModelUser::all(['limit' => '2', 'page' => 2]);
 
-        Assert::expect(count($users))->to_equal(2);
-        Assert::expect($users[0]->username)->to_equal('Uzytkownik nr3');
+        $this->assertEquals(count($users), 2);
+        $this->assertEquals($users[0]->username, 'Uzytkownik nr3');
     }
 
     public function testFind()
@@ -50,7 +49,7 @@ class BasicOrmTest extends TesterCase
         $this->populateUserTable();
         $user = FWTestModelUser::find(3);
 
-        Assert::expect($user->username)->to_equal('Uzytkownik nr3');
+        $this->assertEquals($user->username, 'Uzytkownik nr3');
     }
 
     public function testFindWithWrongId()
@@ -60,7 +59,7 @@ class BasicOrmTest extends TesterCase
         try {
             $user = FWTestModelUser::find(100);
         } catch (Exception $e) {
-            Assert::expect($e->getMessage())->to_equal("Couldn't find FWTestModelUser with id=100");
+            $this->assertEquals($e->getMessage(), "Couldn't find FWTestModelUser with id=100");
         }
     }
 
@@ -69,43 +68,43 @@ class BasicOrmTest extends TesterCase
         $this->populateUserTable();
         $user = FWTestModelUser::findBy('email', 'user2@booklet.pl');
 
-        Assert::expect($user->username)->to_equal('Uzytkownik nr2');
+        $this->assertEquals($user->username, 'Uzytkownik nr2');
     }
 
     public function testFirst()
     {
         $this->populateUserTable();
         $user = FWTestModelUser::first();
-        Assert::expect($user->username)->to_equal('Uzytkownik nr1');
+        $this->assertEquals($user->username, 'Uzytkownik nr1');
     }
 
     public function testFast()
     {
         $this->populateUserTable();
         $user = FWTestModelUser::last();
-        Assert::expect($user->username)->to_equal('Uzytkownik nr6');
+        $this->assertEquals($user->username, 'Uzytkownik nr6');
     }
 
     public function testWhere()
     {
         $this->populateUserTable();
-        $users = FWTestModelUser::where("role = ?", ['role'=>'customer_service']);
+        $users = FWTestModelUser::where('role = ?', ['role' => 'customer_service']);
 
-        Assert::expect(count($users))->to_equal(4);
+        $this->assertEquals(count($users), 4);
     }
 
     public function testWhereTwoWar()
     {
         $this->populateUserTable();
-        $users = FWTestModelUser::where("role = ? AND username = ?", ['role'=>'customer_service', 'username'=>'Uzytkownik nr3']);
+        $users = FWTestModelUser::where('role = ? AND username = ?', ['role' => 'customer_service', 'username' => 'Uzytkownik nr3']);
 
-        Assert::expect(count($users))->to_equal(1);
-        Assert::expect($users[0]->username)->to_equal('Uzytkownik nr3');
+        $this->assertEquals(count($users), 1);
+        $this->assertEquals($users[0]->username, 'Uzytkownik nr3');
     }
 
     public function testSave()
     {
-
+        $this->markTestSkipped();
     }
 
     public function testUpdate()
@@ -115,8 +114,8 @@ class BasicOrmTest extends TesterCase
         $user->update(['username' => 'Nowa nazwa', 'email' => 'nowyemail@booklet.pl']);
 
         $user_reload = FWTestModelUser::find(3);
-        Assert::expect($user_reload->username)->to_equal('Nowa nazwa');
-        Assert::expect($user_reload->email)->to_equal('nowyemail@booklet.pl');
+        $this->assertEquals($user_reload->username, 'Nowa nazwa');
+        $this->assertEquals($user_reload->email, 'nowyemail@booklet.pl');
     }
 
     public function testDestroy()
@@ -124,10 +123,10 @@ class BasicOrmTest extends TesterCase
         $this->populateUserTable();
 
         $user = FWTestModelUser::find(3);
-        Assert::expect($user->destroy())->to_equal(true);
+        $this->assertEquals($user->destroy(), true);
 
         $users = FWTestModelUser::all();
-        Assert::expect(count($users))->to_equal(5);
+        $this->assertEquals(count($users), 5);
     }
 
     public function testFnCreateDbObject()
@@ -141,11 +140,11 @@ class BasicOrmTest extends TesterCase
         $orm = new MysqlORM(null, $user);
         $db_obj = MysqlORMObjectCreator::createDbObject($orm->model_obj);
 
-        Assert::expect(ObjectUntils::objToArray($db_obj))->to_equal(['username' => 'Nowa nazwa uzytkownia', 'email' => 'user101@booklet.pl']);
+        $this->assertEquals(ObjectUntils::objToArray($db_obj), ['username' => 'Nowa nazwa uzytkownia', 'email' => 'user101@booklet.pl']);
 
         $user->save();
         $user = FWTestModelUser::first();
-        Assert::expect($user->username)->to_equal('Nowa nazwa uzytkownia');
-        Assert::expect($user->email)->to_equal('user101@booklet.pl');
+        $this->assertEquals($user->username, 'Nowa nazwa uzytkownia');
+        $this->assertEquals($user->email, 'user101@booklet.pl');
     }
 }

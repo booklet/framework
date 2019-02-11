@@ -1,5 +1,5 @@
 <?php
-class AssetMinifierTest extends TesterCase
+class AssetMinifierTest extends \CustomPHPUnitTestCase
 {
     public function jsData()
     {
@@ -19,18 +19,18 @@ class AssetMinifierTest extends TesterCase
         $asset = new AssetMinifierJs($this->jsData());
         $path = $asset->getMinifierFilePath();
 
-        Assert::expect($path)->to_include_string('tests/fixtures/asset_minifier/output/test-js-');
-        Assert::expect($path)->to_include_string('.js');
-        Assert::expect(filesize($path))->to_equal(79);
+        $this->assertContains('tests/fixtures/asset_minifier/output/test-js-', $path);
+        $this->assertContains('.js', $path);
+        $this->assertEquals(filesize($path), 79);
 
         $url_path = $asset->getMinifierUrlPath();
 
-        Assert::expect($url_path)->to_include_string('public/minifier/js/test-js-');
+        $this->assertContains('public/minifier/js/test-js-', $url_path);
 
         $html = $asset->getHtmlTag();
 
-        Assert::expect($html)->to_include_string('<script type="text/javascript" src="/public/minifier/js/test-js-');
-        Assert::expect($html)->to_include_string('.js"></script>');
+        $this->assertContains('<script type="text/javascript" src="/public/minifier/js/test-js-', $html);
+        $this->assertContains('.js"></script>', $html);
 
         unlink($path);
     }
@@ -43,16 +43,16 @@ class AssetMinifierTest extends TesterCase
 
         $url_path = $asset->getMinifierUrlPath();
 
-        Assert::expect($url_path)->to_include_string('panel-klienta/public/minifier/js/test-js-');
+        $this->assertContains('panel-klienta/public/minifier/js/test-js-', $url_path);
 
         $file_path = $asset->getMinifierFilePath();
 
-        Assert::expect($file_path)->to_include_string('tests/fixtures/asset_minifier/output/test-js-');
+        $this->assertContains('tests/fixtures/asset_minifier/output/test-js-', $file_path);
 
         $html = $asset->getHtmlTag();
 
-        Assert::expect($html)->to_include_string('<script type="text/javascript" src="/panel-klienta/public/minifier/js/test-js-');
-        Assert::expect($html)->to_include_string('.js"></script>');
+        $this->assertContains('<script type="text/javascript" src="/panel-klienta/public/minifier/js/test-js-', $html);
+        $this->assertContains('.js"></script>', $html);
     }
 
     public function testMinifierJsDevelopment()
@@ -63,8 +63,8 @@ class AssetMinifierTest extends TesterCase
         $asset = new AssetMinifierJs($data);
         $html = $asset->getHtmlTag();
 
-        Assert::expect($html)->to_include_string('<script type="text/javascript" src="/panel-klienta/tests/fixtures/asset_minifier/file1.js"></script>');
-        Assert::expect($html)->to_include_string('<script type="text/javascript" src="/panel-klienta/tests/fixtures/asset_minifier/file2.js"></script>');
+        $this->assertContains('<script type="text/javascript" src="/panel-klienta/tests/fixtures/asset_minifier/file1.js"></script>', $html);
+        $this->assertContains('<script type="text/javascript" src="/panel-klienta/tests/fixtures/asset_minifier/file2.js"></script>', $html);
     }
 
     public function cssData()
@@ -85,18 +85,18 @@ class AssetMinifierTest extends TesterCase
         $asset = new AssetMinifierCss($this->cssData());
         $path = $asset->getMinifierFilePath();
 
-        Assert::expect($path)->to_include_string('tests/fixtures/asset_minifier/output/test-css-');
-        Assert::expect($path)->to_include_string('.css');
-        Assert::expect(filesize($path))->to_equal(126);
+        $this->assertContains('tests/fixtures/asset_minifier/output/test-css-', $path);
+        $this->assertContains('.css', $path);
+        $this->assertEquals(filesize($path), 126);
 
         $url_path = $asset->getMinifierUrlPath();
 
-        Assert::expect($url_path)->to_include_string('public/minifier/css/test-css-');
+        $this->assertContains('public/minifier/css/test-css-', $url_path);
 
         $html = $asset->getHtmlTag();
 
-        Assert::expect($html)->to_include_string('<link rel="stylesheet" media="all" href="/public/minifier/css/test-css-');
-        Assert::expect($html)->to_include_string('.css" />');
+        $this->assertContains('<link rel="stylesheet" media="all" href="/public/minifier/css/test-css-', $html);
+        $this->assertContains('.css" />', $html);
 
         unlink($path);
     }
@@ -109,16 +109,16 @@ class AssetMinifierTest extends TesterCase
 
         $url_path = $asset->getMinifierUrlPath();
 
-        Assert::expect($url_path)->to_include_string('panel-klienta/public/minifier/css/test-css-');
+        $this->assertContains('panel-klienta/public/minifier/css/test-css-', $url_path);
 
         $file_path = $asset->getMinifierFilePath();
 
-        Assert::expect($file_path)->to_include_string('tests/fixtures/asset_minifier/output/test-css-');
+        $this->assertContains('tests/fixtures/asset_minifier/output/test-css-', $file_path);
 
         $html = $asset->getHtmlTag();
 
-        Assert::expect($html)->to_include_string('<link rel="stylesheet" media="all" href="/panel-klienta/public/minifier/css/test-css-');
-        Assert::expect($html)->to_include_string('.css" />');
+        $this->assertContains('<link rel="stylesheet" media="all" href="/panel-klienta/public/minifier/css/test-css-', $html);
+        $this->assertContains('.css" />', $html);
     }
 
     public function testMinifierCssDevelopment()
@@ -129,7 +129,7 @@ class AssetMinifierTest extends TesterCase
         $asset = new AssetMinifierCss($data);
         $html = $asset->getHtmlTag();
 
-        Assert::expect($html)->to_include_string('<link rel="stylesheet" media="all" href="/panel-klienta/tests/fixtures/asset_minifier/file1.css" />');
-        Assert::expect($html)->to_include_string('<link rel="stylesheet" media="all" href="/panel-klienta/tests/fixtures/asset_minifier/file2.css" />');
+        $this->assertContains('<link rel="stylesheet" media="all" href="/panel-klienta/tests/fixtures/asset_minifier/file1.css" />', $html);
+        $this->assertContains('<link rel="stylesheet" media="all" href="/panel-klienta/tests/fixtures/asset_minifier/file2.css" />', $html);
     }
 }

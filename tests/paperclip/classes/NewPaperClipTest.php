@@ -1,7 +1,7 @@
 <?php
 include_once 'tests/fixtures/paperclip/NewPaperClipTestingClass.php';
 
-class NewPaperClipTest extends TesterCase
+class NewPaperClipTest extends \CustomPHPUnitTestCase
 {
     public $skip_database_clear_before = ['all'];
 
@@ -15,7 +15,7 @@ class NewPaperClipTest extends TesterCase
             'thumbnail' => '100x100#',
         ];
 
-        Assert::expect($paper_clip->attachmentStyles('preview'))->to_equal($expect_results);
+        $this->assertEquals($paper_clip->attachmentStyles('preview'), $expect_results);
     }
 
     public function testSaveFile()
@@ -25,14 +25,14 @@ class NewPaperClipTest extends TesterCase
 
         $paper_clip->saveFile('preview', 'tests/fixtures/paperclip/tests_files/animal.jpg');
 
-        Assert::expect($paper_clip_testing_class->preview_file_name)->to_equal('animal.jpg');
-        Assert::expect($paper_clip_testing_class->preview_file_size)->to_equal(47851);
-        Assert::expect($paper_clip_testing_class->preview_content_type)->to_equal('image/jpeg');
-        Assert::expect($paper_clip_testing_class->preview_updated_at)->toNotBeNull();
+        $this->assertEquals($paper_clip_testing_class->preview_file_name, 'animal.jpg');
+        $this->assertEquals($paper_clip_testing_class->preview_file_size, 47851);
+        $this->assertEquals($paper_clip_testing_class->preview_content_type, 'image/jpeg');
+        $this->assertNotNull($paper_clip_testing_class->preview_updated_at);
 
-        Assert::expect(file_exists('system/files/new_paper_clip_testing_class/preview/000/000/000/original/animal.jpg'))->to_equal(true);
-        Assert::expect(file_exists('system/files/new_paper_clip_testing_class/preview/000/000/000/medium/animal.jpg'))->to_equal(true);
-        Assert::expect(file_exists('system/files/new_paper_clip_testing_class/preview/000/000/000/thumbnail/animal.jpg'))->to_equal(true);
+        $this->assertEquals(file_exists('system/files/new_paper_clip_testing_class/preview/000/000/000/original/animal.jpg'), true);
+        $this->assertEquals(file_exists('system/files/new_paper_clip_testing_class/preview/000/000/000/medium/animal.jpg'), true);
+        $this->assertEquals(file_exists('system/files/new_paper_clip_testing_class/preview/000/000/000/thumbnail/animal.jpg'), true);
 
         FilesUntils::deleteDirectoryAndEverythingIn('system/files/new_paper_clip_testing_class');
     }
@@ -44,16 +44,16 @@ class NewPaperClipTest extends TesterCase
 
         $paper_clip->saveFile('preview', 'tests/fixtures/paperclip/tests_files/animal.jpg');
 
-        Assert::expect($paper_clip_testing_class->preview_file_name)->to_equal('animal.jpg');
-        Assert::expect($paper_clip_testing_class->preview_file_size)->to_equal(47851);
-        Assert::expect($paper_clip_testing_class->preview_content_type)->to_equal('image/jpeg');
-        Assert::expect($paper_clip_testing_class->preview_updated_at)->toNotBeNull();
-        Assert::expect(file_exists('system/files/new_paper_clip_testing_class/preview/000/000/000/medium/animal.jpg'))->to_equal(true);
+        $this->assertEquals($paper_clip_testing_class->preview_file_name, 'animal.jpg');
+        $this->assertEquals($paper_clip_testing_class->preview_file_size, 47851);
+        $this->assertEquals($paper_clip_testing_class->preview_content_type, 'image/jpeg');
+        $this->assertNotNull($paper_clip_testing_class->preview_updated_at);
+        $this->assertEquals(file_exists('system/files/new_paper_clip_testing_class/preview/000/000/000/medium/animal.jpg'), true);
 
         $image = new Imagick('system/files/new_paper_clip_testing_class/preview/000/000/000/medium/animal.jpg');
-        Assert::expect($image->getImageGeometry())->to_equal(['width' => 300, 'height' => 225]);
+        $this->assertEquals($image->getImageGeometry(), ['width' => 300, 'height' => 225]);
         $image = new Imagick('system/files/new_paper_clip_testing_class/preview/000/000/000/thumbnail/animal.jpg');
-        Assert::expect($image->getImageGeometry())->to_equal(['width' => 100, 'height' => 100]);
+        $this->assertEquals($image->getImageGeometry(), ['width' => 100, 'height' => 100]);
 
         $paper_clip_testing_class->fake_styles = [
             'preview' => [
@@ -67,9 +67,9 @@ class NewPaperClipTest extends TesterCase
         $paper_clip->reprocess('preview');
 
         $image = new Imagick('system/files/new_paper_clip_testing_class/preview/000/000/000/medium/animal.jpg');
-        Assert::expect($image->getImageGeometry())->to_equal(['width' => 200, 'height' => 150]);
+        $this->assertEquals($image->getImageGeometry(), ['width' => 200, 'height' => 150]);
         $image = new Imagick('system/files/new_paper_clip_testing_class/preview/000/000/000/thumbnail/animal.jpg');
-        Assert::expect($image->getImageGeometry())->to_equal(['width' => 50, 'height' => 50]);
+        $this->assertEquals($image->getImageGeometry(), ['width' => 50, 'height' => 50]);
 
         FilesUntils::deleteDirectoryAndEverythingIn('system/files/new_paper_clip_testing_class');
     }
@@ -81,15 +81,15 @@ class NewPaperClipTest extends TesterCase
         $paper_clip->saveFile('preview', 'tests/fixtures/paperclip/tests_files/animal.jpg');
         $paper_clip->reprocess('preview');
 
-        Assert::expect($paper_clip_testing_class->preview_file_name)->to_equal('animal.jpg');
+        $this->assertEquals($paper_clip_testing_class->preview_file_name, 'animal.jpg');
 
         $paper_clip->destroy('preview');
 
-        Assert::expect($paper_clip_testing_class->preview_file_name)->toBeNull();
+        $this->assertNull($paper_clip_testing_class->preview_file_name);
     }
 
     public function testGetAttachmentNameFromFunctionName()
     {
-        Assert::expect(NewPaperClip::getAttachmentNameFromFunctionName('previewPath'))->to_equal('preview');
+        $this->assertEquals(NewPaperClip::getAttachmentNameFromFunctionName('previewPath'), 'preview');
     }
 }
