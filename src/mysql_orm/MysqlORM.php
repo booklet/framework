@@ -103,6 +103,9 @@ class MysqlORM
         if (isset($params['count']) and $params['count'] == true) {
             $res = $result->fetch_assoc();
             $response = $res['count']; // return count items
+        } elseif (!empty($params['sum'])) {
+            $res = $result->fetch_assoc();
+            $response = $res['sum'] ?? 0; // return sum items
         } else {
             $response = MysqlORMObjectCreator::createObjects($result, $this->model_class_name);
         }
