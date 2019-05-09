@@ -1,6 +1,41 @@
 <?php
 class Validator
 {
+    const ZIP_CODE_PATTERNS = [
+        '[0-9]{2}-[0-9]{3}',
+        '[0-9]{5}',
+    ];
+
+    const VALIDATION_RULES_LIST = [
+        'required' => [
+            'message' => 'is required.',
+        ],
+        'max_length' => [
+            'message' => 'is too long (max %s).',
+        ],
+        'greater_than_or_equal_to' => [
+            'message' => 'is low value (min %s).',
+        ],
+        'less_than_or_equal_to' => [
+            'message' => 'is to high value (max %s).',
+        ],
+        'email' => [
+            'message' => 'email is not valid.',
+        ],
+        'unique' => [
+            'message' => 'is not unique.',
+        ],
+        'in' => [
+            'message' => 'is not allowed value.',
+        ],
+        'zip_code' => [
+            'message' => 'is not zip code.',
+            'patterns' => self::ZIP_CODE_PATTERNS,
+        ],
+        // type
+        // password
+    ];
+
     private $errors = [];
 
     public function __construct($obj, $rules, array $params = [])
@@ -67,7 +102,7 @@ class Validator
         if (isset($this->obj->$attr) && trim($this->obj->$attr) !== '') {
             // OK
         } else {
-            $this->addError($attr, 'is required.');
+            $this->addError($attr, self::VALIDATION_RULES_LIST['required']['message']);
         }
     }
 
@@ -124,7 +159,7 @@ class Validator
         // make sure header is correct
         // HTTP-header (Content-Type: text/html; charset=UTF-8)
         if (mb_strlen($this->obj->$attr, 'UTF-8') > $max) {
-            $this->addError($attr, 'is too long (max ' . $max . ').');
+            $this->addError($attr, sprintf(self::VALIDATION_RULES_LIST['max_length']['message'], $max));
         }
     }
 
@@ -136,7 +171,7 @@ class Validator
         $min = floatval($params[0]);
 
         if ($this->obj->$attr < $min) {
-            $this->addError($attr, 'is low value (min ' . (string) $min . ').');
+            $this->addError($attr, sprintf(self::VALIDATION_RULES_LIST['greater_than_or_equal_to']['message'], $min));
         }
     }
 
@@ -148,7 +183,7 @@ class Validator
         $max = intval($params[0]);
 
         if ($this->obj->$attr > $max) {
-            $this->addError($attr, 'is to high value (max ' . (string) $max . ').');
+            $this->addError($attr, sprintf(self::VALIDATION_RULES_LIST['less_than_or_equal_to']['message'], $max));
         }
     }
 
@@ -160,7 +195,7 @@ class Validator
         if (filter_var($this->obj->$attr, FILTER_VALIDATE_EMAIL)) {
             // ok
         } else {
-            $this->addError($attr, 'email is not valid.');
+            $this->addError($attr, self::VALIDATION_RULES_LIST['email']['message']);
         }
     }
 
@@ -204,7 +239,7 @@ class Validator
                 // after save object any next validation return false,
                 // but, this is valid object if ids is equal, so we not add error
             } else {
-                $this->addError($attr, 'is not unique.');
+                $this->addError($attr, self::VALIDATION_RULES_LIST['unique']['message']);
             }
         }
     }
@@ -215,7 +250,7 @@ class Validator
     private function in($attr, $allow_values)
     {
         if (!in_array($this->obj->$attr, $allow_values)) {
-            $this->addError($attr, 'is not allowed value.');
+            $this->addError($attr, self::VALIDATION_RULES_LIST['in']['message']);
         }
     }
 
@@ -242,16 +277,15 @@ class Validator
     private function zip_code($attr)
     {
         $is_valid = false;
-        $zip_codes = ['[0-9]{2}-[0-9]{3}', '[0-9]{5}'];
 
-        foreach ($zip_codes as $zip_code) {
+        foreach (self::ZIP_CODE_PATTERNS as $zip_code) {
             if (preg_match('/^' . $zip_code . '$/', $this->obj->$attr)) {
                 $is_valid = true;
             }
         }
 
         if (!$is_valid) {
-            $this->addError($attr, 'is not zip code.');
+            $this->addError($attr, self::VALIDATION_RULES_LIST['zip_code']['message']);
         }
     }
 
