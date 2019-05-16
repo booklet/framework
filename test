@@ -11,17 +11,17 @@ if [ -z $1 ] ; then
     ./vendor/bin/phpunit --configuration config/phpunit.xml && exit 1;
 fi
 
-if [ $1 = "module" ];
+if [ "$1" = "module" ];
 then
     ./vendor/bin/phpunit --configuration config/phpunit.xml --testsuite 'module_'$2
 fi
 
-if [ $1 = "plugin" ];
+if [ "$1" = "plugin" ];
 then
     ./vendor/bin/phpunit --configuration config/phpunit.xml --testsuite 'plugin_'$2
 fi
 
-if [ $1 = "single" ];
+if [ "$1" = "single" ];
 then
     ./vendor/bin/phpunit --configuration config/phpunit.xml --filter $2'$'
 fi
