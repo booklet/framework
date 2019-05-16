@@ -18,4 +18,5 @@ sed -i -e 's+<policy domain="coder" rights="none" pattern="EPS" />+<policy domai
 sed -i -e 's+<policy domain="coder" rights="none" pattern="PDF" />+<policy domain="coder" rights="read|write" pattern="PDF" />+g' /etc/ImageMagick-6/policy.xml
 sed -i -e 's+<policy domain="coder" rights="none" pattern="XPS" />+<policy domain="coder" rights="read|write" pattern="XPS" />+g' /etc/ImageMagick-6/policy.xml
 
+# to prevent exit container
 tail -f /dev/null
