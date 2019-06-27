@@ -83,6 +83,40 @@ class ValidatorTest extends \CustomPHPUnitTestCase
         $this->assertEquals($valid->isValid(), false);
     }
 
+    public function testValidAllowEmpty()
+    {
+        $obj = new stdClass();
+        $obj->email = null;
+        $rules = ['email' => ['email:allow_empty']];
+        $valid = new Validator($obj, $rules);
+
+        $this->assertEquals(true, $valid->isValid());
+
+        $obj->email = '';
+        $rules = ['email' => ['email:allow_empty']];
+        $valid = new Validator($obj, $rules);
+
+        $this->assertEquals(true, $valid->isValid());
+
+        $obj->email = '  ';
+        $rules = ['email' => ['email:allow_empty']];
+        $valid = new Validator($obj, $rules);
+
+        $this->assertEquals(false, $valid->isValid());
+
+        $obj->email = 'emial@email.pl';
+        $rules = ['email' => ['email:empty']];
+        $valid = new Validator($obj, $rules);
+
+        $this->assertEquals(true, $valid->isValid());
+
+        $obj->email = 'emial@email';
+        $rules = ['email' => ['email:empty']];
+        $valid = new Validator($obj, $rules);
+
+        $this->assertEquals(false, $valid->isValid());
+    }
+
     public function testValidTypeStringText()
     {
         $obj = new stdClass();
