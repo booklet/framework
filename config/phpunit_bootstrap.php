@@ -11,7 +11,7 @@ Config::set('env', 'test');
 Config::set('migrations_path', 'tests/fixtures/migrations');
 
 $test = [];
-$test['host'] = '127.0.0.1';
+$test['host'] = 'db';
 $test['user'] = 'test_framework';
 $test['password'] = 'test_framework';
 $test['name'] = 'test_framework';
