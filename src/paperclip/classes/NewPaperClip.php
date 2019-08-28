@@ -89,7 +89,8 @@ class NewPaperClip
             $path_to_destroy = $this->attachmentDirectory($attachment_name, $style_name);
 
             // Check if path is safe to destroy
-            if (StringUntils::isInclude($path_to_destroy, self::FILES_DIRECTORY) and
+            $root = defined('ROOT_DIR') ? ROOT_DIR : '';
+            if (StringUntils::isInclude($path_to_destroy, $root . self::FILES_DIRECTORY) and
                 StringUntils::isInclude($path_to_destroy, $this->classUnderscoreName())) {
                 FilesUntils::deleteDirectoryAndEverythingIn($path_to_destroy);
             }

@@ -7,7 +7,8 @@ trait NewPaperClipPathTrait
         $class_underscore_name = $this->classUnderscoreName();
         $id_path = $this->idPath();
 
-        return NewPaperClip::FILES_DIRECTORY . $class_underscore_name . '/' . $attachment_name . '/' . $id_path . $style;
+        $root = defined('ROOT_DIR') ? ROOT_DIR : '';
+        return $root . NewPaperClip::FILES_DIRECTORY . $class_underscore_name . '/' . $attachment_name . '/' . $id_path . $style;
     }
 
     // return "system/files/paper_clip_testing_class/preview/000/001/234/original/plik.pdf"
@@ -33,7 +34,8 @@ trait NewPaperClipPathTrait
         $path = $this->attachmentPath($attachment_name, $style);
         if (!$path) {
             // missing path
-            $path = $this->pathGenerate(NewPaperClip::DEFAULT_MISSING_URL_PATH, [
+            $root = defined('ROOT_DIR') ? ROOT_DIR : '';
+            $path = $this->pathGenerate($root . NewPaperClip::DEFAULT_MISSING_URL_PATH, [
                 'attachment' => $attachment_name,
                 'style' => $style,
             ]);
