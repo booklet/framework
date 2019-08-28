@@ -8,6 +8,8 @@ class View
 
     public function __construct($params, array $variables = [], array $options = [])
     {
+        $root = defined('ROOT_DIR') ? ROOT_DIR : '';
+
         $this->params = $params;
         $this->layout = $options['layout'] ?? 'app';
         $this->variables = $variables;
@@ -34,15 +36,15 @@ class View
                 $module_name = $this->getModuleNameBaseOnControllerName($params['mailer']);
             }
 
-            $module_file_path = 'app/modules/' . $module_name . '/views/' . $folder . '/' . $file;
-            $mailer_module_file_path = 'app/modules/' . $module_name . '/views/mailers/' . $folder . '/' . $file;
+            $module_file_path = $root . 'app/modules/' . $module_name . '/views/' . $folder . '/' . $file;
+            $mailer_module_file_path = $root . 'app/modules/' . $module_name . '/views/mailers/' . $folder . '/' . $file;
 
             if (file_exists($module_file_path)) {
                 $this->path = $module_file_path;
             } elseif (file_exists($mailer_module_file_path)) {
                 $this->path = $mailer_module_file_path;
             } else {
-                $this->path = 'app/views/' . $folder . '/' . $file;
+                $this->path = $root . 'app/views/' . $folder . '/' . $file;
             }
         }
 
@@ -60,6 +62,8 @@ class View
 
     public function render()
     {
+        $root = defined('ROOT_DIR') ? ROOT_DIR : '';
+
         extract($this->variables); // change ['var1' => var1] to $var1
         $path = $this->path; // variable for layout yeld
 
@@ -71,10 +75,10 @@ class View
             include $path;
         } else {
             // TEMP add support to new layouts directory
-            if (file_exists('app/framework/views/layout/' . $this->layout . '.php')) {
-                include 'app/framework/views/layout/' . $this->layout . '.php';
+            if (file_exists($root . 'app/framework/views/layout/' . $this->layout . '.php')) {
+                include $root . 'app/framework/views/layout/' . $this->layout . '.php';
             } else {
-                include 'app/views/layout/' . $this->layout . '.php';
+                include $root . 'app/views/layout/' . $this->layout . '.php';
             }
         }
         $rendered_view = ob_get_clean();
