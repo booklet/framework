@@ -26,16 +26,43 @@ trait NewPaperClipPathTrait
         return $dir . '/' . $file_name;
     }
 
+    // Dodane przy przejsciu na uzywanie ROOT_DIR,
+    // file path i file url to dwie rozne rzeczy!
+    public function attachmentUrlDirectory(string $attachment_name, $style = NewPaperClip::ORIGINAL)
+    {
+        $class_underscore_name = $this->classUnderscoreName();
+        $id_path = $this->idPath();
+
+        return NewPaperClip::FILES_DIRECTORY . $class_underscore_name . '/' . $attachment_name . '/' . $id_path . $style;
+    }
+
+    // Dodane przy przejsciu na uzywanie ROOT_DIR,
+    // file path i file url to dwie rozne rzeczy!
+    public function attachmentUrlPath(string $attachment_name, $style = null)
+    {
+        $style = $style ?? NewPaperClip::ORIGINAL;
+
+        if (!$this->isFilePresent($attachment_name)) {
+            return null;
+        }
+
+        $dir = $this->attachmentUrlDirectory($attachment_name, $style);
+        $file_name = $this->attachmentName($attachment_name, $style);
+
+        return $dir . '/' . $file_name;
+    }
+
     // return "http://api.booklet.dev/system/files/paper_clip_testing_class/preview/000/001/234/original/plik.pdf"
     public function attachmentUrl(string $attachment_name, $style = null)
     {
         $style = $style ?? NewPaperClip::ORIGINAL;
 
-        $path = $this->attachmentPath($attachment_name, $style);
+        // to do URLa, wiec nie moze zawierac ROOT_DIR
+        $path = $this->attachmentUrlPath($attachment_name, $style);
+
         if (!$path) {
             // missing path
-            $root = defined('ROOT_DIR') ? ROOT_DIR : '';
-            $path = $this->pathGenerate($root . NewPaperClip::DEFAULT_MISSING_URL_PATH, [
+            $path = $this->pathGenerate(NewPaperClip::DEFAULT_MISSING_URL_PATH, [
                 'attachment' => $attachment_name,
                 'style' => $style,
             ]);
