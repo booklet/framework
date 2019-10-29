@@ -19,7 +19,9 @@ class Headers
 
     public function isTesterTestRequest()
     {
-        if (isset($this->headers['TesterTestRequestBKT']) || isset($this->headers['testertestrequestbkt'])) {
+        if (isset($this->headers['TesterTestRequestBKT']) ||
+            isset($this->headers['testertestrequestbkt']) ||
+            isset($this->headers['Testertestrequestbkt'])) { // After switch to traefik v2, camel case has change
             return true;
         } else {
             return false;
