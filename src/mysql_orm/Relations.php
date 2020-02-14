@@ -59,6 +59,17 @@ class Relations
                     $this_table_id_key = $this->getTableIdKey($this->obj_class_name);
                     $target_table_id_key = $this->getTableIdKey($relation_params['class']);
 
+                    // habtm custom keys
+                    if (isset($relation_params['habtm_keys']) && is_array($relation_params['habtm_keys'])) {
+                        if (isset($relation_params['habtm_keys'][0]) && is_string($relation_params['habtm_keys'][0])) {
+                            $this_table_id_key = $relation_params['habtm_keys'][0];
+                        }
+
+                        if (isset($relation_params['habtm_keys'][1]) && is_string($relation_params['habtm_keys'][1])) {
+                            $target_table_id_key = $relation_params['habtm_keys'][1];
+                        }
+                    }
+
                     $habtm_table_name = $this->getHABTMTableName($relation_params);
 
                     // buildit query
