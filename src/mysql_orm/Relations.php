@@ -200,6 +200,17 @@ class Relations
         $this_table_id_key = $this->getTableIdKey($this->obj_class_name);
         $target_table_id_key = $this->getTableIdKey($model_relation_params['class']);
 
+        // habtm custom keys
+        if (isset($model_relation_params['habtm_keys']) && is_array($model_relation_params['habtm_keys'])) {
+            if (isset($model_relation_params['habtm_keys'][0]) && is_string($model_relation_params['habtm_keys'][0])) {
+                $this_table_id_key = $model_relation_params['habtm_keys'][0];
+            }
+
+            if (isset($model_relation_params['habtm_keys'][1]) && is_string($model_relation_params['habtm_keys'][1])) {
+                $target_table_id_key = $model_relation_params['habtm_keys'][1];
+            }
+        }
+
         $habtm_table_name = $this->getHABTMTableName($model_relation_params);
 
         // wrong object type create wrong mysql query
@@ -249,6 +260,17 @@ class Relations
         // keys
         $this_table_id_key = $this->getTableIdKey($this->obj_class_name);
         $target_table_id_key = $this->getTableIdKey($model_relation_params['class']);
+
+        // habtm custom keys
+        if (isset($model_relation_params['habtm_keys']) && is_array($model_relation_params['habtm_keys'])) {
+            if (isset($model_relation_params['habtm_keys'][0]) && is_string($model_relation_params['habtm_keys'][0])) {
+                $this_table_id_key = $model_relation_params['habtm_keys'][0];
+            }
+
+            if (isset($model_relation_params['habtm_keys'][1]) && is_string($model_relation_params['habtm_keys'][1])) {
+                $target_table_id_key = $model_relation_params['habtm_keys'][1];
+            }
+        }
 
         $habtm_table_name = $this->getHABTMTableName($model_relation_params);
 
