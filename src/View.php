@@ -75,7 +75,9 @@ class View
             include $path;
         } else {
             // TEMP add support to new layouts directory
-            if (file_exists($root . 'app/framework/views/layout/' . $this->layout . '.php')) {
+            if (file_exists($root . 'app/modules/Framework/Views/Layout/' . $this->layout . '.php')) {
+                include $root . 'app/modules/Framework/Views/Layout/' . $this->layout . '.php';
+            } else if (file_exists($root . 'app/framework/views/layout/' . $this->layout . '.php')) {
                 include $root . 'app/framework/views/layout/' . $this->layout . '.php';
             } else {
                 include $root . 'app/views/layout/' . $this->layout . '.php';
