@@ -140,6 +140,12 @@ trait NewPaperClipPathTrait
 
     private function classUnderscoreName()
     {
+        // Add to support custom files folder
+        $class_constants = (new ReflectionClass($this->model_object))->getConstants();
+        if (array_key_exists('PAPERCLIP_FILES_FOLDER', $class_constants)) {
+            return StringUntils::camelCaseToUnderscore($class_constants['PAPERCLIP_FILES_FOLDER']);
+        }
+
         return StringUntils::camelCaseToUnderscore(get_class($this->model_object));
     }
 
