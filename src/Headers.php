@@ -1,6 +1,8 @@
 <?php
 class Headers
 {
+    private $headers;
+
     function __construct()
     {
         $this->headers = apache_request_headers();
@@ -8,24 +10,25 @@ class Headers
 
     public function authorizationToken()
     {
-        if (isset($this->headers['AUTHORIZATION'])) { // home.pl server change case of headers keys
-            return $this->headers['AUTHORIZATION'];
-        } elseif (isset($this->headers['Authorization'])) {
-            return $this->headers['Authorization'];
-        } else {
-            return null;
+        // Base on server we got: authorization, Authorization, AUTHORIZATION
+        // so we standardize array keys by array_change_key_case to lowercase
+        $headers = array_change_key_case($this->headers);
+
+        if (isset($headers['authorization'])) {
+            return $headers['authorization'];
         }
+
+        return null;
     }
 
     public function isTesterTestRequest()
     {
-        if (isset($this->headers['TesterTestRequestBKT']) ||
-            isset($this->headers['testertestrequestbkt']) ||
-            isset($this->headers['Testertestrequestbkt'])) { // After switch to traefik v2, camel case has change
+        $headers = array_change_key_case($this->headers);
+        if (isset($headers['testertestrequestbkt'])) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 }
 
